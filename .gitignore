@@ -8,6 +8,6 @@ assets/front_end/classic/images/*
 /dist/
 /node_modules/
 /update/
-
+/upload/*
 /logs
 *.psd
