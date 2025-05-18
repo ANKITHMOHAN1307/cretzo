@@ -1,0 +1,89 @@
+.quality-assured-img{
+    vertical-align: baseline;
+  }
+
+/* Cart Indicator And Additional Styles And Overrides */
+
+.cart-indicator-container{
+    gap: 0px;
+    color: black;
+}
+.cart-indicator{
+    background-color: initial;
+    padding: 8px 8px;
+    height: 40px !important;
+}
+.cart-indicator:has(.completion-line){
+    align-content: center;
+}
+.cart-indicator-active{
+    /* color: black; */
+    color: var(--color-orange);
+    /* background-color: var(--color-orange); */
+    font-weight: bold;
+}
+.completion-line{
+    /* border-bottom: dotted 2px var(--color-orange); */
+    border-bottom: dotted 2px black;
+    width: 100px;
+    float: left;
+    position: relative;
+    display: block;
+    margin-top: 4px;
+}
+.completion-line.active{
+    /* border-bottom: dotted 3px var(--color-orange); */
+    border-bottom: dotted 2px black;
+}
+
+/* Logo within the cart-indicator-container */
+.company-logo{
+    position: absolute;
+    left: 20px;
+  }
+
+ /* Styling Delivery Estimate Div Section BEGINS */
+.cart-right-three .delivery-icon{
+    height: 20px;
+    width: auto;
+    margin-right: 10px;
+    position: relative;
+    top: 4px;
+}
+/* Styling Delivery Estimate Div Section ENDS */
+
+/* Styling Cart Bill Rows */
+.bill-row .bill-column:nth-child(1){
+    width: 60%;
+}
+.bill-row .bill-column:nth-child(2){
+    width: 40%;
+}
+
+/* Override Promocode Styles */
+.promo-code-img img{
+    width: 65px !important;
+    height: 65px !important;
+}
+.promocode_input{
+    padding: 4px 8px;
+}
+.promocode_input:focus{
+    border-color: #f0bd9f;
+    /* box-shadow: 0 0 0 .2rem rgba(255, 102, 0, 0.25); */
+    box-shadow: none;
+}
+
+/* Back Button Styling */
+.btn-nav-prev{
+    /* color: var(--color-orange); */
+    font-weight: 500;
+    color: var(--color-grey) !important;
+    text-transform: uppercase;
+}
+.btn-nav-prev:hover{
+    font-weight: 600;
+    color: var(--color-orange) !important;
+    /* scale: 1.01; */
+    /* color: black; */
+}

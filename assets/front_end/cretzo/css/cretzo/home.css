@@ -1,0 +1,95 @@
+.home-part-container{
+    margin: 20px 0;
+    padding: 0 20px;
+}
+
+.card-container-one{
+    display: grid;
+    gap: 100px 20px;
+    justify-content: center;
+    grid-template-columns: repeat(6, 1fr);
+    max-height: 330px;
+    overflow: hidden;
+}
+.card-container-two{
+    display: grid;
+    gap: 20px;
+    justify-content: center;
+    grid-template-columns: repeat(6, 1fr);
+    overflow: hidden;
+    padding: 1em 6vw;
+}
+
+/* trending deals starts */
+
+/* trending deals ends */
+
+/* responsive starts */
+@media screen and (max-width: 2000px) {
+    .card-container-one{
+        padding: 1em 10vw;
+        /* max-height: 400px; */
+    }
+}
+@media screen and (max-width: 1600px) {
+    .card-container-one{
+        padding: 1rem;
+    }
+}
+@media screen and (max-width: 1400px) {
+    .card-container-one{
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+@media screen and (max-width: 1200px) {
+    .card-container-one{
+        grid-template-columns: repeat(5, 1fr);
+    }
+    .card-container-two{
+        padding: 1em 4vw;
+    }
+}
+@media screen and (max-width: 1000px) {
+    .card-container-one{
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .card-container-two{
+        padding: 1em 2vw;
+    }
+}
+@media screen and (max-width: 800px) {
+    .card-container-one{
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .card-container-two{
+        grid-template-columns: repeat(4, 1fr);
+        padding: 1em 2vw;
+    }
+}
+@media screen and (max-width: 600px) {
+    .card-container-one{
+        gap: 100px 10px;
+        max-height: 260px;
+    }
+    .card-container-two{
+        grid-template-columns: repeat(4, 1fr);
+        padding: 1em 0;
+        gap: 10px;
+    }
+}
+@media screen and (max-width: 500px) {
+    .card-container-one{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .card-container-two{
+        grid-template-columns: repeat(3, 1fr);
+        padding: 1em 0;
+        gap: 5px;
+    }
+}
+@media screen and (max-width: 400px) {
+    .card-container-one {
+        max-height: 220px;
+    }
+}
+/* responsive ends */

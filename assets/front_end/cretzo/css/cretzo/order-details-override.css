@@ -1,0 +1,62 @@
+.order-details-container .order-details-one .help-text .help-icon{
+    position: initial;
+    top: initial;
+}
+
+.order-details-container .order-details-seven{
+    flex-direction: column;
+    gap: 0px;
+    /* align-items: baseline; */
+}
+
+.cretzo.btn.get-invoice{
+    outline: 1px solid var(--color-light-grey);
+}
+.cretzo.btn.get-invoice.focus, .cretzo.btn.get-invoice:focus {
+    box-shadow: none;
+}
+
+.star-icon{
+    height: 20px;
+}
+
+ul{
+    margin-top: initial;
+    margin-bottom: initial;
+}
+
+.order-details-container .order-details-two .delivery-date p{
+    opacity: 1;
+}
+.order-details-container .order-details-two .delivery-date .delivered-icon{
+    height: 32px;
+    display: inline-block;
+}
+
+.order-details-container .order-details-two .delivery-date{
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.order-details-container .order-details-two .delivery-date.awaiting{
+    background-color: var(--color-orange);
+}
+.order-details-container .order-details-two .delivery-date.received{
+    background-color: var(--color-orange);
+}
+.order-details-container .order-details-two .delivery-date.processed{
+    background-color: var(--color-orange);
+}
+.order-details-container .order-details-two .delivery-date.shipped{
+    background-color: var(--color-orange);
+}
+.order-details-container .order-details-two .delivery-date.delivered{
+    background-color: var(--color-success);
+}
+.order-details-container .order-details-two .delivery-date.cancelled{
+    background-color: var(--color-fail);
+}
+.order-details-container .order-details-two .delivery-date.returned{
+    background-color: var(--color-fail);
+}

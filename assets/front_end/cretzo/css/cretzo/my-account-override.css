@@ -1,0 +1,22 @@
+.overview-side-container{
+    margin-top: 40px;
+    /* margin-inline: auto; */
+    margin-inline: 10%;
+    padding: 20px;
+    /* max-width: 1200px; */
+    max-width: 90vw;
+}
+.overview-side-container .overview-container{
+    margin-top: 10px;
+    display: flex;
+}
+.overview-container{
+    /* margin: 40px; */
+    margin: 20px 0;
+    /* max-width: 1200px; */
+    max-width: 100%;
+    /* margin-inline: auto; */
+    margin-inline: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-left: none;
+}

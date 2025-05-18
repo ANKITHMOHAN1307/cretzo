@@ -1,0 +1,270 @@
+/* navbar starts */
+.navbar-container{
+    margin: 0;
+    padding: 0em 1em;
+    padding-left: 1.1em;
+
+    position: sticky;
+    z-index: 100;
+    /* top: 70px; */
+    background-color: white;
+
+    transition: top 0.2s ease-in-out;
+
+    /* box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); */
+    box-shadow: none;
+    
+    /* overflow-y: scroll; */
+}
+
+.navbar-container.shadow{
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.navbar-list{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* gap: 20px; */
+    gap: 0.8em;
+    row-gap: 0px;
+    
+    flex-wrap: wrap;
+    /* min-width: 1330px; */
+
+    padding-left: 0;
+    margin-bottom: 10px;
+
+    /* box-shadow: 0 -6px 10px 5px rgba(0,0,0,0.5); */
+}
+.nav-btn{
+    padding: 5px;
+    /* transition: 0.4s; */
+    cursor: pointer;
+
+    font-size: 1.022vw;
+    /* font-weight: bold;
+    color: black; */
+
+    /* padding: 0 17px 28px; */
+    text-decoration: none;
+    letter-spacing: .3px;
+    color: #282c3f;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+.nav-btn:hover{
+    /* transform: scale(1.05); */
+    color: var(--color-orange);
+}
+.nav-btn:hover .mega-menu{
+    color: black;
+}
+
+.mega-menus{
+    display: flex;
+    justify-content: center;
+}
+
+.mega-menu{
+    position: absolute;
+    /* left: 0px; */
+    top: 68px;
+    min-height: 100px;
+    width: 80vw;
+    margin: 0 5vw;
+    overflow: hidden;
+    background-color: white;
+    border-radius: 0 0 8px 8px;
+    display: flex;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+
+    opacity: 0;
+    visibility: hidden;
+    /* transition: opacity 0.1s ease, visibility 0.1s ease; */ /* commented cause we don't want animation when closing mega menu */
+}
+
+/* Active state of mega menu */
+.mega-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* the grey background (eg: when hovering on mega menu) */
+#bg-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 90;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(30, 34, 40, 0.7);
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+#bg-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* the hover net to prevent mega menu from closing when hovering/moving from the nav button towards the opened mega menu */
+/* #megamenu-hover-net {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 25%;
+    background-color: transparent;
+    visibility: hidden;
+}
+#megamenu-hover-net.active {
+    visibility: visible;
+} */
+
+.mega-list-container{
+    padding: 10px;
+    flex: 1;
+}
+.mega-list-container:nth-child(even){
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.mega-list{
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+
+    /* min-width: 100px; */
+    padding-left: 1em;
+
+    padding-bottom: 0.5em;
+}
+.mega-list.last{
+    border-bottom: 0;
+}
+
+.mega-list-item-heading{
+    font-weight: bold;
+    /* color: var(--color-orange); */
+    color: black;
+
+    font-size: 1em !important;
+}
+.mega-list-item{
+    opacity: 0.92;
+    transition: 0.2s;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    font-size: 1em !important;
+}
+.mega-list-item:hover{
+    /* transform: translateX(10px); */
+    /* color: var(--color-orange); */
+    opacity: 1;
+    color: black;
+    font-weight: 700;
+}
+.mega-list-item a{
+    transition: none;
+}
+.nav-mega-btn{
+    position: relative;
+}
+.nav-mega-btn-active{
+    color: var(--color-orange);
+}
+.active-nav-btn{
+    color: var(--color-orange);
+    transform: scale(1.05);
+}
+.nav-btn-select{
+    width: 100%;
+    border: none;
+    /* background: none; */
+}
+/* navbar ends */
+
+/* responsive starts */
+@media screen and (max-width: 1600px) {
+    .mega-list-item-heading{
+        font-size: 0.8em !important;
+    }
+    .mega-list-item{
+        font-size: 0.75em !important;
+    }
+}
+@media screen and (max-width: 1400px) {
+    .nav-btn{
+        font-size: 0.98vw;
+    }
+}
+@media screen and (max-width: 1300px) {
+    .mega-list-item-heading{
+        font-size: 0.75em !important;
+    }
+    .mega-list-item{
+        font-size: 0.65em !important;
+    }
+
+    .nav-btn{
+        font-size: 0.96vw;
+    }
+}
+@media screen and (max-width: 1200px) {
+    .mega-list-item-heading{
+        font-size: 0.65em !important;
+    }
+    .mega-list-item{
+        font-size: 0.55em !important;
+    }
+
+    .nav-btn{
+        font-size: 0.9vw;
+    }
+}
+@media screen and (max-width: 1050px) {
+    .mega-list-item-heading{
+        font-size: 0.55em !important;
+    }
+    .mega-list-item{
+        font-size: 0.45em !important;
+    }
+
+    .navbar-container{
+        padding: 0em 1em;
+    }
+
+    .nav-btn{
+        font-size: 0.85vw;
+    }
+}
+@media screen and (max-width: 1000px) {
+}
+@media screen and (max-width: 800px) {
+    /* navbar starts */
+    .navbar-container{
+        display: none;
+    }
+    /* navbar ends */
+}
+@media screen and (max-width: 600px) {
+}
+@media screen and (max-width: 400px) {
+}
+/* responsive ends */
+
+
+/* BS Dropdown Style Modification Starts (For categories) */
+.cretzo-header .header-container .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; /* remove the gap so it doesn't close */
+}
+.cretzo-header .header-container .dropdown-menu > a:hover {
+    background-color: var(--color-light-grey);
+}
+/* BS Dropdown Style Modification Ends (For categories) */

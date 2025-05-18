@@ -1,0 +1,74 @@
+/* FONT FAMILY DECLARATION STARTS */
+
+/* @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200..800&display=swap'); */
+
+@font-face {
+  font-family: "Assistant";
+  src: url('../../fonts/assistant/Assistant-Regular.woff2') format('woff2'),
+       url('../../fonts/assistant/Assistant-Regular.woff') format('woff'),
+       url('../../fonts/assistant/Assistant-Regular.ttf') format('truetype');
+  font-weight: normal;
+}
+@font-face {
+  font-family: "Assistant";
+  src: url('../../fonts/assistant/Assistant-Bold.woff2') format('woff2'),
+       url('../../fonts/assistant/Assistant-Bold.woff') format('woff'),
+       url('../../fonts/assistant/Assistant-Bold.ttf') format('truetype');
+  font-weight: bold;
+}
+
+/* FONT FAMILY DECLARATION ENDS */
+
+.text-decoration-none {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
+html{
+  scroll-behavior: smooth;
+}
+
+body{
+  /* font-family: "K2D", sans-serif; */
+  font-family: Assistant,K2D,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  /* width: 100vw; */
+}
+
+p {
+  margin: initial;
+}
+
+ol, ul{
+    padding-left: initial;
+}
+
+.cretzo.btn {
+  font-weight: initial;
+}
+
+
+/* Style overrides for cart sidebar */
+#cart-item-sidebar .cart-img{
+  width: 40% !important;
+  min-width: 40% !important;
+}
+#cart-item-sidebar .cart-title{
+  width: 60% !important;
+  min-width: 60% !important;
+  max-width: 60% !important;
+}
+.shopping-cart-item-main{
+  width: 100%;
+}
+
+/* 'read more' styling for text elements/paragraphs */
+.readMoreLink{
+  text-decoration: none;
+  color: var(--color-orange);
+}
+.readMoreLink:hover{
+  color: var(--color-orange-dark);
+}
+.readMore .addText {
+  display: none;
+}

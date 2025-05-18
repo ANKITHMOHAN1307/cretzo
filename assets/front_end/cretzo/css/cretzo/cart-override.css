@@ -1,0 +1,189 @@
+.quality-assured-img{
+  vertical-align: baseline;
+}
+
+.cart-item-detail-container .actual-price{
+    margin-right: 10px;
+    color: black;
+    font-weight: normal;
+    text-decoration: line-through;
+    opacity: 0.4;
+}
+.cart-item-detail-container .discounted-price{
+    margin-right: 10px;
+    color: inherit;
+    font-weight: inherit;
+    text-decoration: inherit;
+    opacity: inherit;
+}
+
+.cart-item-detail-container .text-n{
+    margin-bottom: 0px;
+}
+
+.cart-item-detail-container .product-variant-detail{
+    display: inline-block;
+    background-color: var(--color-orange-light);
+    /* color: black; */
+    font-weight: bold;
+}
+
+/* Quantity Button Style Override */
+.cart-item .num-block{
+  margin: 0 !important;
+}
+.cart-item .num-in{
+  border-radius: 30px;
+  /* padding: auto; */
+  padding: 10px 4px;
+  margin: auto;
+  height: 24px;
+  width: 76px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin-top: 2px;
+}
+.cart-item input.in-num{
+  font-size: var(--font-size-text-s);
+  color: black;
+  font-weight: 600;
+  height: auto;
+  background: none;
+  width: 38%;
+}
+
+.num-in span {
+  height: 12px;
+  /* height: min-content; */
+  text-align: center;
+}
+.num-in span > img {
+  height: 12px;
+}
+.num-in span.minus::after, .num-in span.minus::before{
+  content: "";
+  display: none;
+}
+.num-in span.plus::after, .num-in span.plus::before{
+  content: "";
+  display: none;
+}
+
+.num-in span{
+  background-repeat: no-repeat;
+  background-size: 12px;
+  background-position-x: center;
+}
+.num-in span:hover{
+  scale: 1.08;
+}
+.num-in span:active{
+  scale: 1.2;
+}
+.num-in span.minus{
+  background-image: url(../../img/new_cretzo/minus.png);
+}
+.num-in span.plus{
+  background-image: url(../../img/new_cretzo/plus.png);
+}
+
+.delivery-list-item > div:nth-child(1) .delivery-list-item-img{
+  aspect-ratio: 1/0.9;
+}
+
+/* Cart Indicator And Additional Styles And Overrides */
+
+.cart-indicator-container{
+  /* max-width: none; */
+  background-color: initial;
+  gap: 10px;
+  color: black;
+}
+.cart-indicator{
+  /* background-color: rgba(255, 255, 255, 0.4); */
+  background-color: initial;
+  padding: 8px 6px;
+}
+:nth-last-child(1 of .cart-indicator){
+  padding-right: 20px;
+}
+.cart-indicator-active{
+  /* padding: 8px 20px; */
+  /* background-color: var(--color-orange); */
+  color: var(--color-orange);
+  font-weight: bold;
+}
+.completion-line{
+  border-bottom: dotted 2px black;
+  width: 100px;
+  float: left;
+  position: relative;
+  display: block;
+  height: 12px;
+  margin: 0 0 7px 0;
+}
+.completion-line.active{
+  border-bottom: dotted 2px black;
+}
+
+.cart-left-two .show-more-img{
+  top: -3px;
+  padding-left: 4px;
+}
+
+/* Logo within the cart-indicator-container */
+.company-logo{
+  position: absolute;
+  left: 20px;
+}
+
+/* Item selection checkbox, clear cart (remove) and wishlist buttons input style overrides */
+.cart-left-three-btn{
+  opacity: 1;
+}
+input[type=checkbox]#select-all-checkbox {
+  -webkit-appearance: checkbox !important;
+  accent-color: var(--color-orange);
+}
+.selected-items-action-btn{
+  text-decoration: none !important;
+  color: var(--color-orange);
+  opacity:0.65;
+}
+.selected-items-action-btn:hover{
+  color: var(--color-orange-dark);
+  opacity: 1;
+}
+.selected-items-action-btn.disabled{
+  pointer-events: none;
+  cursor: default;
+  color: var(--bs-gray-600);
+  opacity:0.4;
+}
+
+/* Back Button Styling */
+.btn-nav-prev{
+  /* color: var(--color-orange); */
+  font-weight: 500;
+  color: var(--color-grey) !important;
+  text-transform: uppercase;
+}
+.btn-nav-prev:hover{
+  font-weight: 600;
+  color: var(--color-orange) !important;
+  /* scale: none !important; */
+  /* color: black; */
+}
+
+/* Override Promocode Styles */
+.promo-code-img img{
+  width: 65px !important;
+  height: 65px !important;
+}
+.promocode_input{
+  padding: 4px 8px;
+}
+.promocode_input:focus{
+  border-color: #f0bd9f;
+  /* box-shadow: 0 0 0 .2rem rgba(255, 102, 0, 0.25); */
+  box-shadow: none;
+}

@@ -1,0 +1,44 @@
+.aboutus-container{
+    margin-bottom: 20px;
+}
+.card-container-more-seller{
+    padding: 20px 40px;
+}
+
+.aboutus-one-img{
+    width: 100%;
+    object-fit: fill;
+}
+
+.aboutus-two{
+    top: initial;
+    padding-bottom: 40px;
+}
+.aboutus-two .profile-icon{
+    object-fit: contain;
+    background-color: white;
+    border: 1px solid var(--color-light-grey);
+    top: -100px;
+    margin-bottom: -80px;
+}
+
+.catagory-img{
+    object-fit: contain;
+    background-color: white;
+    /* border: 2px solid var(--color-orange); */
+    border: 2px solid var(--color-light-grey);
+}
+
+.catagory-container{
+    transition: 0.2s;
+    /* color: black; */
+}
+.catagory-container:hover{
+    /* transform: scale(1.005); */
+    transform: translate(0px, -2px);
+    opacity: 1;
+    /* color: var(--color-orange); */
+}
+.catagory-container:hover .catagory-img{
+    border: 2px solid var(--color-orange);
+}

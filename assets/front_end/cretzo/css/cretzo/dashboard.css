@@ -1,0 +1,145 @@
+.accounts-container{
+    min-height: 60vh;
+    width: 100%;
+}
+.overview-container{
+    margin: 40px;
+    max-width: 1200px;
+    margin-inline: auto;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.overview-upper{
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.06);
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    position: relative;
+}
+.overview-upper .profile-icon-big{
+    height: 140px;
+    width: auto;
+}
+.overview-upper .heading-b{
+    margin-bottom: 10px;
+}
+.overview-upper .btn{
+    font-weight: bold;
+    padding: 6px 20px;
+    color: black;
+    border: 2px solid black;
+    border-radius: 4px;
+    background: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+.overview-lower{
+    padding: 20px;
+    display: grid;
+    gap: 20px 10px;
+    justify-content: space-between;
+    grid-template-columns: repeat(4, 1fr);
+}
+.overview-box{
+    margin-inline: auto;
+    padding: 20px;
+    width: 260px;
+    height: 220px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: center;
+    cursor: pointer;
+}
+.overview-box:hover{
+    border: 1px solid var(--color-orange);
+}
+.overview-box:hover .heading-n{
+    color:  var(--color-orange);
+}
+.overview-box .text-n{
+    opacity: 0.6;
+    line-height: 1px;
+}
+.overview-box-icon{
+    margin-bottom: 20px;
+    height: 80px;
+    width: 80px;
+    aspect-ratio: 1/1;
+}
+.logout-btn-container{
+    width: 100%;
+    text-align: center;
+    padding: 40px 0 20px 0;
+}
+.logout-btn{
+    font-weight: bold;
+    padding: 10px 100px;
+    border-radius: 4px;
+}
+
+/* responsive */
+@media screen and (max-width: 1200px) {
+    .overview-lower{
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media screen and (max-width: 800px) {
+    .overview-upper {
+        padding: 10px;
+    }
+    .overview-upper .profile-icon-big {
+        height: 120px;
+        width: auto;
+    }
+    .overview-upper .btn {
+        top: 10px;
+        right: 10px;
+    }
+    .overview-lower {
+        padding: 10px;
+        gap: 10px;
+    }
+    .overview-box{
+        padding: 20px;
+        height: 160px;
+        width: 100%;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    .overview-box-icon{
+        margin-bottom: 10px;
+        height: 40px;
+        width: 40px;
+    }
+}
+@media screen and (max-width: 600px) {
+    .logout-btn {
+        width: 100%;
+        padding: 10px;
+    }
+}
+@media screen and (max-width: 500px) {
+    .overview-lower{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .overview-upper .profile-icon-big {
+        height: 100px;
+        width: auto;
+    }
+}
+@media screen and (max-width: 400px) {
+    .overview-upper {
+        gap: 10px;
+    }
+    .overview-upper .profile-icon-big {
+        height: 80px;
+        width: auto;
+    }
+    .overview-upper .heading-b {
+        margin-bottom: 0px;
+    }
+    .overview-upper .btn {
+        top: 5px;
+        right: 5px;
+    }
+}
+/* /responsive */

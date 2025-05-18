@@ -1,0 +1,104 @@
+.wishlist-container{
+    min-height: 50vh;
+}
+.wishlist{
+    width: 100%;
+    padding: 20px 40px;
+}
+.wishlist-card-container{
+    display: grid;
+    gap: 20px;
+    justify-content: center;
+    grid-template-columns: repeat(5, 1fr);
+    /* grid-template-areas: 
+    'product-1 product-2 product-3 product-4 product-5'; */
+}
+.wishlist-card{
+    border-radius: 4px;
+}
+.no-of-item-text{
+    margin-bottom: 20px;
+}
+.wishlist .rating-container{
+    background: none;
+    top: 1px;
+    right: 1px;
+}
+.cross-icon2{
+    height: 30px;
+    width: auto;
+}
+.bag-btn{
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 0;
+    color: var(--color-orange);
+    border-top: 1px solid rgba(0, 0, 0, 0.2);
+    background: none;
+}
+.bag-icon{
+    height: 20px;
+    width: auto;
+}
+/* responsive */
+@media screen and (min-width: 1800px) {
+    .wishlist-card-container{
+        grid-template-columns: repeat(8, 1fr);
+    }
+}
+@media screen and (max-width: 1800px) {
+    .wishlist-card-container{
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+@media screen and (max-width: 1600px) {
+    .wishlist-card-container{
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+@media screen and (max-width: 1400px) {
+    .card-type-one .card-img {
+        max-height: 180px;
+    }
+}
+@media screen and (max-width: 1200px) {
+    .wishlist-card-container{
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+@media screen and (max-width: 1000px) {
+    .product-card-container{
+        padding-left: 60px;
+    }
+    .wishlist{
+        padding: 20px;
+    }
+}
+@media screen and (max-width: 800px) {
+    .wishlist-card-container{
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .card-type-one .card-des{
+        padding: 5px;
+    }
+}
+@media screen and (max-width: 600px) {
+    .wishlist-card-container{
+        gap: 10px;
+    }
+    .card-type-one .card-img {
+        max-height: 160px;
+    }
+    .wishlist{
+        padding: 10px;
+    }
+}
+@media screen and (max-width: 500px) {
+    /* global class starts */
+    .wishlist-card-container{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    /* global class ends */
+}
+/* /responsive */

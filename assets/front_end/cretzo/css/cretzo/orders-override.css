@@ -1,0 +1,82 @@
+.ordered-product-list-item{
+    position: relative;
+    border: solid var(--color-light-grey) 1px;
+    /* border-radius: 2px; */
+}
+
+.ordered-product-list-item:hover{
+    background-color: rgba(0, 0, 0, 0.03);
+    cursor: pointer;
+}
+
+.order-item-indicator{
+    transition: transform .3s ease-out;
+}
+.ordered-product-list-item:hover .order-item-indicator{
+    transform: translate(8px, 0px)
+}
+
+.ordered-product-list-item .delivered-order-details{
+    width: initial;
+    /* margin: 0px 40px; */
+    padding: 20px 40px;
+}
+
+.delivered-order-details ul{
+    margin: 10px 0 0 26px;
+}
+
+.cretzo.btn.btn-cancel-order{
+    padding: 2px 24px;
+    background-color: white;
+    color: var(--color-fail);
+    border: 1px solid var(--color-fail) !important;
+    border-radius: 2px;
+    z-index: 2;
+    transition: none;
+}
+.cretzo.btn.btn-cancel-order:hover{
+    background-color: var(--color-fail);
+    color: white;
+}
+
+.cretzo.btn.btn-return-order{
+    padding: 2px 24px;
+    border-radius: 2px;
+    z-index: 2;
+}
+.cretzo.btn.btn-return-order:hover{
+    background-color: var(--color-orange);
+    color: white;
+}
+
+/* Filter input field styling  */
+.search-input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+#search-input {
+    width: 100%;
+    padding: 10px 30px 10px 10px; /* Space for the cross icon */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+#clear-search {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #888;
+    cursor: pointer;
+    display: none; /* Hidden by default */
+}
+#clear-search:hover {
+    color: #555;
+}
+
+.overview-right .search-filter-container .filter-icon{
+    top: 0px;
+}

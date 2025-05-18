@@ -1,0 +1,111 @@
+.container.main-content .home-part-container:first-child{
+    margin-top: 2em;
+}
+
+/* home-part-container as set in index.css provided by satvik which we haven't copied since we only needed this */
+.home-part-container{
+    /* margin-left: 0.8rem;
+    margin-right: 2rem; */
+    margin-top: 2em;
+    margin-bottom: 1em;
+}
+
+.slider .swiper-slide, .slider .slide-img{
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    max-width: 100% !important;
+}
+
+
+/* instagram items container to scale down overall size, since curator doesn't allow resize for free users */
+.instagram-items-container{
+    /* width: 100% !important;
+    justify-content: center;
+    align-items: center;
+    align-self: center; */
+    zoom: 0.72;
+    -moz-transform: scale(0.62);
+}
+
+.container-heading{
+    margin: 0;
+    text-transform: uppercase;
+}
+.container-des{
+    margin: 0;
+}
+.container-img{
+    margin: 20px 0 10px 0;
+    width: 90vw;
+    max-width: 400px;
+}
+
+/*  */
+.cretzo-card{
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* --------------------------------------------------- */
+/* Style for 'Card Type Six' Begins */
+
+.card-type-six{
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+}
+.card-type-six:hover{
+    border: 1px solid var(--color-orange);
+}
+
+.card-type-six .card-img{
+    /* height: 60%; */
+    overflow: hidden;
+    /* border-radius: 8px; */
+    flex: 1;
+}
+.card-type-six .card-img .card-img-img{
+    width: 100%;
+    height: 100%;
+    /* object-fit: contain; */
+    object-fit: cover;
+}
+.card-type-six .card-des{
+    /* height: 40%; */
+    padding: 10px;
+    position: relative;
+}
+
+/* Style for 'Card Type Six' Ends */
+/* --------------------------------------------------- */
+
+
+/* --------------------------------------------------- */
+/* Style for 'Card Type Seven' Begins */
+
+.card-type-seven{
+    border-radius: 4px;
+}
+.card-type-seven .card-img{
+    overflow: hidden;
+    position: relative;
+}
+.card-type-seven .card-img .card-img-img{
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3.2/4;
+}
+.card-type-seven .card-des{
+    padding: 2px 5px;
+    /* padding: 2px 5px; */
+    /* position: relative; */
+    line-height: normal;
+    margin-top: 2px;
+}
+.card-type-seven .card-des :nth-child(2){
+    transform: translateY(-3px);
+}
+
+/* Style for 'Card Type Seven' Ends */
+/* --------------------------------------------------- */
