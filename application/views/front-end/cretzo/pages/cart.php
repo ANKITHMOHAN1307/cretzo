@@ -28,7 +28,9 @@ $cart_count = isset($cart[0]['cart_count']) && !empty($cart[0]['cart_count']) ? 
         </div>
         <div class="completion-line active"></div>
         <div class="cart-indicator">
-            <a class="text-decoration-none" href="<?= base_url('cart/checkout') ?>"><p class="text-n">Address</p></a>
+            <a class="text-decoration-none" href="<?= base_url('cart/checkout') ?>">
+                <p class="text-n">Address</p>
+            </a>
         </div>
         <div class="completion-line"></div>
         <div class="cart-indicator">

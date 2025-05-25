@@ -40,16 +40,20 @@ class Auth extends CI_Controller
 
     public function sign_up()
     {
+        
         $this->data['main_page'] = FORMS . 'seller-registration';
         $settings = get_settings('system_settings', true);
         $this->data['title'] = 'Sign Up Seller | ' . $settings['app_name'];
         $this->data['meta_description'] = 'Sign Up Seller | ' . $settings['app_name'];
         $this->data['logo'] = get_settings('logo');
+
         if (isset($_SESSION['to_be_seller_name']) && !empty($_SESSION['to_be_seller_name']) && isset($_SESSION['to_be_seller_mobile']) && !empty($_SESSION['to_be_seller_mobile']) && isset($_SESSION['to_be_seller_id']) && !empty($_SESSION['to_be_seller_id'])) {
             $this->data['title'] = 'Update Seller | ' . $settings['app_name'];
             $this->data['meta_description'] = 'Update Seller | ' . $settings['app_name'];
             $this->data['user_data'] = $_SESSION;
         }
+
+        
         $this->load->view('seller/login', $this->data);
     }
 

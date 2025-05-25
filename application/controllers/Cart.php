@@ -247,6 +247,7 @@ class Cart extends CI_Controller
             $this->response['message'] = validation_errors();
             $this->response['data'] = array();
             print_r(json_encode($this->response));
+            
             return false;
         } else {
             //Fetching cart items to check wheather cart is empty or not

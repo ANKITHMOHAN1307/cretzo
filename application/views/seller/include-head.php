@@ -7,6 +7,7 @@
     <link rel="icon" href="<?= base_url() . get_settings('favicon') ?>" type="image/gif" sizes="16x16">
     <!-- Bootstrap Switch -->
     <link rel="stylesheet" href="<?= base_url('assets/admin/css/bootstrap-switch.min.css') ?>">
+    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="<?= base_url('assets/admin/css/all.min.css') ?>">
     <!-- Ionicons -->
@@ -56,12 +57,17 @@
     <!-- for Cretzo theme -->
     <link rel="stylesheet" href="<?= base_url('assets/admin/css/cretzo/cretzo.css') ?>">
 
+    <!-- form styles for seller style -->
+    
+
+
     <!-- jQuery -->
     <script src="<?= base_url('assets/admin/js/jquery.min.js') ?>"></script>
     <!-- Star rating js -->
     <script type="text/javascript" src="<?= base_url('assets/admin/js/star-rating.js') ?>"></script>
     <script type="text/javascript" src="<?= base_url('assets/admin/js/theme.min.js') ?>"></script>
     <link rel="stylesheet" href="<?= base_url('assets/admin/css/tagify.min.css') ?>">
+
     <script type="text/javascript">
         base_url = "<?= base_url() ?>";
         csrfName = "<?= $this->security->get_csrf_token_name() ?>";
@@ -69,4 +75,5 @@
 
         form_name = '<?= '#' . $main_page . '_form' ?>';
     </script>
+    
 </head>

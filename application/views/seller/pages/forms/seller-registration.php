@@ -1,181 +1,209 @@
-<div class="">
-    <!-- Content Header (Page header) -->
-    <!-- Main content -->
-    <section class="content form-box">
+<link rel="stylesheet" href="<?= base_url('assets/seller/css/cretzo/form.css') ?>">
+
+    <section class="content w-100 seller-form">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card_seller card-info m-0 form-card">
-                        <!-- form start -->
-                        <form class="form-horizontal form-submit-event" action="<?= base_url('seller/auth/create-seller'); ?>" method="POST" id="add_product_form">
-                            <?php if (isset($user_data) && !empty($user_data)) { ?>
-                                <input type="hidden" name="user_id" value="<?= $user_data['to_be_seller_id'] ?>">
-                                <input type='hidden' name='user_name' value='<?= $user_data['to_be_seller_name'] ?>'>
-                                <input type='hidden' name='user_mobile' value='<?= $user_data['to_be_seller_mobile'] ?>'>
-                            <?php
-                            } ?>
-                            <div class="card-body">
-                                <div class="login-logo">
-                                    <a href="<?= base_url() . 'seller/login' ?>"><img src="<?= base_url() . $logo ?>"></a>
-                                </div>
-                                <h4 class="mb-4">Seller Registration</h4>
-                                <h5>Personal Details</h5>
-                                <hr>
-                                <div class="form-group row">
-                                    <label for="name" class="col-sm-2 col-form-label">Name <span class='text-danger text-sm'>*</span></label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="name" placeholder="Seller Name" name="name" <?= (isset($user_data) && !empty($user_data) && !empty($user_data['to_be_seller_id'])) ? 'disabled' : ''; ?> value="<?= @$user_data['to_be_seller_name'] ?>">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="mobile" class="col-sm-2 col-form-label">Mobile <span class='text-danger text-sm'>*</span></label>
-                                    <div class="col-sm-10">
-                                        <input type="number" class="form-control" id="mobile" placeholder="Enter Mobile" name="mobile" <?= (isset($user_data) && !empty($user_data) && !empty($user_data['to_be_seller_id'])) ? 'disabled' : ''; ?> value="<?= @$user_data['to_be_seller_mobile'] ?>">
-                                    </div>
-                                </div>
+          <div class="form-parent">
+            <div class="form-container-main">
 
-                                <?php
-                                if (!isset($user_data) && empty($user_data)) {
-                                ?>
-                                    <div class="form-group row">
-                                        <label for="email" class="col-sm-2 col-form-label">Email <span class='text-danger text-sm'>*</span></label>
-                                        <div class="col-sm-10">
-                                            <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row ">
-                                        <label for="password" class="col-sm-2 col-form-label">Password <span class='text-danger text-sm'>*</span></label>
-                                        <div class="col-sm-10">
-                                            <input type="password" class="form-control" id="password" placeholder="Enter Passsword" name="password">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row ">
-                                        <label for="confirm_password" class="col-sm-2 col-form-label">Confirm Password <span class='text-danger text-sm'>*</span></label>
-                                        <div class="col-sm-10">
-                                            <input type="password" class="form-control" id="confirm_password" placeholder="Enter Confirm Password" name="confirm_password">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="address" class="col-sm-2 col-form-label">Address <span class='text-danger text-sm'>*</span></label>
-                                        <div class="col-sm-10">
-                                            <textarea type="text" class="form-control" id="address" placeholder="Enter Address" name="address"></textarea>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                <div class="form-group row">
-                                    <label for="address_proof" class="col-sm-2 col-form-label">Address Proof <span class='text-danger text-sm'>*</span> </label>
-                                    <div class="col-sm-10">
-                                        <input type="file" class="form-control" name="address_proof" id="address_proof" accept="image/*" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="authorized_signature" class="col-sm-2 col-form-label">Authorized Signature <span class='text-danger text-sm'>*</span></label>
-                                    <div class="col-sm-10">
-                                        <input type="file" class="form-control" name="authorized_signature" id="authorized_signature" accept="image/*" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="national_identity_card" class="col-sm-2 col-form-label">National Identity Card <span class='text-danger text-sm'>*</span></label>
-                                    <div class="col-sm-10">
-                                        <input type="file" class="form-control" name="national_identity_card" id="national_identity_card" accept="image/*" />
-                                    </div>
-                                </div>
-
-                                <h5>Store Details</h5>
-                                <hr>
-                                <div class="form-group row">
-                                    <label for="store_name" class="col-sm-2 col-form-label">Name <span class='text-danger text-sm'>*</span></label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="store_name" placeholder="Store Name" name="store_name">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="logo" class="col-sm-2 col-form-label">Logo <span class='text-danger text-sm'>*</span></label>
-                                    <div class="col-sm-10">
-                                        <input type="file" class="form-control" name="store_logo" id="store_logo" accept="image/*" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="store_url" class="col-sm-2 col-form-label">URL </label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="store_url" placeholder="Store URL" name="store_url">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="store_description" class="col-sm-3 col-form-label">Description </label>
-                                    <div class="col-sm-12">
-                                        <textarea type="text" class="form-control" id="store_description" placeholder="Store Description" name="store_description"></textarea>
-                                    </div>
-                                </div>
-
-                                <h5>Store Tax Details</h5>
-                                <hr>
-                                <div class="form-group row">
-                                    <label for="tax_name" class="col-sm-2 col-form-label">Tax Name <span class='text-danger text-sm'>*</span></label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="tax_name" placeholder="GST" name="tax_name">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="tax_number" class="col-sm-2 col-form-label">Tax Number <span class='text-danger text-sm'>*</span></label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="tax_number" placeholder="GSTIN1234" name="tax_number">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="pan_number" class="col-sm-2 col-form-label">PAN Number</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="pan_number" placeholder="Personal or Store's PAN Number" name="pan_number">
-                                    </div>
-                                </div>
-
-                                <h5>Bank Details</h5>
-                                <hr>
-                                <div class="form-group row">
-                                    <label for="account_number" class="col-sm-2 col-form-label">Account Number </label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="account_number" placeholder="Account Number" name="account_number">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="account_name" class="col-sm-2 col-form-label">Account Name </label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="account_name" placeholder="Account Name" name="account_name">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="bank_code" class="col-sm-2 col-form-label">Bank Code </label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="bank_code" placeholder="Bank Code" name="bank_code">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="bank_name" class="col-sm-2 col-form-label">Bank Name </label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="bank_name" placeholder="Bank Name" name="bank_name">
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <button type="reset" class="btn btn-warning">Reset</button>
-                                    <button type="submit" class="btn btn-success" id="submit_btn">Submit</button>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <div class="form-group" id="error_box">
-                                    <div class="card text-white d-none mb-3">
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /.card-footer -->
-                        </form>
+                <div class="form-header w-100">
+                    
+                    <div class="login-logo ">
+                      <a href="<?= base_url() . 'seller/login' ?>">
+                        <img class='w-50' src="<?= base_url() . $logo ?>">
+                      </a>
                     </div>
-                    <!--/.card-->
+
+                    <div class="slider d-flex w-100 justify-content-between  align-items-center">
+                                <div class="form-indicator form-indicator-1  active">
+                                    <p class="text-n text-capitalize">personal details</p>
+                                </div>
+                                <div class="completion-line completion-line-1"></div>
+                                <div class="form-indicator form-indicator-2">
+                                    
+                                        <p class="text-n text-capitalize">store details</p>
+                                    
+                                </div>
+                                <div class="completion-line completion-line-2"></div>
+                                <div class="form-indicator form-indicator-3">
+                                  
+                                            <p class="text-n text-capitalize">account details</p>
+                                      
+                                </div>
+                    </div>
                 </div>
-                <!--/.col-md-12-->
+                <div class="form-container">
+                  <form> 
+                      <div class="form-step form1">
+                        <div class="row gap-xl-5">
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">First Name <span class="text-danger">*</span></label>
+                            <input type="text" class="input" placeholder="Seller name" required>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                            <input type="text" class="input" placeholder="Last Name" required>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                            <input type="text" class="input" placeholder="Enter Phone Number" required>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">Email ID <span class="text-danger">*</span></label>
+                            <input type="email" class="input" placeholder="Enter Email ID" required>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">Address</label>
+                            <input type="text" class="input" placeholder="Street 1">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">&nbsp;</label>
+                            <input type="text" class="input" placeholder="Street 2">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">District</label>
+                            <input type="text" class="input" placeholder="Enter District">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">City</label>
+                            <input type="text" class="input" placeholder="Enter City"> 
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">State</label>
+                            <input type="text" class="input" placeholder="Enter State">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">PIN Code</label>
+                            <input type="text" class="input" placeholder="Enter PIN Code">
+                          </div>
+                        
+                        </div>
+                          
+                          <div class="text-center mt-3">
+                            <button type="button" class="btn btn-next-1 ">Next</button>
+                          </div>
+                      </div>
+
+                      
+
+                      <div class="form-step form2">
+
+                          <div class="photo-upload d-flex gap-4 justify-content-between align-items-center mb-3">
+                            
+                            <input type="file" class="hidden" id="photoInput" accept="image/*">
+                            <div class="preview-container ">
+                              <svg class="profile-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                              </svg>
+                              <img id="photoPreview" src="" class="shop-logo hidden" style="margin-top: 1rem;">
+                          </div>
+                          <label for="photoInput">Shop Logo</label>
+                      </div>
+                        <div class="row">
+
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">Shop Name <span class="text-danger">*</span></label>
+                            <input type="text" class="input" placeholder="Shop Name" required>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">Social Media Handle <span class="text-danger">*</span></label>
+                            <input type="text" class="input" placeholder="Enter Social Media" required>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">Shop Phone Number <span class="text-danger">*</span></label>
+                            <input type="text" class="input" placeholder="Enter shop  Phone Number" required>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">Pickup Address <span class="text-danger">*</span></label>
+                            <input type="email" class="input" placeholder="Address Lane 1" required>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            
+                            <input type="text" class="input" placeholder="Address Lane 1">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">City</label>
+                            <input type="text" class="input" placeholder="Enter City">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">District</label>
+                            <input type="text" class="input" placeholder="Enter District">
+                          </div>
+                          
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">State</label>
+                            <input type="text" class="input" placeholder="Enter State">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">PIN Code</label>
+                            <input type="text" class="input" placeholder="Enter PIN Code">
+                          </div>
+                        </div>
+                        
+                        <div class=" mt-3 w-100 d-flex justify-content-between align-items-center">
+                          <button type="button" class="btn btn-back-1 ">Back</button>
+                          <button type="button" class="btn btn-next-2 ">Next</button>
+                        </div>
+
+                      </div>
+
+                      <div class="form-step form3">
+
+                        <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">Entity Type <span class="text-danger">*</span></label>
+                            <input type="text" class="input" placeholder="Entity Type *" required>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">PAN Number<span class="text-danger">*</span></label>
+                            <input type="text" class="input" placeholder="Enter PAN Number" required>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">GST Number <span class="text-danger">*</span></label>
+                            <input type="text" class="input" placeholder="22ABCDE0000A1Z5" required>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">Pickup Address <span class="text-danger">*</span></label>
+                            <input type="email" class="input" placeholder="Address Lane 1" required>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            
+                            <input type="text" class="input" placeholder="Address Lane 1">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">City</label>
+                            <input type="text" class="input" placeholder="Enter City">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">District</label>
+                            <input type="text" class="input" placeholder="Enter District">
+                          </div>
+                          
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">State</label>
+                            <input type="text" class="input" placeholder="Enter State">
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label class="form-label">PIN Code</label>
+                            <input type="text" class="input" placeholder="Enter PIN Code">
+                          </div>
+                      
+                        </div>
+                        
+                        <div class=" mt-3 w-100 d-flex justify-content-between align-items-center">
+                          <button type="button" class="btn btn-back-2 ">Back</button>
+                          <button type="submit" class="btn ">Submit</button>
+                        </div>
+
+                      </div>
+                    
+                  </form>
+                </div>
+                
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+          </div>
+        </div>
+        
     </section>
-    <!-- /.content -->
-</div>
+    
+
+    <script src="<?= base_url('assets/seller/js/cretzo/form.js') ?>"></script>
