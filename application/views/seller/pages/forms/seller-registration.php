@@ -13,7 +13,7 @@
                       </a>
                     </div>
 
-                    <div class="slider d-flex w-100 justify-content-between  align-items-center">
+                    <div class="slider d-flex w-100 justify-content-between align-items-center">
                                 <div class="form-indicator form-indicator-1  active">
                                     <p class="text-n text-capitalize">personal details</p>
                                 </div>
@@ -31,8 +31,10 @@
                                 </div>
                     </div>
                 </div>
+
                 <div class="form-container">
                   <form> 
+                    
                       <div class="form-step form1">
                         <div class="row gap-xl-5">
                           <div class="col-md-6 mb-3">
@@ -86,18 +88,19 @@
                       
 
                       <div class="form-step form2">
-
-                          <div class="photo-upload d-flex gap-4 justify-content-between align-items-center mb-3">
-                            
-                            <input type="file" class="hidden" id="photoInput" accept="image/*">
-                            <div class="preview-container ">
-                              <svg class="profile-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
-                              </svg>
-                              <img id="photoPreview" src="" class="shop-logo hidden" style="margin-top: 1rem;">
+                          <div>
+                            <div class="photo-upload d-flex gap-4 justify-content-between align-items-center mb-3">
+                              <input type="file" class="hidden" id="photoInput" accept="image/*">
+                              <div class="preview-container ">
+                                <svg class="profile-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                                </svg>
+                                <img id="photoPreview" src="" class="shop-logo hidden" style="margin-top: 1rem;">
+                              </div>
+                            <label for="photoInput">Shop Logo</label>
+                           </div>
                           </div>
-                          <label for="photoInput">Shop Logo</label>
-                      </div>
+                          
                         <div class="row">
 
                           <div class="col-md-6 mb-3">
@@ -166,7 +169,7 @@
                             <input type="email" class="input" placeholder="Address Lane 1" required>
                           </div>
                           <div class="col-md-6 mb-3">
-                            
+                            <label></label>
                             <input type="text" class="input" placeholder="Address Lane 1">
                           </div>
                           <div class="col-md-6 mb-3">
