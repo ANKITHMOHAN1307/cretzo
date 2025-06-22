@@ -62,6 +62,10 @@ $font_color = (isset($settings['font_color']) && !empty($settings['font_color'])
             $this->load->view('front-end/' . THEME . '/imp-inputs');
             $this->load->view('front-end/' . THEME . '/pages/' . $main_page);
             $this->load->view('front-end/' . THEME . '/include-script');
+
+            if($main_page === 'cart' || $main_page === 'checkout'){
+                $this->load->view('front-end/' . THEME . '/payment_footer');
+            }
         }
         else {
             $this->load->view('front-end/' . THEME . '/imp-inputs');

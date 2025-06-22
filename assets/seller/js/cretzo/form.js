@@ -21,6 +21,7 @@ const photoContainer = document.querySelector('.preview-container');
 const photoPreview = document.getElementById('photoPreview');
 const profileIcon = document.querySelector('.profile-icon');
 
+
 photoContainer.addEventListener('click', function(){
     photoInput.click();
 })
@@ -77,3 +78,8 @@ btnBack2.addEventListener('click', function(){
     sliderLine2.classList.remove('active');
     formIndicator3.classList.remove('active');
 })
+
+
+    
+
+    

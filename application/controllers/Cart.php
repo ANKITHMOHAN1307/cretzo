@@ -48,6 +48,7 @@ class Cart extends CI_Controller
             // print_r($this->data['save_for_later']);
             // die;
             $this->load->view('front-end/' . THEME . '/template', $this->data);
+            
         } else {
             redirect(base_url());
         }

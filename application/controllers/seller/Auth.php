@@ -52,12 +52,68 @@ class Auth extends CI_Controller
             $this->data['meta_description'] = 'Update Seller | ' . $settings['app_name'];
             $this->data['user_data'] = $_SESSION;
         }
-
         
         $this->load->view('seller/login', $this->data);
     }
 
-    public function create_seller()
+    public function create_seller() {
+
+        $response = [];
+        // Set validation rules
+        $this->form_validation->set_rules('first_name', 'First Name', 'required|trim');
+        $this->form_validation->set_rules('last_name', 'Last Name', 'trim');
+        $this->form_validation->set_rules('phone', 'Phone Number', 'required|numeric|min_length[10]|max_length[15]');
+        $this->form_validation->set_rules('email', 'Email ID', 'required|valid_email');
+
+        // Optional address fields
+        $this->form_validation->set_rules('address1', 'Address Line 1', 'required|trim');
+        $this->form_validation->set_rules('address2', 'Address Line 2', 'trim');
+        $this->form_validation->set_rules('district', 'District', 'required|trim');
+        $this->form_validation->set_rules('city', 'City', 'trim');
+        $this->form_validation->set_rules('state', 'State', 'required|trim');
+        $this->form_validation->set_rules('pin', 'PIN Code', 'numeric|trim|required|min_length[6]|max_length[6]');
+
+        // Step 2 fields
+        $this->form_validation->set_rules('shop_name', 'Shop Name', 'required|trim');
+        $this->form_validation->set_rules('social', 'Social Media Handle', 'required|trim');
+        $this->form_validation->set_rules('shop_phone', 'Shop Phone Number', 'required|numeric|min_length[10]|max_length[15]');
+        $this->form_validation->set_rules('pickup_address1', 'Pickup Address Lane 1', 'required|trim');
+        $this->form_validation->set_rules('pickup_address2', 'Pickup Address Lane 2', 'trim');
+          $this->form_validation->set_rules('pickup_district', 'District', 'required|trim');
+        $this->form_validation->set_rules('pickup_city', 'City', 'trim');
+        $this->form_validation->set_rules('pickup_state', 'State', 'required|trim');
+        $this->form_validation->set_rules('pickup_pin', 'PIN Code', 'numeric|trim|required|min_length[6]|max_length[6]');
+
+        // Step 3 fields
+        $this->form_validation->set_rules('entity_type', 'Entity Type', 'required|trim');
+        $this->form_validation->set_rules('pan', 'PAN Number', 'required|regex_match[/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/]');
+        $this->form_validation->set_rules('gst', 'GST Number', 'required|regex_match[/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/]');
+        
+        $this->form_validation->set_rules('account_number', "Account Number", 'required|trim|numeric');
+        $this->form_validation->set_rules('confirm_account_number', "Confirm Account Number", 'required|trim|numeric|matches[account_number]');
+
+        $this->form_validation->set_rules('account_holder_name', 'Account Holder\'s Name', 'required|trim');
+        $this->form_validation->set_rules('ifsc', 'IFSC Code', 'required|trim');
+        $this->form_validation->set_rules('branch', 'Branch Name', 'required|trim');
+        $this->form_validation->set_rules('bank_name', 'Bank Name', 'required|trim');
+
+        if (!$this->form_validation->run()) {
+            $response['error'] = true;
+            $response['message'] = validation_errors();
+            // print_r(json_encode($this->response));
+        } else {
+             $response['error'] = false;
+            $response['message'] = "Seller succesfully registered";
+            
+        }
+
+        $response['csrfName'] = $this->security->get_csrf_token_name();
+        $response['csrfHash'] = $this->security->get_csrf_hash();
+
+        echo json_encode($response);
+    }
+
+    public function create_seller_old()
     {
         if (!isset($_POST['user_id'])) {
             $this->form_validation->set_rules('name', 'Name', 'trim|required|xss_clean');
@@ -77,6 +133,9 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('national_identity_card', 'National Identity Card', 'trim|xss_clean');
         $this->form_validation->set_rules('authorized_signature', 'Authorized Signature', 'trim|xss_clean');
         $this->form_validation->set_rules('address_proof', 'Address Proof', 'trim|xss_clean');
+
+
+
 
         if (!$this->form_validation->run()) {
             $this->response['error'] = true;

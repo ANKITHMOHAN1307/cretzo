@@ -98,7 +98,7 @@
                 <a href="#" class="text text-secondary font-weight-bold mb-3" id="has_account" data-target="#has_account_model" data-toggle="modal">Already have user account with <span class="text text-primary"><?= $app_name ?>?</span></a>
             </div>
             <div>
-                <a href="<?= base_url('seller/auth/sign_up/personal') ?>" class="text text-danger font-weight-bold">Don't have any account?</a>
+                <a href="<?= base_url('seller/auth/sign_up') ?>" class="text text-danger font-weight-bold">Don't have any account?</a>
             </div>
         </div>
         <!-- /.login-card-body -->
