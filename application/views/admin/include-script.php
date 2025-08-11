@@ -9,6 +9,7 @@
 <script src="<?= base_url('assets/admin/js/bootstrap.bundle.min.js') ?>"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="<?= base_url('assets/admin/jquery-ui/jquery-ui.min.js') ?>"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 
 <script>

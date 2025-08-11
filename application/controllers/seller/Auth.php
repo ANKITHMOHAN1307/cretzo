@@ -53,7 +53,46 @@ class Auth extends CI_Controller
             $this->data['user_data'] = $_SESSION;
         }
         
-        $this->load->view('seller/login', $this->data);
+        $this->load->view('seller/signup', $this->data);
+    }
+
+     // 1. Send OTP via Twilio
+    public function send_otp(){
+        $mobile = $this->input->post('mobile', true);
+
+        // Basic check
+        if(empty($mobile) || strlen($mobile) != 10){
+            echo json_encode(['status' => 'error', 'message' => 'Invalid mobile number']);
+            return;
+        }
+
+        // Generate OTP
+        $otp = rand(100000, 999999);
+
+        // Store OTP & mobile in session for 5 minutes
+        $this->session->set_tempdata('otp', $otp, 300);
+        $this->session->set_tempdata('otp_mobile', $mobile, 300);
+
+        // Twilio credentials
+        $sid    = "YOUR_TWILIO_SID";
+        $token  = "YOUR_TWILIO_AUTH_TOKEN";
+        $twilio_number = "+1XXXXXXXXXX";
+
+        try {
+            require_once(APPPATH.'third_party/twilio/vendor/autoload.php');
+            $client = new Client($sid, $token);
+            $client->messages->create(
+                "+91".$mobile,
+                [
+                    "from" => $twilio_number,
+                    "body" => "Your OTP is: ".$otp
+                ]
+            );
+
+            echo json_encode(['status' => 'success', 'message' => 'OTP sent successfully']);
+        } catch (Exception $e) {
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
     }
 
     public function create_seller() {
