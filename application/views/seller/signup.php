@@ -24,7 +24,7 @@ $(document).ready(function(){
         const base_url = "<?= base_url('') ?>"
         console.log(base_url)
         $.ajax({
-            url: base_url + "/seller/auth/send_otp",
+            url: base_url + "seller/auth/send_otp",
             type: "POST",
             data: { mobile: mobile },
             dataType: "json",
@@ -45,13 +45,18 @@ $(document).ready(function(){
             data: $(this).serialize(),
             dataType: "json",
             success: function(res){
+                
                 if(res.status === 'success'){
                     alert(res.message);
                     $(".form")[0].reset();
-                    redirect(base_url + '/seller/home')
+                    window.location.href = base_url + 'seller/home';
                 } else {
+                    console.log(res);
                     alert(res.message);
                 }
+            },
+            error: function(err){
+                console.log(err);
             }
         });
     });

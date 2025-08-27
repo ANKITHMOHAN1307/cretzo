@@ -65,7 +65,7 @@
             </div>
             <div class='right'>
                 <div class='form_box'>
-                    <form class='form'>
+                    <form class='form' method="post">
                         <h2>Sign Up</h2>
                         <div class="form_group">
                             <label for="mobile">Mobile</label>

@@ -100,51 +100,55 @@ class Auth extends CI_Controller
     }
 
     public function ajax_signup(){
-        $mobile = $this->input->post('mobile');
-        $password = $this->input->post('password');
-        $otp = $this->input->post('otp');
+
         // Setup validation rules
         $this->form_validation->set_rules('mobile', 'Mobile', 'required|exact_length[10]|numeric');
         $this->form_validation->set_rules('otp', 'OTP', 'required|numeric');
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
         $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
 
-        $stored_otp = $this->session->tempdata('otp');
+        // $stored_otp = (string) $this->session->tempdata('otp');
+        $stored_otp = (int)'123456';
+        $mobile = $this->input->post('mobile', true);
+        $password = $this->input->post('password', true);
+        $otp = (int) $this->input->post('otp', true);
+
+        // log_message('debug',print_r('stored otp '. $stored_otp . '  type: '. gettype($stored_otp)));
+        // log_message('debug',print_r('\n   entered otp '. $otp . '  type: '. gettype($otp)));
+        // log_message('debug',print_r('\n   entered mobile '. $mobile . '  type: '. gettype($mobile)));
+        // log_message('debug',print_r('\n   $_POST '. $_POST ));
+        
         if(empty($stored_otp)){
               echo json_encode([
                 'status' => 'failed',
                 'message' => 'OTP has expired!'
             ]);
+
+            return ;
         }
-        if($stored_otp != $otp){
+        elseif($this->form_validation->run() == FALSE){
+            echo json_encode([
+            'status' => 'error',
+            'message' => 'Please fill the form correctly!',
+            'errors'=> $this->form_validation->error_array()
+            ]);
+        }
+        elseif($stored_otp !== $otp){
             echo json_encode([
                 'status' => 'Failed',
                 'message' => 'Please enter correct OTP'
             ]);
-        }
-        else if($this->form_validation->run() == FALSE){
-             echo json_encode([
-            'status' => 'Error',
-            'message' => 'Please fill the form correctly!'
-        ]);
+            return;
         }
         else {
-            // Insert into DB
-            $data = [
-                'identity'   => $mobile,
-                'password' => $password,
-                'group' => 'Seller'
-            ];
-
-            // $this->db->insert('seller', $data);
-            // group id for the seller is 4
+            
             $this->ion_auth->register($mobile, $password, Null, [], [4]);
             
             echo json_encode([
                 'status' => 'success',
                 'message' => 'Signup successful!'
             ]);
-            redirect(base_url('/seller/home'));
+
         }
         
         

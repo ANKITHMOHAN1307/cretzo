@@ -813,10 +813,12 @@ class Ion_auth_model extends CI_Model
         // and merge the set user data and the additional data
         $user_data = array_merge($this->_filter_data($this->tables['login_users'], $additional_data), $data);
         $this->trigger_events('extra_set');
+
        
         $this->db->insert($this->tables['login_users'], $user_data);
 
         $id = $this->db->insert_id($this->tables['login_users'] . '_id_seq');
+        
 
         // add in groups array if it doesn't exists and stop adding into default group if default group ids are set
         if (isset($default_group->id) && empty($groups)) {
@@ -825,9 +827,8 @@ class Ion_auth_model extends CI_Model
 
         if (!empty($groups)) {
             // add to groups
-            foreach ($groups as $group) {
-                $this->add_to_group($group, $id);
-            }
+            $num_of_group_added = $this->add_to_group($groups, $id);
+            log_message('debug', ''. $num_of_group_added .'');
         }
 
         $this->trigger_events('post_register');
@@ -1522,11 +1523,12 @@ class Ion_auth_model extends CI_Model
         // Then insert each into the database
         foreach ($group_ids as $group_id) {
             // Cast to float to support bigint data type
+            // *******************new
             if ($this->db->insert(
-                $this->tables['users_groups'],
+                'users_groups',
                 [
-                    $this->join['groups'] => (float)$group_id,
-                    $this->join['login_users']  => (float)$user_id
+                    'group_id' => (float)$group_id,
+                    'user_id'  => (float)$user_id
                 ]
             )) {
                 if (isset($this->_cache_groups[$group_id])) {
@@ -1541,6 +1543,27 @@ class Ion_auth_model extends CI_Model
                 // Return the number of groups added
                 $return++;
             }
+
+            // *********************old
+            // if ($this->db->insert(
+            //     $this->tables['users_groups'],
+            //     [
+            //         $this->join['groups'] => (float)$group_id,
+            //         $this->join['login_users']  => (float)$user_id
+            //     ]
+            // )) {
+            //     if (isset($this->_cache_groups[$group_id])) {
+            //         $group_name = $this->_cache_groups[$group_id];
+            //     } else {
+            //         $group = $this->group($group_id)->result();
+            //         $group_name = $group[0]->name;
+            //         $this->_cache_groups[$group_id] = $group_name;
+            //     }
+            //     $this->_cache_user_in_group[$user_id][$group_id] = $group_name;
+
+            //     // Return the number of groups added
+            //     $return++;
+            // }
         }
 
         return $return;
