@@ -312,4 +312,8 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
+// Load Composer Autoloader
+require __DIR__.'/vendor/autoload.php';
+
+// Start the CI app
 require_once BASEPATH.'core/CodeIgniter.php';

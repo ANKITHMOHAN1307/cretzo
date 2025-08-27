@@ -11,3 +11,5 @@ assets/front_end/classic/images/*
 /upload/*
 /logs
 *.psd
+/vendor/
+/composer.lock

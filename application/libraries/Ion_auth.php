@@ -219,7 +219,7 @@ class Ion_auth
 	 *                        if the operation failed.
 	 * @author Mathew
 	 */
-	public function register($identity, $password, $email, $additional_data = [], $group_ids = [])
+	public function register($identity, $password, $email = '', $additional_data = [], $group_ids = [])
 	{
 		$this->ion_auth_model->trigger_events('pre_account_creation');
 
@@ -289,6 +289,7 @@ class Ion_auth
 				'email'      => $email,
 				'activation' => $activation_code,
 			];
+			
 			if (!$this->config->item('use_ci_email', 'ion_auth')) {
 				$this->ion_auth_model->trigger_events(['post_account_creation', 'post_account_creation_successful', 'activation_email_successful']);
 				$this->set_message('activation_email_successful');

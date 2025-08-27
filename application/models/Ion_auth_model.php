@@ -799,14 +799,13 @@ class Ion_auth_model extends CI_Model
             $this->set_error('account_creation_unsuccessful');
             return FALSE;
         }
-        $this->identity_column = (isset($additional_data['type']) && $additional_data['type'] == 'phone') ? $this->identity_column : 'email';
+        $this->identity_column = (isset($additional_data['type']) && $additional_data['type'] == 'email') ? $this->identity_column : 'mobile';
         // Users table.
         $data = [
             $this->identity_column => $identity,
             'password' => $password,
             'email' => $email,
             'ip_address' => $ip_address,
-            'created_on' => time(),
             'active' => ($manual_activation === FALSE ? 1 : 0)
         ];
 
@@ -814,7 +813,6 @@ class Ion_auth_model extends CI_Model
         // and merge the set user data and the additional data
         $user_data = array_merge($this->_filter_data($this->tables['login_users'], $additional_data), $data);
         $this->trigger_events('extra_set');
-
        
         $this->db->insert($this->tables['login_users'], $user_data);
 

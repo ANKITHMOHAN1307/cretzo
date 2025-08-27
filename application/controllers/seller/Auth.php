@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use Twilio\Rest\Client as TwilioClient;
+
 class Auth extends CI_Controller
 {
 
@@ -70,18 +72,18 @@ class Auth extends CI_Controller
         $otp = rand(100000, 999999);
 
         // Store OTP & mobile in session for 5 minutes
-        $this->session->set_tempdata('otp', $otp, 300);
-        $this->session->set_tempdata('otp_mobile', $mobile, 300);
+        $this->session->set_tempdata('otp', $otp, 10 * 60);
+        $this->session->set_tempdata('otp_mobile', $mobile, 10 * 60);
 
         // Twilio credentials
-        $sid    = "YOUR_TWILIO_SID";
-        $token  = "YOUR_TWILIO_AUTH_TOKEN";
-        $twilio_number = "+1XXXXXXXXXX";
+        $token  = "27acec586b41c090c0f71690425e1341";
+        $sid  = "AC98662e8c1491ef426a93b295856918dc";
+        $twilio_number = "+18573424919";
 
         try {
-            require_once(APPPATH.'third_party/twilio/vendor/autoload.php');
-            $client = new Client($sid, $token);
-            $client->messages->create(
+            // require_once(APPPATH.'third_party/twilio/vendor/autoload.php');
+            $client = new TwilioClient($sid, $token);
+            $otp_response = $client->messages->create(
                 "+91".$mobile,
                 [
                     "from" => $twilio_number,
@@ -89,10 +91,63 @@ class Auth extends CI_Controller
                 ]
             );
 
+            print_r(json_encode($otp_response));
             echo json_encode(['status' => 'success', 'message' => 'OTP sent successfully']);
+            return json_encode($otp_response);
         } catch (Exception $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
+    }
+
+    public function ajax_signup(){
+        $mobile = $this->input->post('mobile');
+        $password = $this->input->post('password');
+        $otp = $this->input->post('otp');
+        // Setup validation rules
+        $this->form_validation->set_rules('mobile', 'Mobile', 'required|exact_length[10]|numeric');
+        $this->form_validation->set_rules('otp', 'OTP', 'required|numeric');
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+        $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+
+        $stored_otp = $this->session->tempdata('otp');
+        if(empty($stored_otp)){
+              echo json_encode([
+                'status' => 'failed',
+                'message' => 'OTP has expired!'
+            ]);
+        }
+        if($stored_otp != $otp){
+            echo json_encode([
+                'status' => 'Failed',
+                'message' => 'Please enter correct OTP'
+            ]);
+        }
+        else if($this->form_validation->run() == FALSE){
+             echo json_encode([
+            'status' => 'Error',
+            'message' => 'Please fill the form correctly!'
+        ]);
+        }
+        else {
+            // Insert into DB
+            $data = [
+                'identity'   => $mobile,
+                'password' => $password,
+                'group' => 'Seller'
+            ];
+
+            // $this->db->insert('seller', $data);
+            // group id for the seller is 4
+            $this->ion_auth->register($mobile, $password, Null, [], [4]);
+            
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Signup successful!'
+            ]);
+            redirect(base_url('/seller/home'));
+        }
+        
+        
     }
 
     public function create_seller() {
