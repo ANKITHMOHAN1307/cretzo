@@ -7,7 +7,11 @@
     <div class="overlay"></div>
 	<?php $this->load->view('seller/pages/' . $main_page); ?>
 	<!-- Footer -->
-	<?php $this->load->view('admin/include-script.php'); ?>
+	<?php //$this->load->view('admin/include-script.php'); ?>
+
+	<script>
+
+	</script>
 </body>
 
 </html>

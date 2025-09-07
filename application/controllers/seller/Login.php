@@ -16,6 +16,8 @@ class Login extends CI_Controller
 
     public function index()
     {
+        
+        print_r($this->ion_auth->seller_status() );
         if (!$this->ion_auth->logged_in() && !$this->ion_auth->is_seller()) {
             $this->data['main_page'] = FORMS . 'login';
             $settings = get_settings('system_settings', true);

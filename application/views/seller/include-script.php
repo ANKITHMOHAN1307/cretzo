@@ -82,7 +82,7 @@
 <script type="text/javascript" src="<?= base_url('assets/admin/js/intlTelInput.js') ?>"></script>
 <script type="text/javascript" src="<?= base_url('assets/admin/js/lightbox.js') ?>"></script>
 <!-- Custom -->
-<script src="<?= base_url('assets/admin/custom/custom.js') ?>"></script>
+ 
 <script src="<?= base_url('assets/admin/custom/pos.js') ?>"></script>
 <!-- Demo -->
 <script src="<?= base_url('assets/admin/dist/js/demo.js') ?>"></script>

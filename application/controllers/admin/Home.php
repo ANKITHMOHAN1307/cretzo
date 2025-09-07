@@ -238,7 +238,7 @@ class Home extends CI_Controller
     // send admin notification
     public function get_notification()
     {
-        $count_noti = fetch_details('system_notification',  ["read_by" => 0],  'count(id) as total');
+        $count_noti = fetch_details('system_notification',   ["read_by" => 0],  'count(id) as total');
 
         $response['error'] = false;
         $response['count_notifications'] = $count_noti[0]['total'];

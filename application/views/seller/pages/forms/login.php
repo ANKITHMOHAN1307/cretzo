@@ -46,6 +46,7 @@
         </div>
     </div>
 </div>
+
 <div class="login-box">
 
     <!-- /.login-logo -->
@@ -59,7 +60,7 @@
                 <p class="text-dark mb-4">Please login to your account</p>
                 <!-- <p class="login-box-msg">Sign in to start your session</p> -->
             </div>
-            <form action="<?= base_url('auth/login') ?>" class='form-submit-event' method="post">
+            <form action="<?= base_url('/seller/auth/login') ?>" class='form-submit-event' method="post">
                 <div class="mb-3">
                     <input type='hidden' name='<?= $this->security->get_csrf_token_name() ?>' value='<?= $this->security->get_csrf_hash() ?>'>
                     <label for="mobile" class="form-label text-dark">Mobile </label>
@@ -98,7 +99,7 @@
                 <a href="#" class="text text-secondary font-weight-bold mb-3" id="has_account" data-target="#has_account_model" data-toggle="modal">Already have user account with <span class="text text-primary"><?= $app_name ?>?</span></a>
             </div>
             <div>
-                <a href="<?= base_url('seller/auth/sign_up/personal') ?>" class="text text-danger font-weight-bold">Don't have any account?</a>
+                <a href="<?= base_url('seller/auth/sign_up') ?>" class="text text-danger font-weight-bold">Don't have any account?</a>
             </div>
         </div>
         <!-- /.login-card-body -->

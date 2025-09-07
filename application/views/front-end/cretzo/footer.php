@@ -15,19 +15,7 @@ $system_settings = get_settings('system_settings', true); ?>
             <li class="op-6">Welcome to cretzo, the one-stop shop for jewellery!</li>
         <?php } ?>
 
-        <div class="payment-footer">
-            <p>We Accept Payments Via</p>
-            <div class="payment-logos">
-                <img src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/payment_methods/UPI_Logo.png') ?>" alt="UPI">
-                <img src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/payment_methods/Google_Pay_Logo.png') ?>" alt="Google Pay">
-                <img src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/payment_methods/PhonePe_Logo.png') ?>" alt="PhonePe">
-                <img src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/payment_methods/Visa_Logo.png') ?>" alt="Visa">
-                <img src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/payment_methods/Mastercard_Logo.png') ?>" alt="Mastercard">
-                <img src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/payment_methods/Paytm_Logo.png') ?>" alt="Paytm">
-                <img src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/payment_methods/RuPay_Logo.png') ?>" alt="RuPay">
-                <img src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/payment_methods/Razorpay_Logo.png') ?>" alt="Razorpay">
-            </div>
-        </div>
+       
 
         <!-- <img class="handicraft-logo lazy" src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/100-handicraft.png') ?>" data-src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/100-handicraft.png') ?>"> -->
                 

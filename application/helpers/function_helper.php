@@ -151,6 +151,7 @@ function fetch_details($table, $where = NULL, $fields = '*', $limit = '', $offse
 
     $res = $t->db->get($table)->result_array();
 
+    // print_r($res);
     /* Some characters need to be output escaped (strip slashes) in some tables */
     if($table == 'pickup_locations' || $table == 'products' || $table == 'seller_data' || $table == 'pickup_locations'){
         /* $res[0]['pickup_location'] = output_escaping($res[0]['pickup_location']);
@@ -161,7 +162,7 @@ function fetch_details($table, $where = NULL, $fields = '*', $limit = '', $offse
     }
     if($table == 'users'){
         // $res[0]['address'] = output_escaping($res[0]['address']);
-        $res[0]['address'] = output_escaping_new($res[0]['address']);
+        // $res[0]['address'] = output_escaping_new($res[0]['address']);
     }
 
     return $res;
