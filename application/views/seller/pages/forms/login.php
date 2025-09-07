@@ -46,6 +46,7 @@
         </div>
     </div>
 </div>
+
 <div class="login-box">
 
     <!-- /.login-logo -->
@@ -59,7 +60,7 @@
                 <p class="text-dark mb-4">Please login to your account</p>
                 <!-- <p class="login-box-msg">Sign in to start your session</p> -->
             </div>
-            <form action="<?= base_url('auth/login') ?>" class='form-submit-event' method="post">
+            <form action="<?= base_url('/seller/auth/login') ?>" class='form-submit-event' method="post">
                 <div class="mb-3">
                     <input type='hidden' name='<?= $this->security->get_csrf_token_name() ?>' value='<?= $this->security->get_csrf_hash() ?>'>
                     <label for="mobile" class="form-label text-dark">Mobile </label>

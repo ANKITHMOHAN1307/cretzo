@@ -52,19 +52,25 @@ class Home extends CI_Controller
             $identity_column = $this->config->item('identity', 'ion_auth');
             $settings = get_settings('system_settings', true);
             $user_id = $this->session->userdata('user_id');
+            print_r($user_id);
             $this->data['identity_column'] = $identity_column;
             $this->data['main_page'] = FORMS . 'profile';
             $this->data['title'] = 'Seller Profile | ' . $settings['app_name'];
             $this->data['meta_description'] = 'Seller Profile | ' . $settings['app_name'];
-            $this->data['fetched_data'] = $this->db->select(' u.*,sd.* ')
+            // $this->data['fetched_data'] = $this->db->select(' u.*,sd.* ')
+            //     ->join('users_groups ug', ' ug.user_id = u.id ')
+            //     ->join('seller_data sd', ' sd.user_id = u.id ')
+            //     ->where(['ug.group_id' => '4', 'ug.user_id' => $user_id])
+            //     ->get('users u')
+            //     ->result_array();
+
+            $this->data['fetched_data'] = $this->db->select(' u.*')
                 ->join('users_groups ug', ' ug.user_id = u.id ')
-                ->join('seller_data sd', ' sd.user_id = u.id ')
                 ->where(['ug.group_id' => '4', 'ug.user_id' => $user_id])
                 ->get('users u')
                 ->result_array();
 
             $this->data['fetched_data'] = output_escaping_new($this->data['fetched_data']);
-
             $this->load->view('seller/template', $this->data);
         } else {
             redirect('seller/home', 'refresh');

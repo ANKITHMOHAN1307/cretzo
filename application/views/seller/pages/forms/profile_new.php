@@ -5,7 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="<?= base_url('assets/seller/css/cretzo/form.css') ?>">
 
-
+  <style>
+    .seller-form{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
 </head>
 <body>
   <section class="content w-100 seller-form">
@@ -15,11 +21,12 @@
 
               <div class="form-header w-100">
                   
-                  <div class="login-logo ">
+                  <!-- <div class="login-logo ">
                     <a href="<?= base_url() . 'seller/login' ?>">
-                      <img class='w-50' src="<?= base_url() . $logo ?>">
+                      
+                      <img class='w-50' src="<?= base_url() . 'cretzo/assets/img/logo.png' ?>">
                     </a>
-                  </div>
+                  </div> -->
 
                   <div class="slider d-flex w-100 justify-content-between align-items-center">
                               <div class="form-indicator form-indicator-1  active">

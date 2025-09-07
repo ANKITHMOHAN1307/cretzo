@@ -12,4 +12,4 @@ assets/front_end/classic/images/*
 /logs
 *.psd
 /vendor/
-/composer.lock
+composer.lock

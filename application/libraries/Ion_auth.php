@@ -401,13 +401,13 @@ class Ion_auth
 	{
 		$id = ($id == FALSE) ? $this->session->userdata('user_id') : $id;
 		if (!empty($id) && $id != FALSE) {
-			$status = fetch_details('seller_data', ['user_id' => $id], 'status');
+			$status = fetch_details('users', ['id' => $id], 'status');
 			return $status[0]['status'];
 		} else {
 			return false;
 		}
+		
 		$seller_group = $this->config->item('seller_group', 'ion_auth');
-
 		return $this->ion_auth_model->in_group($seller_group, $id);
 	}
 

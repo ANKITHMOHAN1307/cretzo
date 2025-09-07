@@ -2,11 +2,11 @@
 <html>
 <?php $this->load->view('seller/include-head.php'); ?>
 
-<div id="loading">
+<!-- <div id="loading">
     <div class="lds-ring">
         <div></div>
     </div>
-</div>
+</div> -->
 
 <body class="hold-transition sidebar-mini layout-fixed ">
     <div class=" wrapper ">

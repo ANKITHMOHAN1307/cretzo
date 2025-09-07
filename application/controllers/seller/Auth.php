@@ -1,4 +1,6 @@
 <?php
+
+use Twilio\TwiML\Messaging\Message;
 defined('BASEPATH') or exit('No direct script access allowed');
 
 use Twilio\Rest\Client as TwilioClient;
@@ -71,9 +73,9 @@ class Auth extends CI_Controller
         // Generate OTP
         $otp = rand(100000, 999999);
 
-        // Store OTP & mobile in session for 5 minutes
+        // Store OTP & mobile in session for 10 minutes
         $this->session->set_tempdata('otp', $otp, 10 * 60);
-        $this->session->set_tempdata('otp_mobile', $mobile, 10 * 60);
+        
 
         // Twilio credentials
         $token  = "27acec586b41c090c0f71690425e1341";
@@ -91,9 +93,8 @@ class Auth extends CI_Controller
                 ]
             );
 
-            print_r(json_encode($otp_response));
+            // print_r(json_encode($otp_response));
             echo json_encode(['status' => 'success', 'message' => 'OTP sent successfully']);
-            return json_encode($otp_response);
         } catch (Exception $e) {
             echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
         }
@@ -108,11 +109,13 @@ class Auth extends CI_Controller
         $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
 
         // $stored_otp = (string) $this->session->tempdata('otp');
-        $stored_otp = (int)'123456';
+        $stored_otp = (int) $this->session->tempdata('otp');
+        // $stored_otp = (int) '123456';
         $mobile = $this->input->post('mobile', true);
         $password = $this->input->post('password', true);
         $otp = (int) $this->input->post('otp', true);
 
+        // CAN BE USED FOR DEBUGGING
         // log_message('debug',print_r('stored otp '. $stored_otp . '  type: '. gettype($stored_otp)));
         // log_message('debug',print_r('\n   entered otp '. $otp . '  type: '. gettype($otp)));
         // log_message('debug',print_r('\n   entered mobile '. $mobile . '  type: '. gettype($mobile)));
@@ -127,7 +130,7 @@ class Auth extends CI_Controller
             return ;
         }
         elseif($this->form_validation->run() == FALSE){
-            echo json_encode([
+            echo json_encode(value: [
             'status' => 'error',
             'message' => 'Please fill the form correctly!',
             'errors'=> $this->form_validation->error_array()
@@ -141,17 +144,47 @@ class Auth extends CI_Controller
             return;
         }
         else {
-            
-            $this->ion_auth->register($mobile, $password, Null, [], [4]);
-            
-            echo json_encode([
-                'status' => 'success',
-                'message' => 'Signup successful!'
+            try{
+                $this->ion_auth->register($mobile, $password, Null, [], [4]);
+                
+                echo json_encode([
+                    'status' => 'success',
+                    'message' => 'Signup successful!'
+                ]);
+                $this->ion_auth->login($mobile, $password, $remember=0);
+                redirect('seller/home', 'refresh');
+            }catch(Exception $e){
+                echo json_encode([
+                'status' => 'Failed',
+                'message' => $e.Message::get_error_message()
             ]);
+            }
 
         }
-        
-        
+    }
+
+    public function login(){
+        $identity = $this->input->post('identity', true);
+        $password = $this->input->post('password', true);
+
+        $remember = $this->input->post('remember', true);
+
+        try{
+            $response = $this->ion_auth->login($identity, $password, $remember);
+            if($response){
+                redirect('seller/home', 'refresh');
+            }else {
+                echo json_encode([
+                'status'=> 'failed',
+                'message' => $response.json_encode(),
+            ]);
+            }
+        }catch(Exception $e){
+            echo json_encode([
+                'status'=> 'failed',
+                'message' => $e.Message::get_error_message(),
+            ]);
+        }
     }
 
     public function create_seller() {

@@ -30,6 +30,7 @@ $(document).ready(function(){
             dataType: "json",
             success: function(res){
                 alert(res.message);
+                $("#send_otp").text = 'Resend OTP'
             }
         });
     });
@@ -45,7 +46,6 @@ $(document).ready(function(){
             data: $(this).serialize(),
             dataType: "json",
             success: function(res){
-                
                 if(res.status === 'success'){
                     alert(res.message);
                     $(".form")[0].reset();
