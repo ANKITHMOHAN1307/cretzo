@@ -63,7 +63,6 @@ class Auth extends CI_Controller
      // 1. Send OTP via Twilio
     public function send_otp(){
         $mobile = $this->input->post('mobile', true);
-
         // Basic check
         if(empty($mobile) || strlen($mobile) != 10){
             echo json_encode(['status' => 'error', 'message' => 'Invalid mobile number']);
@@ -100,41 +99,20 @@ class Auth extends CI_Controller
         }
     }
 
-    public function ajax_signup(){
+    public function verify_otp(){
 
-        // Setup validation rules
-        $this->form_validation->set_rules('mobile', 'Mobile', 'required|exact_length[10]|numeric');
-        $this->form_validation->set_rules('otp', 'OTP', 'required|numeric');
-        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
-        $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
-
-        // $stored_otp = (string) $this->session->tempdata('otp');
-        $stored_otp = (int) $this->session->tempdata('otp');
-        // $stored_otp = (int) '123456';
         $mobile = $this->input->post('mobile', true);
-        $password = $this->input->post('password', true);
         $otp = (int) $this->input->post('otp', true);
+        $stored_otp = (int) '123456';
+        // $stored_otp = (int) $this->session->tempdata('otp');
 
-        // CAN BE USED FOR DEBUGGING
-        // log_message('debug',print_r('stored otp '. $stored_otp . '  type: '. gettype($stored_otp)));
-        // log_message('debug',print_r('\n   entered otp '. $otp . '  type: '. gettype($otp)));
-        // log_message('debug',print_r('\n   entered mobile '. $mobile . '  type: '. gettype($mobile)));
-        // log_message('debug',print_r('\n   $_POST '. $_POST ));
         
         if(empty($stored_otp)){
               echo json_encode([
                 'status' => 'failed',
                 'message' => 'OTP has expired!'
             ]);
-
             return ;
-        }
-        elseif($this->form_validation->run() == FALSE){
-            echo json_encode(value: [
-            'status' => 'error',
-            'message' => 'Please fill the form correctly!',
-            'errors'=> $this->form_validation->error_array()
-            ]);
         }
         elseif($stored_otp !== $otp){
             echo json_encode([
@@ -144,23 +122,25 @@ class Auth extends CI_Controller
             return;
         }
         else {
-            try{
-                $this->ion_auth->register($mobile, $password, Null, [], [4]);
-                
-                echo json_encode([
+            echo json_encode([
                     'status' => 'success',
-                    'message' => 'Signup successful!'
+                    'message' => 'OTP verified successfully!'
                 ]);
-                $this->ion_auth->login($mobile, $password, $remember=0);
-                redirect('seller/home', 'refresh');
-            }catch(Exception $e){
-                echo json_encode([
-                'status' => 'Failed',
-                'message' => $e.Message::get_error_message()
-            ]);
-            }
-
         }
+
+    }
+
+    public function ajax_signup(){
+
+        // Setup validation rules
+       
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+        $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+
+        
+        $password = $this->input->post('password', true);
+
+        
     }
 
     public function login(){
