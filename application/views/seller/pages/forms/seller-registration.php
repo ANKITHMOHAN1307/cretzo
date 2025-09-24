@@ -18,6 +18,7 @@
         width: 100%;
         padding: 20px;
         background-color: #f4f4f4;
+        height: 100vh;
     }
 
     .left {
@@ -28,8 +29,9 @@
     }
 
     .right {
-        flex: 1/4;
         display: flex;
+        flex: 1/4;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         width: 32rem;
@@ -38,34 +40,41 @@
 
     .form_box {
         width: 100%;
+        height: 100%;
+        /* background-color: red; */
+        padding: 20px;
     }
 
     .form {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
         width: 100%;
+        height: 100%;
     }
+
 
     .steps {
         width: 100%;
-        transition: transform 0.5s ease-in-out;
+        height: 100%;
+        padding: 20px;
         overflow: hidden;
+        position: relative;
     }
 
     .step {
         width: 100%;
         padding: 20px;
         box-sizing: border-box;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: transform 0.2s ease-in-out;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
     }
 
     .step-2 {
-        transform: translateX(100%);
+        transform: translateX(150%);
     }
 
     .form_group {
@@ -80,16 +89,19 @@
         border: 1px solid #ccc;
         border-radius: 4px;
     }
+
     .link {
         text-decoration: underline;
         color: var(--color-primary);
         cursor: pointer;
         font-size: 0.9rem;
     }
+
     .link:hover {
         color: var(--color-orange-dark);
     }
-    .btn-primary{
+
+    .btn-primary {
         background-color: var(--color-primary);
         border: none;
         color: white;
@@ -102,9 +114,10 @@
         cursor: pointer;
         border-radius: 4px;
     }
+
     .btn-primary:hover {
         background-color: var(--color-orange-dark);
-    }   
+    }
     </style>
 </head>
 
@@ -116,8 +129,8 @@
                     style="width: 100%; height: 100%;">
             </div>
             <div class='right'>
-                <div class='form_box'>
-                    <form class='form' method="post">
+                <form class='form' method="post">
+                    <div class='form_box'>
                         <div class="steps">
                             <div class="step step-1">
                                 <h2>Sign Up</h2>
@@ -138,6 +151,7 @@
                             </div>
 
                             <div class="step step-2">
+                                 <h2>Set Up Your Password</h2>
                                 <div class="form_group">
                                     <label for="password">Password</label>
                                     <input type="password" id="password" name="password" class="form-control"
@@ -153,8 +167,8 @@
                             </div>
                         </div>
 
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -172,7 +186,7 @@
                 return;
             }
             const base_url = "<?= base_url('') ?>"
-            
+
             $.ajax({
                 url: base_url + "seller/auth/send_otp",
                 type: "POST",
@@ -181,18 +195,21 @@
                 },
                 dataType: "json",
                 success: function(res) {
-                    $('.step-1 .form_group .success').text = 'OTP sent successfully';
-                    $("#send_otp").text = 'Resend OTP'
+                    $('.step-1 .form_group .success').text('OTP sent successfully');
+                    $("#send_otp").text('Resend OTP');
                 },
                 error: function(err) {
                     console.log(err);
-                    $('.error').text = 'Failed to send OTP. Try again.';
+                    $('.error').text('Failed to send OTP. Try again.');
                 }
             });
         });
 
         // Verify OTP button click
         $('#verify_otp').click(function() {
+
+            console.log("clicked");
+            const base_url = "<?= base_url('') ?>"
             let mobile = $("#mobile").val();
             let otp = $("#otp").val();
 
@@ -200,13 +217,13 @@
                 alert("Enter a valid 10-digit mobile number");
                 return;
             }
-            if (otp === "" || mobile.length !== 6) {
-                $('.error').text = "Enter a valid OTP";
+            if (otp === "" || otp.length !== 6) {
+                $('.error').text("Enter a valid OTP");
                 return;
             }
 
             $.ajax({
-                url: base_url + "seller/auth/veriry_otp",
+                url: base_url + "seller/auth/verify_otp",
                 type: "POST",
                 data: {
                     mobile: mobile,
@@ -214,11 +231,12 @@
                 },
                 dataType: "json",
                 success: function(res) {
-                    alert(res.message);
                     console.log(res);
-                    $(".step-1").css("transform", "translateX(-100%)");
-                    $(".step-2").css("transform", "translateX(0%)");
-                }
+                    $('.step-1 .form_group .success').text('OTP verified successfully');
+                    $("#send_otp").text('Resend OTP');
+                    $('.step-1').css('transform', 'translateX(-100%)');
+                    $('.step-2').css('transform', 'translateX(0%)');
+                },
             });
         })
 

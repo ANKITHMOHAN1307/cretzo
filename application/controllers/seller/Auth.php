@@ -100,34 +100,38 @@ class Auth extends CI_Controller
     }
 
     public function verify_otp(){
-
         $mobile = $this->input->post('mobile', true);
         $otp = (int) $this->input->post('otp', true);
         $stored_otp = (int) '123456';
         // $stored_otp = (int) $this->session->tempdata('otp');
-
+        $response = [];
+        
+         $this->output->set_content_type('application/json')->set_output(json_encode($response = [
+                'status' => 'success',
+                'message' => 'OTP verified successfully!'
+            ]));
         
         if(empty($stored_otp)){
-              echo json_encode([
+             $response = [
                 'status' => 'failed',
                 'message' => 'OTP has expired!'
-            ]);
-            return ;
+            ];
+            
         }
         elseif($stored_otp !== $otp){
-            echo json_encode([
+            $response = [
                 'status' => 'Failed',
                 'message' => 'Please enter correct OTP'
-            ]);
-            return;
+            ];
+            
         }
         else {
-            echo json_encode([
-                    'status' => 'success',
+            $response = [
+                'status' => 'success',
                     'message' => 'OTP verified successfully!'
-                ]);
+            ];
         }
-
+        $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
     public function ajax_signup(){
