@@ -105,11 +105,7 @@ class Auth extends CI_Controller
         $stored_otp = (int) '123456';
         // $stored_otp = (int) $this->session->tempdata('otp');
         $response = [];
-        
-         $this->output->set_content_type('application/json')->set_output(json_encode($response = [
-                'status' => 'success',
-                'message' => 'OTP verified successfully!'
-            ]));
+     
         
         if(empty($stored_otp)){
              $response = [
@@ -128,7 +124,7 @@ class Auth extends CI_Controller
         else {
             $response = [
                 'status' => 'success',
-                    'message' => 'OTP verified successfully!'
+                'message' => 'OTP verified successfully!'
             ];
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($response));
@@ -140,10 +136,50 @@ class Auth extends CI_Controller
        
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
         $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+        $this->form_validation->set_rules('mobile', 'Mobile', 'required|exact_length[10]|numeric');
 
         
         $password = $this->input->post('password', true);
+        $mobile = $this->input->post('mobile', true);
 
+        if(!$this->form_validation->run()){
+            $response = [
+                'status' => 'failed',
+                'message' => validation_errors()
+            ];
+        } else {
+            
+            $identity =  $this->input->post('mobile', true);
+
+            try{
+                $user_id = $this->ion_auth->register($identity, $password, $email, $additional_data);
+                if($user_id){
+                    //add to seller group
+                    $this->ion_auth->add_to_group(3, $user_id); //3 is seller group id
+
+                    //set session for further details
+                    $_SESSION['to_be_seller_name'] = $additional_data['first_name'].' '.$additional_data['last_name'];
+                    $_SESSION['to_be_seller_mobile'] = $additional_data['phone'];
+                    $_SESSION['to_be_seller_id'] = $user_id;
+
+                    $response = [
+                        'status' => 'success',
+                        'message' => 'Seller registered successfully!'
+                    ];
+                } else {
+                    $response = [
+                        'status' => 'failed',
+                        'message' => 'Failed to register seller!'
+                    ];
+                }
+            }catch(Exception $e){
+                $response = [
+                    'status' => 'failed',
+                    'message' => $e.Message::get_error_message(),
+                ];
+            }
+        }
+        
         
     }
 

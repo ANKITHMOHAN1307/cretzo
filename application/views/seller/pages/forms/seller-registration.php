@@ -139,19 +139,22 @@
                                     <input type="text" id="mobile" name="mobile" class="form-control"
                                         placeholder="Enter your mobile number" required>
                                     <a href="#" class="link" id="send_otp">Send OTP</a>
-                                    <p class='error'></p>
-                                    <p class='success'></p>
+                                    <p class='error error_mobile'></p>
+                                    <p class='success success_mobile'></p>
                                 </div>
                                 <div class="form_group">
                                     <label for="otp">OTP</label>
                                     <input type="text" id="otp" name="otp" class="form-control"
                                         placeholder="Enter the OTP" required>
+                                    <p class='error error_otp'></p>
+                                    <p class='success success_otp'></p>
                                 </div>
+
                                 <button type="button" class="btn btn-primary" id="verify_otp">Verify OTP</button>
                             </div>
 
                             <div class="step step-2">
-                                 <h2>Set Up Your Password</h2>
+                                <h2>Set Up Your Password</h2>
                                 <div class="form_group">
                                     <label for="password">Password</label>
                                     <input type="password" id="password" name="password" class="form-control"
@@ -161,8 +164,10 @@
                                     <label for="confirm_password">Confirm Password</label>
                                     <input type="password" id="confirm_password" name="confirm_password"
                                         class="form-control" placeholder="Confirm your password" required>
+                                        <p class='error error_password'></p>
+                                <p class='success success_password'></p>
                                 </div>
-                                <p class='error'></p>
+                                
                                 <button class="btn btn-primary">Sign up</button>
                             </div>
                         </div>
@@ -176,7 +181,6 @@
 
     <script>
     $(document).ready(function() {
-
         // Send OTP button click
         $("#send_otp").click(function() {
             let mobile = $("#mobile").val();
@@ -195,12 +199,12 @@
                 },
                 dataType: "json",
                 success: function(res) {
-                    $('.step-1 .form_group .success').text('OTP sent successfully');
+                    $('.success_mobile').text('OTP sent successfully');
                     $("#send_otp").text('Resend OTP');
                 },
                 error: function(err) {
                     console.log(err);
-                    $('.error').text('Failed to send OTP. Try again.');
+                    $('.error_mobile').text('Failed to send OTP. Try again.');
                 }
             });
         });
@@ -208,17 +212,16 @@
         // Verify OTP button click
         $('#verify_otp').click(function() {
 
-            console.log("clicked");
             const base_url = "<?= base_url('') ?>"
             let mobile = $("#mobile").val();
             let otp = $("#otp").val();
 
             if (mobile === "" || mobile.length !== 10) {
-                alert("Enter a valid 10-digit mobile number");
+                $('.error_mobile').text("Enter a valid 10-digit mobile number");
                 return;
             }
             if (otp === "" || otp.length !== 6) {
-                $('.error').text("Enter a valid OTP");
+                $('.error_otp').text("Enter a valid OTP");
                 return;
             }
 
@@ -231,12 +234,21 @@
                 },
                 dataType: "json",
                 success: function(res) {
-                    console.log(res);
-                    $('.step-1 .form_group .success').text('OTP verified successfully');
+                    
+                    if (res.status !== 'success') {
+                        $('.error_otp').text(res.message);
+                        return;
+                    }
+                    $('.success_otp').text('OTP verified successfully');
                     $("#send_otp").text('Resend OTP');
                     $('.step-1').css('transform', 'translateX(-100%)');
                     $('.step-2').css('transform', 'translateX(0%)');
+
                 },
+                error: function(err) {
+                    console.log(err);
+                    $('.error_otp').text('Invalid OTP. Try again.');
+                }
             });
         })
 
@@ -244,12 +256,14 @@
         $(".form").submit(function(e) {
             e.preventDefault();
             const base_url = "<?= base_url('') ?>"
+            // console.log($(this).serialize());
             $.ajax({
                 url: base_url + "seller/auth/ajax_signup",
                 type: "POST",
                 data: $(this).serialize(),
                 dataType: "json",
                 success: function(res) {
+                    console.log(res);
                     if (res.status === 'success') {
                         alert(res.message);
                         $(".form")[0].reset();
@@ -260,7 +274,7 @@
                     }
                 },
                 error: function(err) {
-                    console.log(err);
+                    console.error(err);
                 }
             });
         });
