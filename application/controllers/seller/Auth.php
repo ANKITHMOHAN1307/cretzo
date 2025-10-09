@@ -133,13 +133,12 @@ class Auth extends CI_Controller
     public function ajax_signup(){
 
         // Setup validation rules
-       
         $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
         $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
-        $this->form_validation->set_rules('mobile', 'Mobile', 'required|exact_length[10]|numeric');
-
-        
         $password = $this->input->post('password', true);
+        $confirm_password = $this->input->post('confirm_password', true);
+        print_r($password);
+        print_r($confirm_password);
         $mobile = $this->input->post('mobile', true);
 
         if(!$this->form_validation->run()){
@@ -148,19 +147,16 @@ class Auth extends CI_Controller
                 'message' => validation_errors()
             ];
         } else {
-            
-            $identity =  $this->input->post('mobile', true);
-
+            $identity =  $mobile;
             try{
-                $user_id = $this->ion_auth->register($identity, $password, $email, $additional_data);
+                $user_id = $this->ion_auth->register($identity, $password, '', [], [4]); //4 is seller group id
+                 
                 if($user_id){
-                    //add to seller group
-                    $this->ion_auth->add_to_group(3, $user_id); //3 is seller group id
-
+                    
                     //set session for further details
-                    $_SESSION['to_be_seller_name'] = $additional_data['first_name'].' '.$additional_data['last_name'];
-                    $_SESSION['to_be_seller_mobile'] = $additional_data['phone'];
-                    $_SESSION['to_be_seller_id'] = $user_id;
+                    // $_SESSION['to_be_seller_name'] = $additional_data['first_name'].' '.$additional_data['last_name'];
+                    // $_SESSION['to_be_seller_mobile'] = $additional_data['phone'];
+                    // $_SESSION['to_be_seller_id'] = $user_id;
 
                     $response = [
                         'status' => 'success',
@@ -175,12 +171,14 @@ class Auth extends CI_Controller
             }catch(Exception $e){
                 $response = [
                     'status' => 'failed',
-                    'message' => $e.Message::get_error_message(),
+                    'message' => $e->getMessage(),
                 ];
             }
         }
-        
-        
+        if($response['status'] == 'success'){
+            $login_response = $this->ion_auth->login($mobile, $password);
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
     public function login(){
@@ -195,9 +193,9 @@ class Auth extends CI_Controller
                 redirect('seller/home', 'refresh');
             }else {
                 echo json_encode([
-                'status'=> 'failed',
-                'message' => $response.json_encode(),
-            ]);
+                    'status'=> 'failed',
+                    'message' => $response.json_encode(),
+                ]);
             }
         }catch(Exception $e){
             echo json_encode([

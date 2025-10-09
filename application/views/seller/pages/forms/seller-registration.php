@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <title>Sign Up </title>
     <style>
     .main {
@@ -118,6 +119,31 @@
     .btn-primary:hover {
         background-color: var(--color-orange-dark);
     }
+
+    .password-wrapper{
+        position: relative;
+    }
+
+    .password-wrapper .eye-icon--box {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #555;
+    }
+    .password-wrapper .eye-icon--box:hover {
+        color: #000;
+    }
+
+    .eye-icon {
+        color: #555;
+        width: 20px;
+        height: 20px;
+    }
+    .eye-icon.hidden{
+        display: none;
+    }
     </style>
 </head>
 
@@ -157,17 +183,30 @@
                                 <h2>Set Up Your Password</h2>
                                 <div class="form_group">
                                     <label for="password">Password</label>
-                                    <input type="password" id="password" name="password" class="form-control"
-                                        placeholder="Enter your password" required>
+                                    <div class="password-wrapper">
+                                        <input type="password" id="password" name="password" class="form-control"
+                                            placeholder="Enter your password" required>
+                                        <span class='eye-icon--box'>
+                                           <i class="eye-icon fa-regular fa-eye-slash "></i>
+                                           <i class="eye-icon fa-regular fa-eye hidden"></i>
+                                        </span>
+                                    </div>
+
                                 </div>
                                 <div class="form_group">
                                     <label for="confirm_password">Confirm Password</label>
-                                    <input type="password" id="confirm_password" name="confirm_password"
-                                        class="form-control" placeholder="Confirm your password" required>
-                                        <p class='error error_password'></p>
-                                <p class='success success_password'></p>
+                                    <div class="password-wrapper">
+                                        <input type="password" id="confirm_password" name="confirm_password"
+                                            class="form-control" placeholder="Confirm your password" required>
+                                        <span class='eye-icon--box'>
+                                            <i class="eye-icon fa-regular fa-eye-slash "></i>
+                                            <i class="eye-icon fa-regular fa-eye hidden"></i>
+                                        </span>
+                                    </div>
+                                    <p class='error error_password'></p>
+                                    <p class='success success_password'></p>
                                 </div>
-                                
+
                                 <button class="btn btn-primary">Sign up</button>
                             </div>
                         </div>
@@ -181,6 +220,23 @@
 
     <script>
     $(document).ready(function() {
+
+        // Toggle password visibility
+        $('.eye-icon--box').click(function() {
+            let input = $(this).siblings('input');
+            let eyeSlashIcon = $(this).find('.fa-eye-slash');
+            let eyeIcon = $(this).find('.fa-eye');
+
+            if (input.attr('type') === 'password') {
+                input.attr('type', 'text');
+                eyeSlashIcon.addClass('hidden');
+                eyeIcon.removeClass('hidden');
+            } else {
+                input.attr('type', 'password');
+                eyeSlashIcon.removeClass('hidden');
+                eyeIcon.addClass('hidden');
+            }
+        });
         // Send OTP button click
         $("#send_otp").click(function() {
             let mobile = $("#mobile").val();
@@ -234,7 +290,7 @@
                 },
                 dataType: "json",
                 success: function(res) {
-                    
+
                     if (res.status !== 'success') {
                         $('.error_otp').text(res.message);
                         return;
@@ -263,9 +319,9 @@
                 data: $(this).serialize(),
                 dataType: "json",
                 success: function(res) {
-                    console.log(res);
+                    console.log(res.status, 'in success ajax.');
                     if (res.status === 'success') {
-                        alert(res.message);
+                        console.log(res);
                         $(".form")[0].reset();
                         window.location.href = base_url + 'seller/home';
                     } else {
@@ -274,7 +330,9 @@
                     }
                 },
                 error: function(err) {
-                    console.error(err);
+                    console.error(err, 'in error ajax.');
+                    $('.error_password').text(
+                        'Password and Confirm Password do not match.');
                 }
             });
         });
