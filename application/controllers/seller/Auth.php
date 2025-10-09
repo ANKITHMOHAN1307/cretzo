@@ -133,18 +133,18 @@ class Auth extends CI_Controller
     public function ajax_signup(){
 
         // Setup validation rules
-        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
-        $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
+        // $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+        // $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
         $password = $this->input->post('password', true);
         $confirm_password = $this->input->post('confirm_password', true);
-        print_r($password);
-        print_r($confirm_password);
+        // print_r($password);
+        // print_r($confirm_password);
         $mobile = $this->input->post('mobile', true);
 
-        if(!$this->form_validation->run()){
+        if(/*!$this->form_validation->run()*/ $password !== $confirm_password){
             $response = [
                 'status' => 'failed',
-                'message' => validation_errors()
+                'message' => 'Passwords do not match'
             ];
         } else {
             $identity =  $mobile;
