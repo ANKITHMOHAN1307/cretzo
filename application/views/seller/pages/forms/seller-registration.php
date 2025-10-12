@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <title>Sign Up </title>
     <style>
@@ -30,11 +30,7 @@
     }
 
     .right {
-        display: flex;
         flex: 1/4;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
         width: 32rem;
         padding: 20px 32px;
     }
@@ -56,7 +52,8 @@
         width: 100%;
         height: 100%;
         padding: 20px;
-        overflow: hidden;
+        overflow-x: hidden;
+        scrollbar-width: none;
         position: relative;
     }
 
@@ -68,10 +65,10 @@
         top: 0;
         left: 0;
         transition: transform 0.2s ease-in-out;
-        display: flex;
+        /* display: flex;
         flex-direction: column;
         justify-content: center;
-        align-items: center;
+        align-items: center; */
     }
 
     .step-2 {
@@ -120,7 +117,7 @@
         background-color: var(--color-orange-dark);
     }
 
-    .password-wrapper{
+    .password-wrapper {
         position: relative;
     }
 
@@ -132,6 +129,7 @@
         cursor: pointer;
         color: #555;
     }
+
     .password-wrapper .eye-icon--box:hover {
         color: #000;
     }
@@ -141,9 +139,44 @@
         width: 20px;
         height: 20px;
     }
-    .eye-icon.hidden{
+
+    .eye-icon.hidden {
         display: none;
     }
+
+    @media screen and (max-width: 650px) {
+        .main{
+            height: auto;
+        }
+        .row{
+            flex-direction: column;
+            height: max-content;
+        }
+
+        .left{
+
+        }
+
+        .right{
+            height: inherit;
+            padding: 0;
+            
+        }
+
+        .steps{
+            width: 100%;
+            height: 100%;
+            overflow-y: visible;
+            overflow-x: hidden;
+        }
+        .step{
+            position: static;
+        }
+        .step.step-2{
+            transform: translate(150%, -100%);
+        }
+    }
+
     </style>
 </head>
 
@@ -187,8 +220,8 @@
                                         <input type="password" id="password" name="password" class="form-control"
                                             placeholder="Enter your password" required>
                                         <span class='eye-icon--box'>
-                                           <i class="eye-icon fa-regular fa-eye-slash "></i>
-                                           <i class="eye-icon fa-regular fa-eye hidden"></i>
+                                            <i class="eye-icon fa-regular fa-eye-slash "></i>
+                                            <i class="eye-icon fa-regular fa-eye hidden"></i>
                                         </span>
                                     </div>
 
