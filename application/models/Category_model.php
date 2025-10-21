@@ -116,7 +116,7 @@ class Category_model extends CI_Model
         $this->db->where($where);
         $result = $this->db->get('seller_data')->result_array();
         $count_res = $this->db->count_all_results('seller_data');
-        $result = explode(",", $result[0]['category_ids']);
+        $result = empty($result[0]['category_ids']) ? [] : explode(",", $result[0]['category_ids']);
         $categories =  fetch_details('categories', "status = 1", '*', "", "", "", "", "id", $result);
         $i = 0;
         foreach ($categories as $p_cat) {
@@ -314,7 +314,7 @@ class Category_model extends CI_Model
 
             $this->db->set($cat_data)->where('id', $data['edit_category'])->update('categories');
         } else {
-            if (isset($data['category_input_image'])) {
+            if (!empty($data['category_input_image']) && isset($data['category_input_image'])) {
                 $cat_data['image'] = $data['category_input_image'];
             }
             if (isset($data['banner'])) {
