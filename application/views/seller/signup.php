@@ -9,59 +9,5 @@
 </body>
 
 
-<script>
-$(document).ready(function(){
-
-    // Send OTP button click
-    $("#send_otp").click( function(){
-        console.log('clicked')
-        let mobile = $("#mobile").val();
-
-        if(mobile === "" || mobile.length !== 10){
-            alert("Enter a valid 10-digit mobile number");
-            return;
-        }
-        const base_url = "<?= base_url('') ?>"
-        console.log(base_url)
-        $.ajax({
-            url: base_url + "seller/auth/send_otp",
-            type: "POST",
-            data: { mobile: mobile },
-            dataType: "json",
-            success: function(res){
-                alert(res.message);
-                $("#send_otp").text = 'Resend OTP'
-            }
-        });
-    });
-
-    // Signup form submit via AJAX
-    $(".form").submit(function(e){
-        e.preventDefault();
-
-        const base_url = "<?= base_url('') ?>"
-        $.ajax({
-            url: base_url + "seller/auth/ajax_signup",
-            type: "POST",
-            data: $(this).serialize(),
-            dataType: "json",
-            success: function(res){
-                if(res.status === 'success'){
-                    alert(res.message);
-                    $(".form")[0].reset();
-                    window.location.href = base_url + 'seller/home';
-                } else {
-                    console.log(res);
-                    alert(res.message);
-                }
-            },
-            error: function(err){
-                console.log(err);
-            }
-        });
-    });
-
-});
-</script>
 
 </html>

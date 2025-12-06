@@ -63,7 +63,6 @@ class Auth extends CI_Controller
      // 1. Send OTP via Twilio
     public function send_otp(){
         $mobile = $this->input->post('mobile', true);
-
         // Basic check
         if(empty($mobile) || strlen($mobile) != 10){
             echo json_encode(['status' => 'error', 'message' => 'Invalid mobile number']);
@@ -100,67 +99,86 @@ class Auth extends CI_Controller
         }
     }
 
+    public function verify_otp(){
+        $mobile = $this->input->post('mobile', true);
+        $otp = (int) $this->input->post('otp', true);
+        $stored_otp = (int) '123456';
+        // $stored_otp = (int) $this->session->tempdata('otp');
+        $response = [];
+     
+        
+        if(empty($stored_otp)){
+             $response = [
+                'status' => 'failed',
+                'message' => 'OTP has expired!'
+            ];
+            
+        }
+        elseif($stored_otp !== $otp){
+            $response = [
+                'status' => 'Failed',
+                'message' => 'Please enter correct OTP'
+            ];
+            
+        }
+        else {
+            $response = [
+                'status' => 'success',
+                'message' => 'OTP verified successfully!'
+            ];
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
+
     public function ajax_signup(){
 
         // Setup validation rules
-        $this->form_validation->set_rules('mobile', 'Mobile', 'required|exact_length[10]|numeric');
-        $this->form_validation->set_rules('otp', 'OTP', 'required|numeric');
-        $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
-        $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
-
-        // $stored_otp = (string) $this->session->tempdata('otp');
-        $stored_otp = (int) $this->session->tempdata('otp');
-        // $stored_otp = (int) '123456';
-        $mobile = $this->input->post('mobile', true);
+        // $this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+        // $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'required|matches[password]');
         $password = $this->input->post('password', true);
-        $otp = (int) $this->input->post('otp', true);
+        $confirm_password = $this->input->post('confirm_password', true);
+        // print_r($password);
+        // print_r($confirm_password);
+        $mobile = $this->input->post('mobile', true);
 
-        // CAN BE USED FOR DEBUGGING
-        // log_message('debug',print_r('stored otp '. $stored_otp . '  type: '. gettype($stored_otp)));
-        // log_message('debug',print_r('\n   entered otp '. $otp . '  type: '. gettype($otp)));
-        // log_message('debug',print_r('\n   entered mobile '. $mobile . '  type: '. gettype($mobile)));
-        // log_message('debug',print_r('\n   $_POST '. $_POST ));
-        
-        if(empty($stored_otp)){
-              echo json_encode([
+        if(/*!$this->form_validation->run()*/ $password !== $confirm_password){
+            $response = [
                 'status' => 'failed',
-                'message' => 'OTP has expired!'
-            ]);
-
-            return ;
-        }
-        elseif($this->form_validation->run() == FALSE){
-            echo json_encode(value: [
-            'status' => 'error',
-            'message' => 'Please fill the form correctly!',
-            'errors'=> $this->form_validation->error_array()
-            ]);
-        }
-        elseif($stored_otp !== $otp){
-            echo json_encode([
-                'status' => 'Failed',
-                'message' => 'Please enter correct OTP'
-            ]);
-            return;
-        }
-        else {
+                'message' => 'Passwords do not match'
+            ];
+        } else {
+            $identity =  $mobile;
             try{
-                $this->ion_auth->register($mobile, $password, Null, [], [4]);
-                
-                echo json_encode([
-                    'status' => 'success',
-                    'message' => 'Signup successful!'
-                ]);
-                $this->ion_auth->login($mobile, $password, $remember=0);
-                redirect('seller/home', 'refresh');
-            }catch(Exception $e){
-                echo json_encode([
-                'status' => 'Failed',
-                'message' => $e.Message::get_error_message()
-            ]);
-            }
+                $user_id = $this->ion_auth->register($identity, $password, '', [], [4]); //4 is seller group id
+                 
+                if($user_id){
+                    
+                    //set session for further details
+                    // $_SESSION['to_be_seller_name'] = $additional_data['first_name'].' '.$additional_data['last_name'];
+                    // $_SESSION['to_be_seller_mobile'] = $additional_data['phone'];
+                    // $_SESSION['to_be_seller_id'] = $user_id;
 
+                    $response = [
+                        'status' => 'success',
+                        'message' => 'Seller registered successfully!'
+                    ];
+                } else {
+                    $response = [
+                        'status' => 'failed',
+                        'message' => 'Failed to register seller!'
+                    ];
+                }
+            }catch(Exception $e){
+                $response = [
+                    'status' => 'failed',
+                    'message' => $e->getMessage(),
+                ];
+            }
         }
+        if($response['status'] == 'success'){
+            $login_response = $this->ion_auth->login($mobile, $password);
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($response));
     }
 
     public function login(){
@@ -175,9 +193,9 @@ class Auth extends CI_Controller
                 redirect('seller/home', 'refresh');
             }else {
                 echo json_encode([
-                'status'=> 'failed',
-                'message' => $response.json_encode(),
-            ]);
+                    'status'=> 'failed',
+                    'message' => $response.json_encode(),
+                ]);
             }
         }catch(Exception $e){
             echo json_encode([
