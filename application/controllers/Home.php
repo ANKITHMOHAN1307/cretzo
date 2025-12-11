@@ -514,6 +514,7 @@ class Home extends CI_Controller
      */
     public function login()
     {
+    //   
         $regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
         $this->data['title'] = $this->lang->line('login_heading');
 

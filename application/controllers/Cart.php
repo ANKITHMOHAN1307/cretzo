@@ -22,6 +22,7 @@ class Cart extends CI_Controller
 
     public function index()
     {
+        
         $web_doctor_brown = get_settings('web_doctor_brown', true);
         $system_settings = get_settings('system_settings', true);
 
@@ -33,7 +34,7 @@ class Cart extends CI_Controller
             /* redirect him to the page where he can enter the purchase code */
             redirect(base_url("maintenance"));
         }
-        if ($this->data['is_logged_in']) {
+        // if ($this->data['is_logged_in']) {
             $this->data['main_page'] = 'cart';
             $this->data['title'] = 'Product Cart | ' . $this->data['web_settings']['site_title'];
             $this->data['keywords'] = 'Product Cart, ' . $this->data['web_settings']['meta_keywords'];
@@ -49,9 +50,9 @@ class Cart extends CI_Controller
             // die;
             $this->load->view('front-end/' . THEME . '/template', $this->data);
             
-        } else {
-            redirect(base_url());
-        }
+        // } else {
+        //     redirect(base_url());
+        // }
     }
 
     public function manage()

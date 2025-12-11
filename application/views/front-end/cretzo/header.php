@@ -12,6 +12,41 @@ $auth_settings = get_settings('authentication_settings', true);
 <?php $current_url = current_url(); ?>
 <input type="hidden" id="currency" class="form-control" value="<?= $settings['currency'] ?>">
 <input type="hidden" id="auth_settings" name="auth_settings" value='<?= isset($auth_settings['authentication_method']) ? $auth_settings['authentication_method'] : ''; ?>'>
+<style>
+/* Wrapper so dropdown stays aligned below input */
+.search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* Suggestions box */
+#append_desktop_search {
+    position: absolute;
+    top: 100%;         /* directly under input */
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-top: none;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 9999;     /* highest z-index */
+    display: block;     
+}
+
+/* Each suggestion */
+.search-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+/* Hover effect */
+.search-item:hover {
+    background: #f7f7f7;
+}
+
+</style>
 
 <!-- header starts -->
 <!-- <header class="wrapper bg-soft-primary"> -->
@@ -25,16 +60,23 @@ $auth_settings = get_settings('authentication_settings', true);
         <a href="<?= base_url() ?>"><img src="<?= base_url($logo) ?>" data-src="<?= base_url($logo) ?>" class="main-logo" alt="site-logo image"></a>
 
         <!-- search -->
-        <div class="search-container flex-1">
-            <input class="search_field" type="text" placeholder="Search">
-            <img class="search-icon" alt="search icon" src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/search-icon.png') ?>" onclick="searchProduct()">
+        <div class="search-wrapper">
+            <div class="search-container flex-1">
+                <input class="search_field" type="text" placeholder="Search">
+                <img class="search-icon" alt="search icon" 
+                    src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/search-icon.png') ?>" 
+                    onclick="searchProduct()">
+            </div>
+
+            <!-- Suggestions appear here -->
+            <div id="append_desktop_search" class="search-result-box"></div>
         </div>
 
         <!-- icons -->
         <ul class="icon-container">
             
             <!-- display profile icon depending on whether the user is logged in or not -->
-            <?php if ($this->ion_auth->logged_in()) { ?>
+            <?php if( $this->ion_auth->logged_in() && !$this->ion_auth->is_seller() && !$this->ion_auth->is_delivery_boy() && !$this->ion_auth->is_admin()) { ?>
                 <li class="nav-item dropdown active pb-1">
                     <!-- <a class="text-decoration-none" data-toggle="dropdown" href="#"><i class="uil uil-user"></i>
                         <span class="fs-16">
@@ -106,7 +148,7 @@ $auth_settings = get_settings('authentication_settings', true);
             <?php } ?>
             
             <li class="icon">
-                <?php if ($this->ion_auth->logged_in()) { ?>
+                <?php if( $this->ion_auth->logged_in() && !$this->ion_auth->is_seller() && !$this->ion_auth->is_delivery_boy() && !$this->ion_auth->is_admin()) { ?>
                     <a href="<?= base_url('my-account/favorites') ?>" class="nav-link" aria-label="favorites">
                         <img class="icon-img" src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/love.png') ?>">
                     </a>
@@ -200,7 +242,7 @@ $auth_settings = get_settings('authentication_settings', true);
             <ul class="icon-container-m">
                 
                 <!-- display profile icon depending on whether the user is logged in or not -->
-                <?php if ($this->ion_auth->logged_in()) { ?>
+                <?php if( $this->ion_auth->logged_in() && !$this->ion_auth->is_seller() && !$this->ion_auth->is_delivery_boy() && !$this->ion_auth->is_admin()) { ?>
                     <li class="nav-item dropdown active">
                         <a class="text-decoration-none" data-toggle="dropdown" href="#"><i class="uil uil-user"></i>
                             <span class="fs-16">
@@ -284,6 +326,7 @@ $auth_settings = get_settings('authentication_settings', true);
             <!-- <input class="input" type="text" placeholder="Search"> -->
             <img class="search-icon-m" alt="search icon" src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/search-icon.png') ?>" onclick="searchProduct()">
         </div>
+        <div id="append_mobile_search"></div>
 
     </section>
     <!-- header for mobile ends -->

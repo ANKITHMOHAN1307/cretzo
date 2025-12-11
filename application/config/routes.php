@@ -71,3 +71,4 @@ $route['contact-us'] = 'home/contact_us';
 $route['terms-and-conditions'] = 'home/terms_and_conditions';
 $route['return-policy'] = 'home/return_policy';
 $route['shipping-policy'] = 'home/shipping_policy';
+

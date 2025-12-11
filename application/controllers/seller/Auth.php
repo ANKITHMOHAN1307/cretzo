@@ -70,7 +70,7 @@ class Auth extends CI_Controller
         }
 
         // Generate OTP
-        $otp = rand(100000, 999999);
+        $otp = 123456; //rand(100000, 999999);
 
         // Store OTP & mobile in session for 10 minutes
         $this->session->set_tempdata('otp', $otp, 10 * 60);
@@ -83,14 +83,14 @@ class Auth extends CI_Controller
 
         try {
             // require_once(APPPATH.'third_party/twilio/vendor/autoload.php');
-            $client = new TwilioClient($sid, $token);
-            $otp_response = $client->messages->create(
-                "+91".$mobile,
-                [
-                    "from" => $twilio_number,
-                    "body" => "Your OTP is: ".$otp
-                ]
-            );
+            // $client = new TwilioClient($sid, $token);
+            // $otp_response = $client->messages->create(
+            //     "+91".$mobile,
+            //     [
+            //         "from" => $twilio_number,
+            //         "body" => "Your OTP is: ".$otp
+            //     ]
+            // );
 
             // print_r(json_encode($otp_response));
             echo json_encode(['status' => 'success', 'message' => 'OTP sent successfully']);
@@ -102,8 +102,8 @@ class Auth extends CI_Controller
     public function verify_otp(){
         $mobile = $this->input->post('mobile', true);
         $otp = (int) $this->input->post('otp', true);
-        $stored_otp = (int) '123456';
-        // $stored_otp = (int) $this->session->tempdata('otp');
+        // $stored_otp = (int) '123456';
+        $stored_otp = (int) $this->session->tempdata('otp');
         $response = [];
      
         

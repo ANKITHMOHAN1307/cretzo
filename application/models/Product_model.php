@@ -11,6 +11,34 @@ class Product_model extends CI_Model
         $this->load->helper(['url', 'language', 'function_helper']);
     }
 
+    /**
+     * Search products by name and return id and name in array
+     *
+     * @param string $search_term The search term to look for in product names
+     * @param int $limit Maximum number of results to return (default: 10)
+     * @return array Array of products with id and name
+     */
+    public function search_products_by_name($search_term, $limit = 10)
+    {
+        $this->db->select('id, name');
+        $this->db->from('products');
+        $this->db->like('name', $search_term, 'both');
+        $this->db->where('status', '1'); // Only active products
+        $this->db->limit($limit);
+        $query = $this->db->get();
+        
+        $result = [];
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $row) {
+                $result[] = [
+                    'id' => $row['id'],
+                    'name' => $row['name']
+                ];
+            }
+        }
+        return $result;
+    }
+
     public function add_product($data)
     {
         $data = escape_array($data);

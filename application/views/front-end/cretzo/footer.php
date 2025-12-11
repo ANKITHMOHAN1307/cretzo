@@ -41,7 +41,7 @@ $system_settings = get_settings('system_settings', true); ?>
 
         <?php $logged_in = $this->ion_auth->logged_in() ?>
             
-        <?php if($logged_in) { ?>
+        <?php if($logged_in && !$this->ion_auth->is_seller() && !$this->ion_auth->is_delivery_boy() && !$this->ion_auth->is_admin()) { ?>
             <li class="footer-list-item"> <a class="text-decoration-none hover" href="<?= base_url('my-account/orders') ?>"> Orders </a> </li>
             <li class="footer-list-item"> <a class="text-decoration-none hover" href="<?= base_url('my-account/favorites') ?>"> Wishlist </a> </li>
             <li class="footer-list-item"> <a class="text-decoration-none hover" href="<?= base_url('my-account') ?>"> My Account </a> </li>
@@ -623,3 +623,76 @@ $system_settings = get_settings('system_settings', true); ?>
 </div>
 <!-- end -->
 <!-- main content ends -->
+<script>
+$(document).ready(function () {
+
+    $(".search_field").on("keyup", function () {
+        let search = $(this).val().trim();
+
+        if (search.length < 1) {
+            $("#append_desktop_search").html("");
+            return;
+        }
+
+        $.ajax({
+            url: "/cretzo/search/search_data",
+            type: "GET",
+            data: { search: search },
+            dataType: "json",
+            success: function (response) {
+
+                let html = "";
+
+                // Ensure response is parsed JSON
+                if (typeof response === "string") {
+                    response = JSON.parse(response);
+                }
+
+                if (response.data && response.data.length > 0) {
+                    html += '<div class="list-group">';
+
+                    $.each(response.data, function (index, item) {
+
+                        // Proper escaping
+                        let safeName = item.name.replace(/"/g, '&quot;');
+
+                        html += `
+                            <div class="search-item" 
+                                 onclick="selectSuggestion(&quot;${safeName}&quot;)">
+                                ${item.name}
+                            </div>
+                        `;
+                    });
+
+                    html += '</div>';
+
+                } else {
+                    html = '<div class="search-item">No results found</div>';
+                }
+
+                $("#append_desktop_search").html(html);
+            },
+            error: function () {
+                $("#append_desktop_search").html(
+                    '<div class="search-item">Error fetching data</div>'
+                );
+            }
+        });
+
+    });
+
+});
+
+// Fill value into search box
+function selectSuggestion(name) {
+    $(".search_field").val(name);
+    $("#append_desktop_search").html("");
+}
+
+// Hide suggestions when clicking outside
+$(document).click(function (e) {
+    if (!$(e.target).closest('.search-container-m').length) {
+        $("#append_desktop_search").html("");
+    }
+});
+</script>
