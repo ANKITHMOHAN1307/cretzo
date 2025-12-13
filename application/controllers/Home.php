@@ -514,7 +514,8 @@ class Home extends CI_Controller
      */
     public function login()
     {
-    //   
+    //   code modife only defaul user login not seler login and not admin login add restriction
+    
         $regex = '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/';
         $this->data['title'] = $this->lang->line('login_heading');
 
@@ -556,6 +557,15 @@ class Home extends CI_Controller
                     $user_data = fetch_details('users', ['email' => $identity]);
                 } else {
                     $user_data = fetch_details('users', ['mobile' => $identity]);
+                }
+            }
+
+            if($group = fetch_details('users_groups', ['user_id' => $user_data[0]['id']] )){
+                if($group[0]['group_id'] !=2){
+                    $response['error'] = true;
+                        $response['message'] = 'Invalid user';
+                        echo json_encode($response);
+                        return false;
                 }
             }
 

@@ -40,6 +40,8 @@ class Cart extends CI_Controller
             $this->data['keywords'] = 'Product Cart, ' . $this->data['web_settings']['meta_keywords'];
             $this->data['description'] = 'Product Cart | ' . $this->data['web_settings']['meta_description'];
             $this->data['cart'] = get_cart_total($this->data['user']->id);
+            // localStorage.getItem("cart")
+           
             $this->data['save_for_later'] = get_cart_total($this->data['user']->id, false, '1');
 
             // added for Cretzo theme (to hide header and footer on cart/checkout pages)
