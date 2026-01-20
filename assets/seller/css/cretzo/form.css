@@ -39,6 +39,7 @@
   background-color: #fff;
   max-width: 50%;
   height: 100vh;
+  margin-top: 100vh;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
@@ -146,7 +147,7 @@ form .form-step{
 }
 
 body {
-  background: #f8f9fa;
+  background: #FDF8EE!important;
 }
 
 .form-section {
@@ -191,3 +192,21 @@ body {
 .check-input{
   stroke: #F2822E;
 }
+
+
+
+/* ===== Tablet View ===== */
+@media (max-width: 991px) {
+  .form-container-main{
+      max-width: 100%;
+  }
+}
+
+/* ===== Mobile View ===== */
+@media (max-width: 576px) {
+    .form-container-main{
+      max-width: 100%;
+    }
+    
+}
+    

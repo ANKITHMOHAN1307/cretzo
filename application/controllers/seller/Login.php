@@ -16,7 +16,7 @@ class Login extends CI_Controller
 
     public function index()
     {
-        
+      
         print_r($this->ion_auth->seller_status() );
         if (!$this->ion_auth->logged_in() && !$this->ion_auth->is_seller()) {
             $this->data['main_page'] = FORMS . 'login';
@@ -76,21 +76,21 @@ class Login extends CI_Controller
             if ($identity_column == 'email') {
                 $this->form_validation->set_rules('email', 'Email', 'required|xss_clean|trim|valid_email');
             } else {
-                $this->form_validation->set_rules('mobile', 'Mobile', 'required|xss_clean|trim|numeric');
+                // $this->form_validation->set_rules('mobile', 'Mobile', 'required|xss_clean|trim|numeric');
             }
-            $this->form_validation->set_rules('name', 'Name', 'trim|required|xss_clean');
+            // $this->form_validation->set_rules('name', 'Name', 'trim|required|xss_clean');
             $this->form_validation->set_rules('email', 'Mail', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('mobile', 'Mobile', 'trim|required|xss_clean|min_length[5]');
+            // $this->form_validation->set_rules('mobile', 'Mobile', 'trim|required|xss_clean|min_length[5]');
             if (!empty($_POST['old']) || !empty($_POST['new']) || !empty($_POST['new_confirm'])) {
                 $this->form_validation->set_rules('old', $this->lang->line('change_password_validation_old_password_label'), 'required');
                 $this->form_validation->set_rules('new', $this->lang->line('change_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[new_confirm]');
                 $this->form_validation->set_rules('new_confirm', $this->lang->line('change_password_validation_new_password_confirm_label'), 'required');
             }
-            $this->form_validation->set_rules('address', 'Address', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('store_name', 'Store Name', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('tax_name', 'Tax Name', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('tax_number', 'Tax Number', 'trim|required|xss_clean');
-            $this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
+            // $this->form_validation->set_rules('address', 'Address', 'trim|required|xss_clean');
+            // $this->form_validation->set_rules('store_name', 'Store Name', 'trim|required|xss_clean');
+            // $this->form_validation->set_rules('tax_name', 'Tax Name', 'trim|required|xss_clean');
+            // $this->form_validation->set_rules('tax_number', 'Tax Number', 'trim|required|xss_clean');
+            // $this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
 
             if (!isset($_POST['edit_seller'])) {
                 $this->form_validation->set_rules('store_logo', 'Store Logo', 'trim|xss_clean');
@@ -420,31 +420,57 @@ class Login extends CI_Controller
                     print_r(json_encode($this->response));
                     return;
                 }
+                    
+                    $user_id = $this->session->userdata('user_id');
 
-
-                if (isset($_POST['edit_seller'])) {
+                if ($user_id) {
                     
                     $seller_data = array(
-                        'user_id' => $this->input->post('edit_seller', true),
-                        'edit_seller_data_id' => $this->input->post('edit_seller_data_id', true),
+                        'user_id' => $user_id,
+                        'edit_seller_data_id' => $user_id,
                         'address_proof' => (!empty($proof_doc)) ? $proof_doc : $this->input->post('old_address_proof', true),
                         'national_identity_card' => (!empty($id_card_doc)) ? $id_card_doc : $this->input->post('old_national_identity_card', true),
                         'store_logo' => (!empty($store_logo_doc)) ? $store_logo_doc : $this->input->post('old_store_logo', true),
-                        'store_banner' => (!empty($store_banner_doc)) ? $store_banner_doc : $this->input->post('old_store_banner', true),
                         'authorized_signature' => (!empty($authorized_signature_doc)) ? $authorized_signature_doc : $this->input->post('old_authorized_signature', true),
-                        'status' => $this->input->post('status', true),
-                        'pan_number' => $this->input->post('pan_number', true),
-                        'tax_number' => $this->input->post('tax_number', true),
-                        'tax_name' => $this->input->post('tax_name', true),
-                        'bank_name' => $this->input->post('bank_name', true),
-                        'bank_code' => $this->input->post('bank_code', true),
-                        'account_name' => $this->input->post('account_name', true),
-                        'account_number' => $this->input->post('account_number', true),
-                        'store_description' => $this->input->post('store_description', true),
-                        'store_url' => $this->input->post('store_url', true),
-                        'store_name' => $this->input->post('store_name', true),
-                        'categories' => 'seller_profile',
-                        'slug' => create_unique_slug($this->input->post('store_name', true), 'seller_data')
+                        'status' => $this->input->post('status', true) ?? null,
+                        'pan_number' => $this->input->post('pan_number', true)  ?? null,
+                        'tax_number' => $this->input->post('tax_number', true) ?? null,
+                        'tax_name' => $this->input->post('tax_name', true) ?? null,
+                        'bank_name' => $this->input->post('bank_name', true) ?? null,
+                        'bank_code' => $this->input->post('bank_code', true) ?? null,
+                        'account_name' => $this->input->post('account_name', true) ?? null,
+                        'account_number' => $this->input->post('account_number', true) ?? null,
+                        'store_description' => $this->input->post('store_description', true) ?? null,
+                        'store_url' => $this->input->post('store_url', true) ?? null,
+                        'store_name' => $this->input->post('store_name', true) ?? null,
+                        'slug' => create_unique_slug($this->input->post('store_name', true), 'seller_data') ?? null,
+                        'first_name' => $this->input->post('first_name') ?? null,
+                        'last_name' => $this->input->post('last_name') ?? null,
+                        'phone' => $this->input->post('phone') ?? null,
+                        'email' => $this->input->post('email') ?? null,
+                        'address1' => $this->input->post('address1') ?? null,
+                        'address2' => $this->input->post('address2') ?? null,
+                        'district' => $this->input->post('district') ?? null,
+                        'city' => $this->input->post('city') ?? null,
+                        'state' => $this->input->post('state') ?? null,
+                        'pin' => $this->input->post('pin') ?? null,
+                        // 'logo' => (!empty($store_logo_path)) ? $store_logo_path : null,
+                        'shop_name' => $this->input->post('shop_name') ?? null,
+                        'social' => $this->input->post('social') ?? null,
+                        'shop_phone' => $this->input->post('shop_phone') ?? null,
+                        'pickup_address1' => $this->input->post('pickup_address1') ?? null,
+                        'pickup_address2' => $this->input->post('pickup_address2') ?? null,
+                        'pickup_district' => $this->input->post('pickup_district') ?? null,
+                        'pickup_state' => $this->input->post('pickup_state') ?? null,
+                        'pickup_pin' => $this->input->post('pickup_pin') ?? null,
+                        'entity_type' => $this->input->post('entity_type') ?? null,
+                        'pan' => $this->input->post('pan') ?? null,
+                        'gst' => $this->input->post('gst') ?? null,
+                        'account_number' => $this->input->post('account_number') ?? null,
+                        'account_holder_name' => $this->input->post('account_holder_name') ?? null,
+                        'ifsc' => $this->input->post('ifsc') ?? null,
+                        'branch' => $this->input->post('branch') ?? null,
+                        'bank_name' => $this->input->post('bank_name') ?? null
                     );
                     if (!empty($_POST['old']) || !empty($_POST['new']) || !empty($_POST['new_confirm'])) {
                         if (!$this->ion_auth->change_password($identity, $this->input->post('old'), $this->input->post('new'))) {
@@ -458,28 +484,39 @@ class Login extends CI_Controller
                         } 
                     }
                     $seller_profile = array(
-                        'name' => $this->input->post('name', true),
+                        'name' => $this->input->post('first_name', true),
                         'email' => $this->input->post('email', true),
-                        'mobile' => $this->input->post('mobile', true),
-                        'address' => $this->input->post('address', true),
+                        'mobile' => $this->input->post('phone', true),
+                        'address' => $this->input->post('address1', true),
                         'latitude' => $this->input->post('latitude', true),
                         'longitude' => $this->input->post('longitude', true)
                     );
 
                     if ($this->Seller_model->add_seller($seller_data, $seller_profile)) {
-                        $this->response['error'] = false;
-                        $this->response['csrfName'] = $this->security->get_csrf_token_name();
-                        $this->response['csrfHash'] = $this->security->get_csrf_hash();
-                        $message = 'Seller Update Successfully';
-                        $this->response['message'] = $message;
-                        print_r(json_encode($this->response));
+
+                        $this->response = [
+                            'error'    => false,
+                            'csrfName' => $this->security->get_csrf_token_name(),
+                            'csrfHash' => $this->security->get_csrf_hash(),
+                            'message'  => 'Seller updated successfully'
+                        ];
+                    
+                        echo json_encode($this->response);
+                        exit;
+                    
                     } else {
-                        $this->response['error'] = true;
-                        $this->response['csrfName'] = $this->security->get_csrf_token_name();
-                        $this->response['csrfHash'] = $this->security->get_csrf_hash();
-                        $this->response['message'] = "Seller data was not updated";
-                        print_r(json_encode($this->response));
+                    
+                        $this->response = [
+                            'error'    => true,
+                            'csrfName' => $this->security->get_csrf_token_name(),
+                            'csrfHash' => $this->security->get_csrf_hash(),
+                            'message'  => 'Seller data was not updated'
+                        ];
+                    
+                        echo json_encode($this->response);
+                        exit;
                     }
+
                 }
             }
         } else {

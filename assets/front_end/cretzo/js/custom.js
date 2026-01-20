@@ -1055,11 +1055,11 @@ search_products.on("select2:select", function (e) {
                         } else {
                             if (0 == is_loggedin) {
                                 /* CommentedOutToast */
-                                /* Toast.fire({
+                              Toast.fire({
                                     icon: "success",
                                     title: "Item added to cart",
                                     iconColor: getComputedStyle(document.body).getPropertyValue('--color-orange')
-                                }); */
+                                }); 
                                 var m = {
                                     product_variant_id: o.trim(),
                                     title: a,
@@ -2097,6 +2097,7 @@ function customer_wallet_query_paramss(e) {
 
     $(document).on("click", ".add_to_cart", function (e) {
         e.preventDefault();
+       
         var t = $('[name="qty"]').val();
         $("#quick-view").data("data-product-id", $(this).data("productId"));
         var a = $(this).attr("data-product-variant-id"),
@@ -2111,6 +2112,8 @@ function customer_wallet_query_paramss(e) {
             d = $(this),
             u = $(this).html(),
             p = $(this).attr("data-izimodal-open");
+            
+            
 
         // console.log(base_url + 'products/details/' + slug);
         a ? "" != p && null != p || $.ajax({
@@ -2124,7 +2127,8 @@ function customer_wallet_query_paramss(e) {
             },
             dataType: "json",
             beforeSend: function () {
-                d.html("Please Wait").text("Please Wait").attr("disabled", !0)
+                 addtocartMessage();
+                // d.html("Please Wait").text("Please Wait").attr("disabled", !0)
             },
             success: function (e) {
                 if (csrfName = e.csrfName, csrfHash = e.csrfHash, d.html(u).attr("disabled", !1), 0 == e.error) {
@@ -2153,11 +2157,11 @@ function customer_wallet_query_paramss(e) {
                 } else {
                     if (0 == is_loggedin) {
                         /* CommentedOutToast */
-                        /* Toast.fire({
+                       Toast.fire({
                             icon: "success",
                             title: "Item added to cart",
                             iconColor: getComputedStyle(document.body).getPropertyValue('--color-orange')
-                        }); */
+                        }); 
                         var p = {
                             product_variant_id: a.trim(),
                             title: r,
@@ -2184,6 +2188,8 @@ function customer_wallet_query_paramss(e) {
             icon: "error",
             title: "Please select variant"
         })
+        
+       
     }), $(document).ready(function () {
         var e = localStorage.getItem("cart");
         (e = null !== localStorage.getItem("cart") ? JSON.parse(e) : null) && display_cart(e)

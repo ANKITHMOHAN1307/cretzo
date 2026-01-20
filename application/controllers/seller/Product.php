@@ -821,10 +821,10 @@ class Product extends CI_Controller
                             $data['deliverable_type'] = $row[27]; //in csv its 28th
                             $data['deliverable_zipcodes'] = $row[28]; // in csv its 29th
                             $data['seller_id'] = $this->ion_auth->get_user_id();
-                            $data['brand'] = $row[36];
-                            $data['hsn_code'] = $row[37];
-                            $data['pickup_location'] = $row[38];
-                            $data['extra_description'] = $row[39];
+                            // $data['brand'] = $row[36];
+                            // $data['hsn_code'] = $row[37];
+                            // $data['pickup_location'] = $row[38];
+                            // $data['extra_description'] = $row[39];
                             $this->db->insert('products', $data);
                             $product_id = $this->db->insert_id();
 

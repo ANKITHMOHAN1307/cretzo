@@ -78,7 +78,7 @@ class Products extends CI_Controller
         $max_price = ($this->input->get('max-price')) ? $this->input->get('max-price') : null;
         $filter['min_price'] = $min_price;
         $filter['max_price'] = $max_price;
-        
+
 
         $limit = ($this->input->get('per-page')) ? $this->input->get('per-page', true) : 12;
         $sort_by = ($this->input->get('sort')) ? $this->input->get('sort', true) : '';
@@ -94,7 +94,7 @@ class Products extends CI_Controller
             $brand = fetch_details('brands', ['slug' => $brand_slug]);
             $filter['brand'] =  $brand[0]['name'];
         } */
-        
+
         /* We have instead added filtering for multiple brands at once */
         if (!empty($brand_slug)) {
             $filter['brands'] = $brand_slug;
@@ -105,9 +105,9 @@ class Products extends CI_Controller
         // die;
 
 
-        $offset =  0;
+        $offset = 0;
         $sort = 'row_order';
-        $order =  'ASC';
+        $order = 'ASC';
         $brands = $this->brand_model->get_brands('', $limit = NULL, $offset, $sort, $order, 'false');
 
         $products = fetch_product(null, $filter, null, $category_slug, $limit = NULL, $offset, $sort, $order);
@@ -150,7 +150,7 @@ class Products extends CI_Controller
         //Product Sorting
         $sort = '';
         $order = '';
-        $filter['search'] =  null;
+        $filter['search'] = null;
         if ($sort_by == "top-rated") {
             $filter['product_type'] = "top_rated_product_including_all_products";
         } elseif ($sort_by == "date-desc") {
@@ -232,7 +232,7 @@ class Products extends CI_Controller
         $offset = ($page_no - 1) * $limit;
         // print_r($offset);
         $this->pagination->initialize($config);
-        $this->data['links'] =  $this->pagination->create_links();
+        $this->data['links'] = $this->pagination->create_links();
         $this->data['main_page'] = 'product-listing';
         $this->data['title'] = 'Product Listing | ' . $this->data['web_settings']['site_title'];
         $this->data['seller'] = $seller;
@@ -286,16 +286,16 @@ class Products extends CI_Controller
         $brand_slug = (isset($_GET['brand']) && !empty($_GET['brand']) && $_GET['brand'] != "") ? $this->input->get('brand', true) : '';
         if (!empty($brand_slug)) {
             $brand = fetch_details('brands', ['slug' => $brand_slug]);
-            $filter['brand'] =  $brand[0]['name'];
+            $filter['brand'] = $brand[0]['name'];
         }
 
         // $offset =  0;
         // $sort = 'row_order';
         // $order =  'ASC';
         // $brands = $this->brand_model->get_brands('', $limit = NULL, $offset, $sort, $order, 'false');
-        $offset =  0;
+        $offset = 0;
         $sort = 'row_order';
-        $order =  'ASC';
+        $order = 'ASC';
         $brands = $this->brand_model->get_brands('', $limit = NULL, $offset, $sort, $order, 'false');
 
         $category_id = get_category_id_by_slug($category_slug);
@@ -372,7 +372,7 @@ class Products extends CI_Controller
         //Product Sorting
         $sort = '';
         $order = '';
-        $filter['search'] =  null;
+        $filter['search'] = null;
         if ($sort_by == "top-rated") {
             $filter['product_type'] = "top_rated_product_including_all_products";
         } elseif ($sort_by == "date-desc") {
@@ -431,7 +431,7 @@ class Products extends CI_Controller
         }
         $offset = ($page_no - 1) * $limit;
         $this->pagination->initialize($config);
-        $this->data['links'] =  $this->pagination->create_links();
+        $this->data['links'] = $this->pagination->create_links();
         $page_title = $category['name'] . " " . ((!empty($this->data['sub_categories'])) ? "Subcategories" : "") . " " . ((!empty($this->data['sub_categories']) && !empty($this->data['products']['product'])) ? "&" : "") . " " . ((!empty($this->data['products']['product'])) ? "Products" : "");
         $this->data['main_page'] = 'product-listing';
         $this->data['title'] = $page_title . ' | ' . $this->data['web_settings']['site_title'];
@@ -449,7 +449,7 @@ class Products extends CI_Controller
         $this->data['page_no'] = $page_no;
         $this->data['per_page'] = $limit;
         $this->data['num_pages'] = (int) ceil($config['total_rows'] / $limit);
-        
+
 
         $this->data['products'] = fetch_product(null, $filter, null, $category_id, $limit, $offset, $sort, $order);
         $this->data['filters'] = (isset($this->data['products']['filters'])) ? json_encode($this->data['products']['filters']) : "";
@@ -502,7 +502,7 @@ class Products extends CI_Controller
         }
         $this->data['related_products'] = fetch_product($user_id, NULL, NULL, $product['product'][0]['category_id'], 12);
 
-        
+
         $this->data['seller_products'] = fetch_product('', '', '', '', 12, '', '', '', '', '', $product['product'][0]['seller_id']);
         /* $seller_products = fetch_product('', '', '', '', 8, '', '', '', '', '', $product['product'][0]['seller_id']);
         $this->data['seller_products'] = $seller_products['product']; */
@@ -608,7 +608,7 @@ class Products extends CI_Controller
         $filter = array();
         $filter['attribute_value_ids'] = get_attribute_ids_by_value($attribute_values, $attribute_names);
         $filter['attribute_value_ids'] = implode(',', $filter['attribute_value_ids']);
-        $product_ids = explode(',', (string)$section['product_ids']);
+        $product_ids = explode(',', (string) $section['product_ids']);
         $product_ids = array_filter($product_ids);
         if (isset($section['product_type']) && !empty($section['product_type'])) {
             $filter['product_type'] = (isset($section['product_type'])) ? $section['product_type'] : null;
@@ -621,7 +621,7 @@ class Products extends CI_Controller
         $max_price = ($this->input->get('max-price')) ? $this->input->get('max-price') : null;
         $filter['min_price'] = $min_price;
         $filter['max_price'] = $max_price;
-        
+
 
         $limit = ($this->input->get('per-page')) ? $this->input->get('per-page', true) : 12;
         $products = fetch_product(null, $filter, $product_ids, $product_categories, $limit, $offset, $sort, $order);
@@ -635,11 +635,11 @@ class Products extends CI_Controller
         //     }
         // }
 
-        $offset =  0;
+        $offset = 0;
         $sort = 'row_order';
-        $order =  'ASC';
+        $order = 'ASC';
         $brands = $this->brand_model->get_brands('', $limit = NULL, $offset, $sort, $order, 'false');
-        
+
         $brand_slug = (isset($_GET['brand']) && !empty($_GET['brand']) && $_GET['brand'] != "") ? $this->input->get('brand', true) : '';
         /* if (!empty($brand_slug)) {
             $brand = fetch_details('brands', ['slug' => $brand_slug]);
@@ -647,7 +647,7 @@ class Products extends CI_Controller
         } */
         // print_r($brand_slug);
         // die;
-        
+
         /* We have instead added filtering for multiple brands at once */
         if (!empty($brand_slug)) {
             $filter['brands'] = $brand_slug;
@@ -657,7 +657,7 @@ class Products extends CI_Controller
         $category_slug = (isset($_GET['category']) && !empty($_GET['category']) && $_GET['category'] != "") ? $this->input->get('category', true) : '';
         if (!empty($category_slug)) {
             // $category = fetch_details('brands', ['slug' => $brand_slug]);
-            $filter['category'] =  $category_slug;
+            $filter['category'] = $category_slug;
         }
 
 
@@ -671,7 +671,7 @@ class Products extends CI_Controller
         //Product Sorting
         $sort = '';
         $order = '';
-        $filter['search'] =  null;
+        $filter['search'] = null;
         if ($sort_by == "top-rated") {
             $filter['product_type'] = "top_rated_product_including_all_products";
         } elseif ($sort_by == "date-desc") {
@@ -760,7 +760,7 @@ class Products extends CI_Controller
         }
         $offset = ($page_no - 1) * $limit;
         $this->pagination->initialize($config);
-        $this->data['links'] =  $this->pagination->create_links();
+        $this->data['links'] = $this->pagination->create_links();
         $page_title = $section['title'] . " Products";
         $page_title = output_escaping($page_title);
         $this->data['main_page'] = 'product-listing';
@@ -776,7 +776,7 @@ class Products extends CI_Controller
         $this->data['brands'] = (isset($brands)) ? json_encode($brands) : "";
         $this->data['categories'] = (isset($category)) ? json_encode($category) : "";
 
-        
+
         /* we are adding total_rows and page_no to passed data as well */
         $this->data['total_rows'] = $config['total_rows'];
         $this->data['page_no'] = $page_no;
@@ -857,7 +857,7 @@ class Products extends CI_Controller
         //Product Sorting
         $sort = '';
         $order = '';
-        $filter['search'] =  $this->input->get('q', true);
+        $filter['search'] = $this->input->get('q', true);
         if ($sort_by == "top-rated") {
             $filter['product_type'] = "top_rated_product_including_all_products";
         } elseif ($sort_by == "date-desc") {
@@ -915,7 +915,7 @@ class Products extends CI_Controller
         }
         $offset = ($page_no - 1) * $limit;
         $this->pagination->initialize($config);
-        $this->data['links'] =  $this->pagination->create_links();
+        $this->data['links'] = $this->pagination->create_links();
         $page_title = 'Search Result for "' . html_escape($_GET['q']) . '"';
         $this->data['main_page'] = 'product-listing';
         $this->data['title'] = $page_title . ' | ' . $this->data['web_settings']['site_title'];
@@ -927,7 +927,7 @@ class Products extends CI_Controller
             !empty($this->lang->line("search")) ? $this->lang->line("search") : "Search",
         );
 
-        
+
         /* we are adding total_rows and page_no to passed data as well */
         $this->data['total_rows'] = $config['total_rows'];
         $this->data['page_no'] = $page_no;
@@ -1002,7 +1002,7 @@ class Products extends CI_Controller
         //Product Sorting
         $sort = '';
         $order = '';
-        $filter['search'] =  null;
+        $filter['search'] = null;
         if ($sort_by == "top-rated") {
             $filter['product_type'] = "top_rated_product_including_all_products";
         } elseif ($sort_by == "date-desc") {
@@ -1060,7 +1060,7 @@ class Products extends CI_Controller
         }
         $offset = ($page_no - 1) * $limit;
         $this->pagination->initialize($config);
-        $this->data['links'] =  $this->pagination->create_links();
+        $this->data['links'] = $this->pagination->create_links();
         $page_title = 'Products by tag "' . xss_clean($tag) . '"';
         $this->data['main_page'] = 'product-listing';
         $this->data['title'] = $page_title . ' | ' . $this->data['web_settings']['site_title'];
@@ -1110,7 +1110,7 @@ class Products extends CI_Controller
             $images_new_name_arr = array();
             $images_info_error = "";
             $config = [
-                'upload_path' =>  FCPATH . REVIEW_IMG_PATH,
+                'upload_path' => FCPATH . REVIEW_IMG_PATH,
                 'allowed_types' => 'jpg|png|jpeg|gif',
                 'max_size' => 8000,
             ];
@@ -1164,7 +1164,7 @@ class Products extends CI_Controller
                 $this->response['error'] = true;
                 $this->response['csrfName'] = $this->security->get_csrf_token_name();
                 $this->response['csrfHash'] = $this->security->get_csrf_hash();
-                $this->response['message'] =  $images_info_error;
+                $this->response['message'] = $images_info_error;
                 print_r(json_encode($this->response));
                 return;
             }
@@ -1438,4 +1438,135 @@ class Products extends CI_Controller
         print_R($res);
         // print_r($product['product'][0]['variants'][0]['id']);
     }
+
+    /**
+     * AJAX function to get filtered and paginated products
+     */
+    public function ajax_get_products()
+    {
+        $get = $this->input->get(null, true);
+        $filter = [];
+        $filter = [];
+
+        /* -------- ATTRIBUTE FILTERS -------- */
+        $attribute_values = '';
+        $attribute_names = '';
+        if($get['searchData']){
+            $filter['search'] = $get['searchData'];
+        }
+         /* -------- CATEGORY -------- */
+        $category_id = $get['category'] ?? null;
+        if($get['subCategory']){
+             $category_id = get_category_id_by_slug($get['subCategory']);
+        }
+
+        foreach ($get as $key => $value) {
+            if (strpos($key, 'filter-') === 0) {
+                $attribute_values .= ($attribute_values ? '|' : '') . $value;
+                $attribute_names .= ($attribute_names ? '|' : str_replace('filter-', '', $key));
+            }
+        }
+
+        if (!empty($attribute_values)) {
+            $filter['attribute_value_ids'] = get_attribute_ids_by_value(
+                explode('|', $attribute_values),
+                explode('|', $attribute_names)
+            );
+            $filter['attribute_value_ids'] = implode(',', $filter['attribute_value_ids']);
+        }
+
+        /* -------- PRICE -------- */
+        $filter['min_price'] = $get['min-price'] ?? null;
+        $filter['max_price'] = $get['max-price'] ?? null;
+
+        /* -------- BRAND -------- */
+        if (!empty($get['brand'])) {
+            $filter['brands'] = str_replace('|', ',', $get['brand']);
+        }
+
+       
+
+        /* -------- SELLER -------- */
+        $seller_id = null;
+        if (!empty($get['seller'])) {
+            $seller = fetch_details('seller_data', ['slug' => $get['seller']], 'user_id');
+            $seller_id = $seller[0]['user_id'] ?? null;
+        }
+
+        /* -------- SORT -------- */
+        $sort = '';
+        $order = '';
+
+        switch ($get['sort'] ?? '') {
+            case 'top-rated':
+                $filter['product_type'] = 'top_rated_product_including_all_products';
+                break;
+            case 'date-desc':
+                $sort = 'pv.date_added';
+                $order = 'DESC';
+                break;
+            case 'date-asc':
+                $sort = 'pv.date_added';
+                $order = 'ASC';
+                break;
+            case 'price-asc':
+                $sort = 'pv.price';
+                $order = 'ASC';
+                break;
+            case 'price-desc':
+                $sort = 'pv.price';
+                $order = 'DESC';
+                break;
+            default:
+                $sort = 'pv.row_order';
+                $order = 'ASC';
+        }
+
+        /* -------- PAGINATION -------- */
+        $limit = $get['per-page'] ?? 12;
+        $page = $get['page'] ?? 1;
+        $offset = ($page - 1) * $limit;
+
+        /* -------- FETCH -------- */
+        $products = fetch_product(
+            null,
+            $filter,
+            null,
+            $category_id,
+            $limit,
+            $offset,
+            null,
+            $order,
+            null,
+            null,
+            $seller_id
+        );
+
+        $total_rows = fetch_product(
+            null,
+            $filter,
+            null,
+            $category_id,
+            null,
+            null,
+            null,
+            null,
+            true,
+            null,
+            $seller_id
+        );
+
+        echo json_encode([
+            'status' => 'success',
+            'products' => $products,
+            'total_rows' => $total_rows,
+            'filter' => $filter,
+            'limit' => $limit,
+            'page' => $this->input->post('page') ?? 1
+        ]);
+    }
+
+
+
+
 }

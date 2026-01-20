@@ -20,23 +20,33 @@ class Product_model extends CI_Model
      */
     public function search_products_by_name($search_term, $limit = 10)
     {
-        $this->db->select('id, name');
-        $this->db->from('products');
-        $this->db->like('name', $search_term, 'both');
-        $this->db->where('status', '1'); // Only active products
-        $this->db->limit($limit);
-        $query = $this->db->get();
-        
-        $result = [];
-        if ($query->num_rows() > 0) {
-            foreach ($query->result_array() as $row) {
-                $result[] = [
-                    'id' => $row['id'],
-                    'name' => $row['name']
-                ];
-            }
-        }
-        return $result;
+        $this->db->select("
+                        products.id AS id,
+                        CONCAT(products.name, ' (', categories.name, ')') AS name
+                    ", false);
+                
+                    $this->db->from('products');
+                    $this->db->join(
+                        'categories',
+                        'categories.id = products.category_id',
+                        'left'
+                    );
+                
+                    if (!empty($search_term)) {
+                        $this->db->group_start();
+                            $this->db->like('products.name', $search_term);
+                            $this->db->or_like('categories.name', $search_term);
+                        $this->db->group_end();
+                    }
+                
+                    $this->db->where('products.status', 1);
+                    $this->db->where('categories.status', 1);
+                
+                    $this->db->order_by('products.name', 'ASC');
+                    $this->db->limit($limit);
+                
+                    $query = $this->db->get();
+                    return $query->result_array();
     }
 
     public function add_product($data)

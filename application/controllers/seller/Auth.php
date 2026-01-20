@@ -188,14 +188,30 @@ class Auth extends CI_Controller
         $remember = $this->input->post('remember', true);
 
         try{
+            
+            $user_data = fetch_details('users', ['mobile' => $identity]);
+            
+            if($group = fetch_details('users_groups', ['user_id' => $user_data[0]['id']] )){
+                if($group[0]['group_id'] !=4){
+                    $response['error'] = true;
+                    redirect('seller/login?error=true');
+                        // $response['message'] = 'Invalid user';
+                        // echo json_encode($response);
+                        // return false;
+                }
+            }
+           
             $response = $this->ion_auth->login($identity, $password, $remember);
+            
+          
             if($response){
                 redirect('seller/home', 'refresh');
             }else {
-                echo json_encode([
-                    'status'=> 'failed',
-                    'message' => $response.json_encode(),
-                ]);
+                redirect('seller/login?error=true');
+                // echo json_encode([
+                //     'status'=> 'failed',
+                //     'message' => $response.json_encode(),
+                // ]);
             }
         }catch(Exception $e){
             echo json_encode([
@@ -205,55 +221,231 @@ class Auth extends CI_Controller
         }
     }
 
-    public function create_seller() {
+    // public function create_seller() {
+
+    //     $response = [];
+    //     // Set validation rules
+    //     $this->form_validation->set_rules('first_name', 'First Name', 'required|trim');
+    //     $this->form_validation->set_rules('last_name', 'Last Name', 'trim');
+    //     $this->form_validation->set_rules('phone', 'Phone Number', 'required|numeric|min_length[10]|max_length[15]');
+    //     $this->form_validation->set_rules('email', 'Email ID', 'required|valid_email');
+
+    //     // Optional address fields
+    //     $this->form_validation->set_rules('address1', 'Address Line 1', 'required|trim');
+    //     $this->form_validation->set_rules('address2', 'Address Line 2', 'trim');
+    //     $this->form_validation->set_rules('district', 'District', 'required|trim');
+    //     $this->form_validation->set_rules('city', 'City', 'trim');
+    //     $this->form_validation->set_rules('state', 'State', 'required|trim');
+    //     $this->form_validation->set_rules('pin', 'PIN Code', 'numeric|trim|required|min_length[6]|max_length[6]');
+
+    //     // Step 2 fields
+    //     $this->form_validation->set_rules('shop_name', 'Shop Name', 'required|trim');
+    //     $this->form_validation->set_rules('social', 'Social Media Handle', 'required|trim');
+    //     $this->form_validation->set_rules('shop_phone', 'Shop Phone Number', 'required|numeric|min_length[10]|max_length[15]');
+    //     $this->form_validation->set_rules('pickup_address1', 'Pickup Address Lane 1', 'required|trim');
+    //     $this->form_validation->set_rules('pickup_address2', 'Pickup Address Lane 2', 'trim');
+    //       $this->form_validation->set_rules('pickup_district', 'District', 'required|trim');
+    //     $this->form_validation->set_rules('pickup_city', 'City', 'trim');
+    //     $this->form_validation->set_rules('pickup_state', 'State', 'required|trim');
+    //     $this->form_validation->set_rules('pickup_pin', 'PIN Code', 'numeric|trim|required|min_length[6]|max_length[6]');
+
+    //     // Step 3 fields
+    //     $this->form_validation->set_rules('entity_type', 'Entity Type', 'required|trim');
+    //     $this->form_validation->set_rules('pan', 'PAN Number', 'required|regex_match[/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/]');
+    //     $this->form_validation->set_rules('gst', 'GST Number', 'required|regex_match[/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/]');
+        
+    //     $this->form_validation->set_rules('account_number', "Account Number", 'required|trim|numeric');
+    //     $this->form_validation->set_rules('confirm_account_number', "Confirm Account Number", 'required|trim|numeric|matches[account_number]');
+
+    //     $this->form_validation->set_rules('account_holder_name', 'Account Holder\'s Name', 'required|trim');
+    //     $this->form_validation->set_rules('ifsc', 'IFSC Code', 'required|trim');
+    //     $this->form_validation->set_rules('branch', 'Branch Name', 'required|trim');
+    //     $this->form_validation->set_rules('bank_name', 'Bank Name', 'required|trim');
+
+    //     if (!$this->form_validation->run()) {
+    //         $response['error'] = true;
+    //         $response['message'] = validation_errors();
+    //         // print_r(json_encode($this->response));
+    //     } else {
+    //          $response['error'] = false;
+    //         $response['message'] = "Seller succesfully registered";
+            
+    //     }
+
+    //     $response['csrfName'] = $this->security->get_csrf_token_name();
+    //     $response['csrfHash'] = $this->security->get_csrf_hash();
+
+    //     echo json_encode($response);
+    // }
+    
+    public function create_seller()
+    {
 
         $response = [];
         // Set validation rules
         $this->form_validation->set_rules('first_name', 'First Name', 'required|trim');
-        $this->form_validation->set_rules('last_name', 'Last Name', 'trim');
+        // $this->form_validation->set_rules('last_name', 'Last Name', 'trim');
         $this->form_validation->set_rules('phone', 'Phone Number', 'required|numeric|min_length[10]|max_length[15]');
         $this->form_validation->set_rules('email', 'Email ID', 'required|valid_email');
 
         // Optional address fields
-        $this->form_validation->set_rules('address1', 'Address Line 1', 'required|trim');
-        $this->form_validation->set_rules('address2', 'Address Line 2', 'trim');
-        $this->form_validation->set_rules('district', 'District', 'required|trim');
-        $this->form_validation->set_rules('city', 'City', 'trim');
-        $this->form_validation->set_rules('state', 'State', 'required|trim');
-        $this->form_validation->set_rules('pin', 'PIN Code', 'numeric|trim|required|min_length[6]|max_length[6]');
+        // $this->form_validation->set_rules('address1', 'Address Line 1', 'required|trim');
+        // $this->form_validation->set_rules('address2', 'Address Line 2', 'trim');
+        // $this->form_validation->set_rules('district', 'District', 'required|trim');
+        // $this->form_validation->set_rules('city', 'City', 'trim');
+        // $this->form_validation->set_rules('state', 'State', 'required|trim');
+        // $this->form_validation->set_rules('pin', 'PIN Code', 'numeric|trim|required|min_length[6]|max_length[6]');
 
         // Step 2 fields
-        $this->form_validation->set_rules('shop_name', 'Shop Name', 'required|trim');
-        $this->form_validation->set_rules('social', 'Social Media Handle', 'required|trim');
-        $this->form_validation->set_rules('shop_phone', 'Shop Phone Number', 'required|numeric|min_length[10]|max_length[15]');
-        $this->form_validation->set_rules('pickup_address1', 'Pickup Address Lane 1', 'required|trim');
-        $this->form_validation->set_rules('pickup_address2', 'Pickup Address Lane 2', 'trim');
-          $this->form_validation->set_rules('pickup_district', 'District', 'required|trim');
-        $this->form_validation->set_rules('pickup_city', 'City', 'trim');
-        $this->form_validation->set_rules('pickup_state', 'State', 'required|trim');
-        $this->form_validation->set_rules('pickup_pin', 'PIN Code', 'numeric|trim|required|min_length[6]|max_length[6]');
+        // $this->form_validation->set_rules('shop_name', 'Shop Name', 'required|trim');
+        // $this->form_validation->set_rules('social', 'Social Media Handle', 'required|trim');
+        // $this->form_validation->set_rules('shop_phone', 'Shop Phone Number', 'required|numeric|min_length[10]|max_length[15]');
+        // $this->form_validation->set_rules('pickup_address1', 'Pickup Address Lane 1', 'required|trim');
+        // $this->form_validation->set_rules('pickup_address2', 'Pickup Address Lane 2', 'trim');
+        // $this->form_validation->set_rules('pickup_district', 'District', 'required|trim');
+        // $this->form_validation->set_rules('pickup_city', 'City', 'trim');
+        // $this->form_validation->set_rules('pickup_state', 'State', 'required|trim');
+        // $this->form_validation->set_rules('pickup_pin', 'PIN Code', 'numeric|trim|required|min_length[6]|max_length[6]');
 
         // Step 3 fields
-        $this->form_validation->set_rules('entity_type', 'Entity Type', 'required|trim');
-        $this->form_validation->set_rules('pan', 'PAN Number', 'required|regex_match[/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/]');
-        $this->form_validation->set_rules('gst', 'GST Number', 'required|regex_match[/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/]');
-        
-        $this->form_validation->set_rules('account_number', "Account Number", 'required|trim|numeric');
-        $this->form_validation->set_rules('confirm_account_number', "Confirm Account Number", 'required|trim|numeric|matches[account_number]');
+        // $this->form_validation->set_rules('entity_type', 'Entity Type', 'required|trim');
+        // $this->form_validation->set_rules('pan', 'PAN Number', 'required|regex_match[/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/]');
+        // $this->form_validation->set_rules('gst', 'GST Number', 'required|regex_match[/^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$/]');
 
-        $this->form_validation->set_rules('account_holder_name', 'Account Holder\'s Name', 'required|trim');
-        $this->form_validation->set_rules('ifsc', 'IFSC Code', 'required|trim');
-        $this->form_validation->set_rules('branch', 'Branch Name', 'required|trim');
-        $this->form_validation->set_rules('bank_name', 'Bank Name', 'required|trim');
+        // $this->form_validation->set_rules('account_number', "Account Number", 'required|trim|numeric');
+        // $this->form_validation->set_rules('confirm_account_number', "Confirm Account Number", 'required|trim|numeric|matches[account_number]');
+
+        // $this->form_validation->set_rules('account_holder_name', 'Account Holder\'s Name', 'required|trim');
+        // $this->form_validation->set_rules('ifsc', 'IFSC Code', 'required|trim');
+        // $this->form_validation->set_rules('branch', 'Branch Name', 'required|trim');
+        // $this->form_validation->set_rules('bank_name', 'Bank Name', 'required|trim');
 
         if (!$this->form_validation->run()) {
             $response['error'] = true;
             $response['message'] = validation_errors();
             // print_r(json_encode($this->response));
         } else {
-             $response['error'] = false;
-            $response['message'] = "Seller succesfully registered";
+
+            $seler_register = [
+                'email' => $this->input->post('email'),
+                'mobile' => $this->input->post('phone'),
+                'first_name' => $this->input->post('first_name'),
+                'address' => $this->input->post('address1') . ', ' . $this->input->post('address2') . ', ' . $this->input->post('district')
+            ];
+
+            $user_id = $this->ion_auth->register($seler_register['mobile'], '123456', $seler_register['first_name'], ['phone' => $seler_register['mobile']], [4]);
+
+            if (!$user_id) {
+                $response['error'] = true;
+                $response['message'] = 'Failed to register user';
+                $response['data'] = $seler_register;
+            } else {
+                $seler_register['user_id'] = $user_id;
+            }
+
+            if (!empty($_FILES['store_logo']['name'])) {
+
+                $uploadDir = FCPATH . 'uploads/seller/';
+
+                // Create directory if not exists
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+
+                $fileName = $_FILES['store_logo']['name'];
+                $fileTmpName = $_FILES['store_logo']['tmp_name'];
+                $fileSize = $_FILES['store_logo']['size'];
+                $fileError = $_FILES['store_logo']['error'];
+
+                $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+                $allowed = ['jpg', 'jpeg', 'png', 'webp'];
+
+                // Validation
+                if (!in_array($fileExt, $allowed)) {
+                    echo json_encode([
+                        'error' => true,
+                        'message' => 'Invalid file type'
+                    ]);
+                    return;
+                }
+
+                if ($fileSize > 2 * 1024 * 1024) { // 2MB
+                    echo json_encode([
+                        'error' => true,
+                        'message' => 'File size must be less than 2MB'
+                    ]);
+                    return;
+                }
+
+                if ($fileError !== 0) {
+                    echo json_encode([
+                        'error' => true,
+                        'message' => 'File upload error'
+                    ]);
+                    return;
+                }
+
+                // Keep original name (or use uniqid())
+                $newFileName = $fileName;
+                // $newFileName = uniqid() . '.' . $fileExt; // optional
+
+                $destination = $uploadDir . $newFileName;
+
+                if (move_uploaded_file($fileTmpName, $destination)) {
+
+                    // Save this path in DB
+                    $store_logo_path = 'uploads/seller/' . $newFileName;
+
+                } else {
+                    echo json_encode([
+                        'error' => true,
+                        'message' => 'Failed to upload file'
+                    ]);
+                    return;
+                }
+            }
+
+
+            $seller_data = [
+                'user_id' => $user_id,
+                'first_name' => $this->input->post('first_name') ?? null,
+                'last_name' => $this->input->post('last_name') ?? null,
+                'phone' => $this->input->post('phone') ?? null,
+                'email' => $this->input->post('email') ?? null,
+                'address1' => $this->input->post('address1') ?? null,
+                'address2' => $this->input->post('address2') ?? null,
+                'district' => $this->input->post('district') ?? null,
+                'city' => $this->input->post('city') ?? null,
+                'state' => $this->input->post('state') ?? null,
+                'pin' => $this->input->post('pin') ?? null,
+                'logo' => (!empty($store_logo_path)) ? $store_logo_path : null,
+                'shop_name' => $this->input->post('shop_name') ?? null,
+                'social' => $this->input->post('social') ?? null,
+                'shop_phone' => $this->input->post('shop_phone') ?? null,
+                'pickup_address1' => $this->input->post('pickup_address1') ?? null,
+                'pickup_address2' => $this->input->post('pickup_address2') ?? null,
+                'pickup_district' => $this->input->post('pickup_district') ?? null,
+                'pickup_state' => $this->input->post('pickup_state') ?? null,
+                'pickup_pin' => $this->input->post('pickup_pin') ?? null,
+                'entity_type' => $this->input->post('entity_type') ?? null,
+                'pan' => $this->input->post('pan') ?? null,
+                'gst' => $this->input->post('gst') ?? null,
+                'account_number' => $this->input->post('account_number') ?? null,
+                'account_holder_name' => $this->input->post('account_holder_name') ?? null,
+                'ifsc' => $this->input->post('ifsc') ?? null,
+                'branch' => $this->input->post('branch') ?? null,
+                'bank_name' => $this->input->post('bank_name') ?? null
+            ];
+
+            $this->Seller_model->seller_cereate_user($seller_data);
             
+            $this->ion_auth->login($this->input->post('phone'), '123456', true);
+
+
+
+            $response['error'] = false;
+            $response['message'] = "Seller succesfully registered";
+
         }
 
         $response['csrfName'] = $this->security->get_csrf_token_name();
@@ -261,7 +453,7 @@ class Auth extends CI_Controller
 
         echo json_encode($response);
     }
-
+    
     public function create_seller_old()
     {
         if (!isset($_POST['user_id'])) {
@@ -836,5 +1028,68 @@ class Auth extends CI_Controller
         $this->data['meta_description'] = 'Ekart';
         $this->data['logo'] = get_settings('logo');
         $this->load->view('seller/login', $this->data);
+    }
+    public function check_phone()
+{
+    
+    $this->response = [
+        'error'   => false,
+        'message' => 'Phone is valid',
+        'data'    => []
+    ];
+
+    // Read POST JSON data
+    $phone = $this->input->post('phone', true);
+
+    if (empty($phone)) {
+        $this->response['error'] = true;
+        $this->response['message'] = 'Phone is required';
+        echo json_encode($this->response);
+        return;
+    }
+
+    // DB check
+    $exists = $this->db
+        ->where('mobile', $phone)
+        ->get('users')
+        ->row();
+
+    if ($exists) {
+        $this->response['error'] = true;
+        $this->response['message'] = 'Phone already exists';
+    }
+
+    echo json_encode($this->response);
+    }
+    public function check_email()
+    {
+        $this->response = [
+            'error'   => false,
+            'message' => 'Email is valid',
+            'data'    => []
+        ];
+
+        // Read POST JSON data
+       $email = $this->input->post('email', true);
+
+        if (empty($email)) {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Email is required';
+            echo json_encode($this->response);
+            return;
+        }
+
+        // DB check
+        $exists = $this->db
+            ->where('email', $email)
+            ->get('users')
+            ->row();
+
+        if ($exists) {
+            $this->response['error'] = true;
+            $this->response['message'] = 'Email already exists';
+        }
+
+        echo json_encode($this->response);
     }
 }

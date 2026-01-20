@@ -568,6 +568,8 @@ class Home extends CI_Controller
                         return false;
                 }
             }
+            
+            
 
             if (isset($user_data[0]['active']) && !empty($user_data) && $user_data[0]['active'] == 7) {
                 $response['error'] = true;
@@ -589,10 +591,22 @@ class Home extends CI_Controller
                 // check to see if the user is logging in
                 // check for "remember me"
                 $remember = (bool)$this->input->post('remember');
-
+                
 
                 if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember, $this->input->post('type'))) {
                     //if the login is successful
+                    
+                    // Check if user already has group_id = 2, if not insert
+                    $this->db->where('user_id', $user_data[0]['id']);
+                    $this->db->where('group_id', 2);
+                    $query = $this->db->get('users_groups');
+                    
+                    if ($query->num_rows() == 0) {
+                        $this->db->insert('users_groups', array(
+                            'user_id' => $this->session->userdata('user_id'), 
+                            'group_id' => 2
+                        ));
+                    }
 
                     if (!$this->input->is_ajax_request()) {
                         redirect('admin/home', 'refresh');

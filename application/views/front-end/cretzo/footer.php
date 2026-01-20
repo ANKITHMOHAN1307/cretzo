@@ -414,7 +414,7 @@ $system_settings = get_settings('system_settings', true); ?>
                                             <a href="#" id="googleLogin" class="text-decoration-none">
                                                 <div class="media-container">
                                                     <img class="media-icon" src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/google-icon.jpg') ?>">
-                                                    <p class="text-s">Sign in with Google</p>
+                                                    <p class="text-s">Signup in with Google</p>
                                                 </div>
                                             </a>
                                         <?php } ?>
@@ -422,7 +422,7 @@ $system_settings = get_settings('system_settings', true); ?>
                                             <a href="#" id="facebookLogin" class="text-decoration-none">
                                                 <div class="media-container">
                                                     <img class="media-icon" src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/facebook-icon.jpg') ?>">
-                                                    <p class="text-s">Login with Facebook</p>
+                                                    <p class="text-s">Signup with Facebook</p>
                                                 </div>
                                             </a>
                                         <?php } ?>
@@ -631,11 +631,12 @@ $(document).ready(function () {
 
         if (search.length < 1) {
             $("#append_desktop_search").html("");
+            $("#append_mobile_search").html("");
             return;
         }
 
         $.ajax({
-            url: "/cretzo/search/search_data",
+            url: base_url+"/search/search_data",
             type: "GET",
             data: { search: search },
             dataType: "json",
@@ -657,7 +658,7 @@ $(document).ready(function () {
                         let safeName = item.name.replace(/"/g, '&quot;');
 
                         html += `
-                            <div class="search-item" 
+                            <div class="search-item text-n mega-list-item" 
                                  onclick="selectSuggestion(&quot;${safeName}&quot;)">
                                 ${item.name}
                             </div>
@@ -667,10 +668,11 @@ $(document).ready(function () {
                     html += '</div>';
 
                 } else {
-                    html = '<div class="search-item">No results found</div>';
+                    html = '<div class="search-item text-n mega-list-item">No results found</div>';
                 }
 
                 $("#append_desktop_search").html(html);
+                $("#append_mobile_search").html(html);
             },
             error: function () {
                 $("#append_desktop_search").html(
@@ -685,14 +687,84 @@ $(document).ready(function () {
 
 // Fill value into search box
 function selectSuggestion(name) {
-    $(".search_field").val(name);
-    $("#append_desktop_search").html("");
+    $(".search_field").val('');
+    window.location.href = base_url + '/products/search?q=' + encodeURIComponent(name);
+        
+    // $(".search_field").val(name);
+    // $("#append_desktop_search").html("");
+    // $("#append_mobile_search").html("");
 }
 
 // Hide suggestions when clicking outside
 $(document).click(function (e) {
     if (!$(e.target).closest('.search-container-m').length) {
         $("#append_desktop_search").html("");
+        $("#append_mobile_search").html("");
     }
 });
 </script>
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<style>
+/* Target the success toast specifically */
+#toast-container > .toast-success {
+    background-color: #f59b58 !important; /* Your Orange */
+    color: #fff !important;
+    opacity: 1;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    
+    /* Making it smaller */
+    width: 200px !important; 
+    min-height: 40px !important;
+    padding: 10px 15px 10px 45px !important; /* Adjusted for icon space */
+    font-size: 13px;
+}
+
+/* Adjusting the progress bar to match */
+#toast-container > .toast-success .toast-progress {
+    background-color: #fff;
+    opacity: 0.4;
+}
+
+/* Ensure the icon stays white */
+.toast-success {
+    background-image: none !important; /* Optional: removes default icon if it looks crowded */
+}
+</style>
+
+<script>
+function addtocartMessage() {
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "showDuration": "300",
+        "hideDuration": "300",
+        "timeOut": "2000", // 2 seconds
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+
+    toastr.success("Added to Cart");
+}
+</script>
+<script>
+    $(window).on('scroll', function () {
+    if ($(window).scrollTop() > 100) {
+        $('#append_desktop_search').css('display', 'none');
+    }else{
+        $('#append_desktop_search').css('display', 'block');
+    }
+});
+
+</script>
+

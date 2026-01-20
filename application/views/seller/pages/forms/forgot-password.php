@@ -4,7 +4,7 @@
     <div class="card">
       <div class="card-body login-card-body">
         <div class="login-logo">
-          <a href="<?= base_url('admin') ?>"><img src="<?= base_url() . $logo ?>"></a>
+          <a href="<?= base_url('admin') ?>"><img src="<?= base_url() . $logo ?>" style="width:300px"></a>
         </div>
         <div class="text-center h5"><?= !empty($this->lang->line('forgot_password')) ? $this->lang->line('forgot_password') : 'Forgot Password' ?></div>
         <hr class="mt-0">

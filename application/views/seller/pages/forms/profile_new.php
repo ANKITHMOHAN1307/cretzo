@@ -54,25 +54,25 @@
                       <div class="row gap-xl-5">
                         <div class="col-md-6 mb-3">
                           <label class="form-label">First Name <span class="text-danger">*</span></label>
-                          <input name="first_name" type="text" class="input" placeholder="First name" required>
+                          <input name="first_name" type="text" class="input" placeholder="First name" required="">
                         </div>
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">Last Name <span class="text-danger">*</span></label>
-                          <input name="last_name" type="text" class="input" placeholder="Last Name" required>
+                          <label class="form-label">Last Name </label>
+                          <input name="last_name" type="text" class="input" placeholder="Last Name" >
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Phone Number <span class="text-danger">*</span></label>
-                          <input name="phone" type="text" class="input" placeholder="Enter Phone Number" required>
+                          <input name="phone" type="text" class="input" placeholder="Enter Phone Number" required="">
                           <button>verify</button>
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Email ID <span class="text-danger">*</span></label>
-                          <input name="email" type="email" class="input" placeholder="Enter Email ID" required>
+                          <input name="email" type="email" class="input" placeholder="Enter Email ID" required="">
                           <button>verify</button>
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Address
-                            <span class="text-danger">*</span>
+                           
                           </label>
                           <input name="address1" type="text" class="input" placeholder="Street 1">
                         </div>
@@ -82,25 +82,25 @@
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">District
-                            <span class="text-danger">*</span>
+                          
                           </label>
                           <input name="district" type="text" class="input" placeholder="Enter District">
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">City/Village/Town
-                            <span class="text-danger">*</span>
+                          
                           </label>
                           <input name="city" type="text" class="input" placeholder="Enter City/Village/Town"> 
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">State
-                            <span class="text-danger">*</span>
+                          
                           </label>
                           <input name="state" type="text" class="input" placeholder="Enter State">
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">PIN Code
-                            <span class="text-danger">*</span>
+                          
                           </label>
                           <input name="pin" type="text" class="input" placeholder="Enter PIN Code">
                         </div>
@@ -131,20 +131,20 @@
                       <div class="row">
 
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">Shop Name <span class="text-danger">*</span></label>
-                          <input name="shop_name" type="text" class="input" placeholder="Shop Name" required>
+                          <label class="form-label">Shop Name </label>
+                          <input name="shop_name" type="text" class="input" placeholder="Shop Name" >
                         </div>
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">Social Media Handle <span class="text-danger">*</span></label>
-                          <input name="social" type="text" class="input" placeholder="Enter Social Media" required>
+                          <label class="form-label">Social Media Handle </label>
+                          <input name="social" type="text" class="input" placeholder="Enter Social Media" >
                         </div>
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">Shop Phone Number <span class="text-danger">*</span></label>
-                          <input name="shop_phone" type="text" class="input" placeholder="Enter shop  Phone Number" required>
+                          <label class="form-label">Shop Phone Number </label>
+                          <input name="shop_phone" type="text" class="input" placeholder="Enter shop  Phone Number" >
                         </div>
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">Pickup Address Lane 1<span class="text-danger">*</span></label>
-                          <input name="pickup_address1"  type="text" class="input" placeholder="Address Lane 1" required>
+                          <label class="form-label">Pickup Address Lane 1</label>
+                          <input name="pickup_address1"  type="text" class="input" placeholder="Address Lane 1" >
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label" >Pickup Address Lane 2</label>
@@ -180,7 +180,7 @@
 
                       <div class="row">
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">Entity Type <span class="text-danger">*</span></label>
+                          <label class="form-label">Entity Type </label>
                           <select name="entity_type" class="input" id="entity_type">
                             <option name="individual">Individual</option>
                             <option name="sole_proprietorship">Sole proprietorship</option>
@@ -190,11 +190,11 @@
                           
                         </div>
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">PAN Number<span class="text-danger">*</span></label>
+                          <label class="form-label">PAN Number</label>
                           <input name="pan" type="text" class="input" placeholder="Enter PAN Number">
                         </div>
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">GST Number <span class="text-danger">*</span></label>
+                          <label class="form-label">GST Number </label>
                           <input name="gst" type="text" class="input" placeholder="22ABCDE0000A1Z5">
                         </div>
                       </div>
@@ -214,28 +214,28 @@
                       <h3>Account Details</h3>
                       <div class="row">
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">Account Number<span class="text-danger">*</span></label>
+                          <label class="form-label">Account Number</label>
                           <input name="account_number" type="text" class="input" placeholder="Enter your Account Number">
                         </div>
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">Confirm Account Number<span class="text-danger">*</span></label>
+                          <label class="form-label">Confirm Account Number</label>
                           <input name="confirm_account_number" type="text" class="input" placeholder="Confirm your Account Number">
                         </div>
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">Account Holder name<span class="text-danger">*</span></label>
+                          <label class="form-label">Account Holder name</label>
                           <input name="account_holder_name" type="text" class="input" placeholder="Enter  the Account Holder’s name">
                         </div>
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">IFSC Code<span class="text-danger">*</span></label>
-                          <input name="ifsc" type="text" class="input" placeholder="Enter IFSC Code" required>
+                          <label class="form-label">IFSC Code</label>
+                          <input name="ifsc" type="text" class="input" placeholder="Enter IFSC Code" >
                         </div>
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">Branch Name<span class="text-danger">*</span></label>
-                          <input name="branch" type="text" class="input" placeholder="Enter  Branch" required>
+                          <label class="form-label">Branch Name</label>
+                          <input name="branch" type="text" class="input" placeholder="Enter  Branch" >
                         </div>
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">Bank Name<span class="text-danger">*</span></label>
-                          <input name="bank_name" type="text" class="input" placeholder="Enter Bank Name" required>
+                          <label class="form-label">Bank Name</label>
+                          <input name="bank_name" type="text" class="input" placeholder="Enter Bank Name" >
                         </div>
 
                       </div>

@@ -548,7 +548,7 @@ $logo = get_settings('web_logo');
         const merged = mergeCartItems(cart);
         // render items
         if (merged.length === 0){
-            $itemsContainer.html('<div class="text-center py-5"><h4>Your cart is empty</h4><p>Add some items to get started</p><a href="<?= base_url('products') ?>" class="btn btn-primary">Continue Shopping</a></div>');
+            $itemsContainer.html('<div class="text-center py-5"><h4>Your cart is empty</h4><p>Add some items to get started</p><a href="<?= base_url('products') ?>" class="btn btn-info">Continue Shopping</a></div>');
             $('.cart-right').hide();
             $('.cart-count').text(0);
             $('.cart-count-checked').text(0);

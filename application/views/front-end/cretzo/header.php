@@ -1,6 +1,8 @@
 <?php
 $this->load->model('category_model');
 $categories = $this->category_model->get_categories(null, 12);
+
+
 $language = get_languages();
 $cookie_lang = $this->input->cookie('language', TRUE);
 $language_index = 0;
@@ -26,17 +28,16 @@ $auth_settings = get_settings('authentication_settings', true);
     left: 0;
     width: 100%;
     background: #fff;
-    border: 1px solid #ddd;
     border-top: none;
-    max-height: 300px;
-    overflow-y: auto;
     z-index: 9999;     /* highest z-index */
     display: block;     
 }
 
 /* Each suggestion */
 .search-item {
-    padding: 10px;
+    color:black;
+    padding: 5px;
+    padding-left:30px;
     cursor: pointer;
     border-bottom: 1px solid #eee;
 }

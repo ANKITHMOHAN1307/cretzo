@@ -88,7 +88,7 @@ function updateURL() {
     window.history.replaceState({}, '', url);
 
     // Reload the page to apply the changes
-    location.reload();
+    ajaxProductList(url);
 }
 
 $(document).ready(function() {
@@ -99,10 +99,18 @@ $(document).ready(function() {
     });
 
     // Add event listener for 'Filter Price' button click
-    $('#filter-price-btn').click(function() {
+    $('.filter-price-btn').on('input', function() {
         price_filter_enabled = true;
         updateURL();
     });
+    $('.filter-price-btn').on('change', function() {
+        price_filter_enabled = true;
+        updateURL();
+    });
+    // $('#filter-price-btn').click(function() {
+    //     price_filter_enabled = true;
+    //     updateURL();
+    // });
     $('#clear-filter-price-btn').click(function() {
         price_filter_enabled = false;
         updateURL();
@@ -235,3 +243,182 @@ function removeSellerFilter() {
     url.searchParams.delete('seller');
     window.location.href = url.toString();
 }
+
+
+ajaxProductList();
+
+function getQueryQ() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('q') || '';
+}
+
+function getCategorySlugs() {
+    const path = window.location.pathname.split('/').filter(Boolean);
+
+    const category_slug       = path[1] || '';
+    const sub_category_slug   = path[2] || '';
+
+    return {
+        category_slug,
+        sub_category_slug
+    };
+}
+
+function ajaxProductList() {
+     let slugData = getCategorySlugs();
+     let subCategory = "";
+     let searchData = "";
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get('q') || '';
+
+     if(slugData.category_slug == 'category'){
+        subCategory = slugData.sub_category_slug;
+     }
+     if(slugData.category_slug == 'search'){
+         searchData = q; 
+     }
+     
+
+    $('#productList').html(
+        '<div class="text-center py-5">' +
+            '<div class="spinner-border text-warning"></div>' +
+        '</div>'
+    );
+
+    $.ajax({
+        url: base_url + 'products/ajax_get_products' +
+             (window.location.search
+                ? window.location.search + '&subCategory=' + subCategory + '&searchData=' + searchData
+                : '?subCategory=' + subCategory + '&searchData=' + searchData
+             ),
+
+        type: 'GET',
+        dataType: 'json',
+
+        success: function (response) {
+           
+            if (response.status === 'success') {
+                var html = renderProducts(response.products.product || []);
+                $('#productList').html(html);
+                $('.pagination-container').html(response.pagination_html || '');
+                $('.result-count').text(response.result_count || '');
+            }
+            
+        },
+
+        error: function (xhr, status, error) {
+            $('#productList').html('<div>AJAX Error</div>');
+            console.error(error);
+        }
+    });
+}
+function generateStarRatingHTML(product) {
+    let rating = parseFloat(product.rating || 0);
+    let fullStars = Math.floor(rating);
+    let halfStar = rating % 1 >= 0.5 ? 1 : 0;
+    let emptyStars = 5 - fullStars - halfStar;
+
+    let html = '<div class="star-rating">';
+    for (let i = 0; i < fullStars; i++) html += '<i class="fa fa-star"></i>';
+    if (halfStar) html += '<i class="fa fa-star-half-o"></i>';
+    for (let i = 0; i < emptyStars; i++) html += '<i class="fa fa-star-o"></i>';
+    html += '</div>';
+
+    return html;
+}
+
+function renderProducts(products) {
+    if (!products.length) {
+        return '<div class="text-center py-5">No products found</div>';
+    }
+
+    let html = '';
+
+    products.forEach(product => {
+
+        // Favorite button classes
+        let isFav = product.is_favorite == 1;
+        let heartClass = isFav ? 'fa-heart' : 'fa-heart-o';
+        let favClass = isFav ? 'is-fav' : '';
+        let favState = isFav ? 'true' : 'false';
+
+        // Product image
+        let imgSrc = product.image_sm || base_url + 'assets/front_end/modern/img/product-placeholder.jpg';
+
+        // Short description safely
+        let shortDesc = product.short_description ? product.short_description.replace(/\r\n/g, '&#13;&#10;') : '';
+
+        // Price HTML (match your PHP generatePriceElement function output)
+        let priceHTML = '';
+        if (product.variants && product.variants.length) {
+
+    let variant = product.variants[0];
+
+    let price = parseFloat(variant.price);
+    let specialPrice = (variant.special_price && variant.special_price != 0)
+        ? parseFloat(variant.special_price)
+        : price;
+
+    let oldPrice = '';
+    let offPercentHTML = '';
+
+    // Show discount only when special price < price
+        if (specialPrice < price) {
+
+            let discountPercent = Math.round(((price - specialPrice) / price) * 100);
+
+            oldPrice = `<span class="discounted-price no-wrap">₹${price}</span>`;
+
+            offPercentHTML = `
+                <span class="off-percent fw-b no-wrap">
+                    ${discountPercent}% OFF
+                </span>
+            `;
+        }
+
+        priceHTML = `
+            <p class="price-container ta-c no-wrap text-es">
+                ${oldPrice}
+                <span class="original-price op-6 no-wrap">₹${specialPrice}</span>
+                ${offPercentHTML}
+            </p>
+        `;
+    }
+
+
+        // Build HTML for each product
+        html += `
+        <div class="cretzo-card card-type-one product-card product">
+            <a class="card-url" href="${base_url}products/details/${product.slug}"></a>
+
+            <div class="card-img">
+                <button class="small-btn small-btn-light prod-tag prod-tag-top">Sale</button>
+                <button class="small-btn small-btn-dark prod-tag prod-tag-bottom">New</button>
+
+                <img class="card-img-img lazy" src="${imgSrc}" data-src="${imgSrc}" alt="${product.name}">
+
+                ${generateStarRatingHTML(product)}
+
+                <button class="text-n addwishlist-btn ${favClass}" id="add_to_favorite_btn" data-is-fav="${favState}" data-product-id="${product.id}">
+                    <i class="heart-icon fa ${heartClass}"></i>
+                    <span>Wishlist</span>
+                </button>
+            </div>
+
+            <div class="card-des">
+                <h1 class="ta-c text-s product-name-no-wrap">${product.name}</h1>
+
+                <p class="ta-c list-product-desc text-es product-name-no-wrap">
+                    ${shortDesc}
+                </p>
+
+                ${priceHTML}
+            </div>
+        </div>`;
+    });
+
+    return html;
+}
+
+
+

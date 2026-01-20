@@ -32,7 +32,7 @@
                     <div class="card card-info">
 
                         <!-- form start -->
-                        <form class="form-horizontal" action="<?= base_url('seller/product/process_bulk_upload'); ?>" method="POST" id="bulk_upload_form">
+                        <form class="form-horizontal" action="<?= base_url('seller/product/process_bulk_upload'); ?>" method="POST" id="bulk_upload_form" enctype="multipart/form-data">
                             <div class="card-body">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -84,3 +84,41 @@
     </section>
     <!-- /.content -->
 </div>
+
+<script>
+    $('#bulk_upload_form').on('submit', function (e) {
+    e.preventDefault();
+    var type = $('#type').val();
+    if (type != '') {
+        var formdata = new FormData(this);
+        formdata.append(csrfName, csrfHash);
+        $.ajax({
+            type: 'POST',
+            data: formdata,
+            url: $(this).attr('action'),
+            dataType: 'json',
+            cache: false,
+            contentType: false,
+            processData: false,
+            beforeSend: function () {
+                $('#submit_btn').html('Please Wait...').attr('disabled', true);
+            },
+            success: function (result) {
+                csrfName = result.csrfName;
+                csrfHash = result.csrfHash;
+                if (result.error == false) {
+                    $('#upload_result').show().removeClass('msg_error').addClass('msg_success').html(result.message).delay(3000).fadeOut();
+                } else {
+                    $('#upload_result').show().removeClass('msg_success').addClass('msg_error').html(result.message).delay(3000).fadeOut();
+                }
+                $('#submit_btn').html('Submit').attr('disabled', false);
+            }
+        })
+    } else {
+        iziToast.error({
+            message: 'Please select type',
+        });
+    }
+
+});
+</script>

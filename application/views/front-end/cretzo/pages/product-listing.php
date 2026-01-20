@@ -125,20 +125,20 @@ die; */
                                 <div class="progress" style="left: <?= ($currentMinPrice / $maxPrice) * 100 ?>%; right: <?= 100 - ($currentMaxPrice / $maxPrice) * 100 ?>%; "></div>
                             </div>
                             <div class="range-input">
-                                <input type="range" class="range-min" name="price" min="<?=$minPrice ?>" max="<?= $maxPrice ?>" value="<?= $currentMinPrice ?>" step="10">
-                                <input type="range" class="range-max" name="price" min="<?=$minPrice ?>" max="<?= $maxPrice ?>" value="<?= $currentMaxPrice ?>" step="10">
+                                <input type="range" class="range-min filter-price-btn" name="price" min="<?=$minPrice ?>" max="<?= $maxPrice ?>" value="<?= $currentMinPrice ?>" step="10">
+                                <input type="range" class="range-max filter-price-btn" name="price" min="<?=$minPrice ?>" max="<?= $maxPrice ?>" value="<?= $currentMaxPrice ?>" step="10">
                             </div>
                             <div class="price-input">
                                 <div class="silder-field">
                                     <span class="text-n">Min</span>
-                                    <input class="text-s" type="number" class="input-min" value="<?= $currentMinPrice ?>">
-                                    <button id="filter-price-btn" class="small-btn c-p">Filter</button>
+                                    <input class="text-s filter-price-btn" type="number" class="input-min" value="<?= $currentMinPrice ?>">
+                                    <!--<button id="filter-price-btn" class="small-btn c-p">Filter</button>-->
                                 </div>
                                 <div class="separator"></div>
                                 <div class="silder-field">
                                     <span class="text-n">Max</span>
-                                    <input class="text-s" type="number" class="input-max" value="<?= $currentMaxPrice ?>">
-                                    <button id="clear-filter-price-btn" class="small-btn c-p px-4" disabled>Clear</button>
+                                    <input class="text-s filter-price-btn" type="number" class="input-max" value="<?= $currentMaxPrice ?>">
+                                    <!--<button id="clear-filter-price-btn" class="small-btn c-p px-4" disabled>Clear</button>-->
                                 </div>
                             </div>
                         </div>
@@ -259,65 +259,8 @@ die; */
 
             </div>
 
-            <div class="products">
-                <?php foreach ($products['product'] as $product_row) { ?>
-                    <div class="cretzo-card card-type-one product-card product">
-                        <a class="card-url" href="<?= base_url('products/details/' . $product_row['slug']) ?>"></a>
-                        <div class="card-img">
-                            <button class="small-btn small-btn-light prod-tag prod-tag-top">Sale</button>
-                            <button class="small-btn small-btn-dark prod-tag prod-tag-bottom">New</button>
-                            <img class="card-img-img lazy" src="<?= base_url('assets/front_end/modern/img/product-placeholder.jpg') ?>" data-src="<?= $product_row['image_sm'] ?>" alt="<?= $product_row['name'] ?>">
-
-                            <?php echo generateStarRatingElement($product_row); ?>
-                            <!-- <?php echo generateDiscountPercentageElement($product_row); ?> -->
-                            
-                            <?php 
-                            $isNotFav = $product_row['is_favorite'] == 0;
-                            if ($isNotFav) { ?>
-                                <button class="text-n addwishlist-btn" id="add_to_favorite_btn" data-is-fav="false" data-product-id="<?= $product_row['id'] ?>"> <i class="heart-icon fa fa-heart-o"></i> <span>Wishlist</span> </button>
-                            <?php } else { ?>
-                                <button class="text-n addwishlist-btn is-fav" id="add_to_favorite_btn" data-is-fav="true" data-product-id="<?= $product_row['id'] ?>"> <i class="heart-icon fa fa-heart"></i> <span>Wishlist</span> </button>
-                            <?php } ?>
-                            
-                        </div>
-                        <div class="card-des">
-                            <h1 class="ta-c text-s product-name-no-wrap">
-                                <?= $product_row['name'] ?>
-                            </h1>
-                            <p class="ta-c list-product-desc text-es product-name-no-wrap">
-                                <?= short_description_word_limit(output_escaping(str_replace('\r\n', '&#13;&#10;', strip_tags($product_row['short_description']))), 80); ?>
-                            </p>
-
-                            <!-- <p class="ta-c text-xs">
-                                <?= isset($product_row['tags'][0]) ? $product_row['tags'][0] : $product_row['category_name'] ?>
-                            </p> -->
-
-                            <?php echo generatePriceElement($product_row); ?>
-
-                            <!-- set variables for add to cart functionality -->
-                            <!-- <?php
-                                if (count($product_row['variants']) <= 1) {
-                                    $variant_id = $product_row['variants'][0]['id'];
-                                    $modal = "";
-                                } else {
-                                    $variant_id = "";
-                                    $modal = "#quick-view";
-                                }
-                                $variant_price = ($product_row['variants'][0]['special_price'] > 0 && $product_row['variants'][0]['special_price'] != '') ? $product_row['variants'][0]['special_price'] : $product_row['variants'][0]['price'];
-                                $data_min = (isset($product_row['minimum_order_quantity']) && !empty($product_row['minimum_order_quantity'])) ? $product_row['minimum_order_quantity'] : 1;
-                                $data_step = (isset($product_row['minimum_order_quantity']) && !empty($product_row['quantity_step_size'])) ? $product_row['quantity_step_size'] : 1;
-                                $data_max = (isset($product_row['total_allowed_quantity']) && !empty($product_row['total_allowed_quantity'])) ? $product_row['total_allowed_quantity'] : 0;
-                            ?> -->
-                            <!-- add to cart button -->
-                            <!-- <a href="#" class="add_to_cart cart-btn text-decoration-none text-b" style="padding-bottom: 8px; padding-top: 10px;" data-product-id="<?= $product_row['id'] ?>" data-product-variant-id="<?= $variant_id ?>" data-product-slug="<?= $product_row['slug'] ?>" data-product-title="<?= $product_row['name'] ?>" data-product-image="<?= $product_row['image']; ?>" data-product-price="<?= $variant_price; ?>" data-min="<?= $data_min; ?>" data-step="<?= $data_step; ?>" data-product-description="<?= short_description_word_limit(output_escaping(str_replace('\r\n', '&#13;&#10;', strip_tags($product_row['short_description'])))); ?>" data-izimodal-open="<?= $modal ?>">
-                                    <i class="uil uil-shopping-bag"></i>&nbsp;Add to Cart</a> -->
-
-                            <!-- <button class="text-n addwishlist-btn"><img class="heart-icon" src="<?= base_url('assets/front_end/cretzo/img/new_cretzo/heart-icon.png') ?>">Wishlist</button> -->
-                            <!-- <button class="text-n addwishlist-btn"> <i class="fa <?= $product_row['is_favorite'] ? 'fa-heart' : 'fa-heart-o' ?>"></i> Wishlist</button> -->
-
-                        </div>
-                    </div>
-                <?php } ?>
+            <div class="products" id="productList">
+                
 
             </div>
 

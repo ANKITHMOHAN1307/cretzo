@@ -10,6 +10,23 @@ class Seller_model extends CI_Model
         $this->load->library(['ion_auth', 'form_validation']);
         $this->load->helper(['url', 'language', 'function_helper']);
     }
+    
+     function seller_cereate_user($data){
+
+        $user = $this->db
+            ->where('user_id', $data['user_id'])
+            ->get('seller_data')
+            ->row_array();
+
+        if (!empty($user)) {
+            $this->db->where('user_id', $data['user_id'])
+                    ->update('seller_data', $data);
+        } else {
+            $this->db->insert('seller_data', $data);
+        }
+
+        return true;
+    }
 
     function add_seller($data, $profile = [], $com_data = [])
     {
@@ -18,28 +35,43 @@ class Seller_model extends CI_Model
         $com_data = (!empty($com_data)) ? escape_array($com_data) : [];
 
         $seller_data = [
-            'user_id' => $data['user_id'],
-            'national_identity_card' => $data['national_identity_card'],
-            'address_proof' => $data['address_proof'],
-            'logo' => $data['store_logo'],
-            'store_banner' => $data['store_banner'],
-            'authorized_signature' => $data['authorized_signature'],
-            'status' => (isset($data['status']) && $data['status'] != "") ? $data['status'] : 2,
-            'pan_number' => $data['pan_number'],
-            'tax_number' => $data['tax_number'],
-            'tax_name' => $data['tax_name'],
-            'bank_name' => $data['bank_name'],
-            'bank_code' => $data['bank_code'],
-            'account_name' => $data['account_name'],
-            'account_number' => $data['account_number'],
-            'store_description' => $data['store_description'],
-            'store_url' => $data['store_url'],
-            'store_name' => $data['store_name'],
-            'commission' => (isset($data['global_commission']) && $data['global_commission'] != "") ? $data['global_commission'] : 0,
-            'category_ids' => (isset($data['categories']) && $data['categories'] != "") ? $data['categories'] : null,
-            'permissions' => (isset($data['permissions']) && $data['permissions'] != "") ? json_encode($data['permissions']) : null,
-            'slug' => $data['slug']
-        ];
+                'user_id' => $data['user_id'] ?? null,
+                'national_identity_card' => $data['national_identity_card'] ?? null,
+            
+                'first_name' => $data['first_name'] ?? null,
+                'last_name' => $data['last_name'] ?? null,
+                'phone' => $data['phone'] ?? null,
+                'email' => $data['email'] ?? null,
+            
+                'address1' => $data['address1'] ?? null,
+                'address2' => $data['address2'] ?? null,
+                'district' => $data['district'] ?? null,
+                'city' => $data['city'] ?? null,
+                'state' => $data['state'] ?? null,
+                'pin' => $data['pin'] ?? null,
+            
+                'logo' => $data['logo'] ?? null,
+                'shop_name' => $data['shop_name'] ?? null,
+                'social' => $data['social'] ?? null,
+                'shop_phone' => $data['shop_phone'] ?? null,
+            
+                'pickup_address1' => $data['pickup_address1'] ?? null,
+                'pickup_address2' => $data['pickup_address2'] ?? null,
+                'pickup_district' => $data['pickup_district'] ?? null,
+                'pickup_state' => $data['pickup_state'] ?? null,
+                'pickup_pin' => $data['pickup_pin'] ?? null,
+            
+                'entity_type' => $data['entity_type'] ?? null,
+                'pan' => $data['pan'] ?? null,
+                'gst' => $data['gst'] ?? null,
+            
+                'account_number' => $data['account_number'] ?? null,
+                'account_holder_name' => $data['account_holder_name'] ?? null,
+                'ifsc' => $data['ifsc'] ?? null,
+                'branch' => $data['branch'] ?? null,
+                'bank_name' => $data['bank_name'] ?? null
+            ];
+
         if (isset($data['categories']) && $data['categories'] == "seller_profile") {
             unset($seller_data['category_ids']);
             unset($seller_data['permissions']);
@@ -49,8 +81,8 @@ class Seller_model extends CI_Model
 
             $seller_profile = [
                 'username' => $profile['name'],
-                'email' => $profile['email'],
-                'mobile' => $profile['mobile'],
+                // 'email' => $profile['email'],
+                // 'mobile' => $profile['mobile'],
                 'address' => $profile['address'],
                 'latitude' => $profile['latitude'],
                 'longitude' => $profile['longitude'],
@@ -63,7 +95,7 @@ class Seller_model extends CI_Model
                 $this->db->insert_batch('seller_commission', $com_data);
             }
             if ($this->db->set($seller_profile)->where('id', $data['user_id'])->update('users')) {
-                $this->db->set($seller_data)->where('id', $data['edit_seller_data_id'])->update('seller_data');
+                $this->db->set($seller_data)->where('user_id', $data['edit_seller_data_id'])->update('seller_data');
                 return true;
             } else {
                 return false;

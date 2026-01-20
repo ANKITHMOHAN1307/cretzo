@@ -1,377 +1,542 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-    <title>Sign Up </title>
-    <style>
-    .main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
-
-    .row {
-        display: flex;
-        width: 100%;
-        padding: 20px;
-        background-color: #f4f4f4;
-        height: 100vh;
-    }
-
-    .left {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .right {
-        flex: 1/4;
-        width: 32rem;
-        padding: 20px 32px;
-    }
-
-    .form_box {
-        width: 100%;
-        height: 100%;
-        /* background-color: red; */
-        padding: 20px;
-    }
-
-    .form {
-        width: 100%;
-        height: 100%;
-    }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="<?= base_url('assets/seller/css/cretzo/form.css') ?>">
+<style>
 
 
-    .steps {
-        width: 100%;
-        height: 100%;
-        padding: 20px;
-        overflow-x: hidden;
-        scrollbar-width: none;
-        position: relative;
-    }
+  .is-invalid {
+  border: 1px solid red;
+}
 
-    .step {
-        width: 100%;
-        padding: 20px;
-        box-sizing: border-box;
-        position: absolute;
-        top: 0;
-        left: 0;
-        transition: transform 0.2s ease-in-out;
-        /* display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center; */
-    }
+.error-msg {
+  font-size: 12px;
+}
 
-    .step-2 {
-        transform: translateX(150%);
-    }
+</style>
 
-    .form_group {
-        width: 100%;
-        margin: 10px 0;
-    }
-
-    .form input {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-
-    .link {
-        text-decoration: underline;
-        color: var(--color-primary);
-        cursor: pointer;
-        font-size: 0.9rem;
-    }
-
-    .link:hover {
-        color: var(--color-orange-dark);
-    }
-
-    .btn-primary {
-        background-color: var(--color-primary);
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 10px 0;
-        cursor: pointer;
-        border-radius: 4px;
-    }
-
-    .btn-primary:hover {
-        background-color: var(--color-orange-dark);
-    }
-
-    .password-wrapper {
-        position: relative;
-    }
-
-    .password-wrapper .eye-icon--box {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-        color: #555;
-    }
-
-    .password-wrapper .eye-icon--box:hover {
-        color: #000;
-    }
-
-    .eye-icon {
-        color: #555;
-        width: 20px;
-        height: 20px;
-    }
-
-    .eye-icon.hidden {
-        display: none;
-    }
-
-    @media screen and (max-width: 650px) {
-        .main{
-            height: auto;
-        }
-        .row{
-            flex-direction: column;
-            height: max-content;
-        }
-
-        .left{
-
-        }
-
-        .right{
-            height: inherit;
-            padding: 0;
-            
-        }
-
-        .steps{
-            width: 100%;
-            height: 100%;
-            overflow-y: visible;
-            overflow-x: hidden;
-        }
-        .step{
-            position: static;
-        }
-        .step.step-2{
-            transform: translate(150%, -100%);
-        }
-    }
-
-    </style>
 </head>
-
 <body>
-    <div class="main">
-        <div class="row">
-            <div class='left'>
-                <img src="<?php echo base_url()?>/assets/admin/images/eshop_img.jpg" alt="side-image brand"
-                    style="width: 100%; height: 100%;">
-            </div>
-            <div class='right'>
-                <form class='form' method="post">
-                    <div class='form_box'>
-                        <div class="steps">
-                            <div class="step step-1">
-                                <h2>Sign Up</h2>
-                                <div class="form_group">
-                                    <label for="mobile">Mobile</label>
-                                    <input type="text" id="mobile" name="mobile" class="form-control"
-                                        placeholder="Enter your mobile number" required>
-                                    <a href="#" class="link" id="send_otp">Send OTP</a>
-                                    <p class='error error_mobile'></p>
-                                    <p class='success success_mobile'></p>
-                                </div>
-                                <div class="form_group">
-                                    <label for="otp">OTP</label>
-                                    <input type="text" id="otp" name="otp" class="form-control"
-                                        placeholder="Enter the OTP" required>
-                                    <p class='error error_otp'></p>
-                                    <p class='success success_otp'></p>
-                                </div>
+  <section class="content w-100 seller-form">
+      <div class="container-fluid">
+        <div class="form-parent">
+          <div class="form-container-main">
 
-                                <button type="button" class="btn btn-primary" id="verify_otp">Verify OTP</button>
-                            </div>
+              <div class="form-header w-100">
+                  
+                  <div class="login-logo ">
+                    <a href="<?= base_url() . 'seller/login' ?>">
+                      <img class='w-50' src="<?= base_url() . $logo ?>">
+                    </a>
+                  </div>
 
-                            <div class="step step-2">
-                                <h2>Set Up Your Password</h2>
-                                <div class="form_group">
-                                    <label for="password">Password</label>
-                                    <div class="password-wrapper">
-                                        <input type="password" id="password" name="password" class="form-control"
-                                            placeholder="Enter your password" required>
-                                        <span class='eye-icon--box'>
-                                            <i class="eye-icon fa-regular fa-eye-slash "></i>
-                                            <i class="eye-icon fa-regular fa-eye hidden"></i>
-                                        </span>
-                                    </div>
+                  <div class="slider d-flex w-100 justify-content-between align-items-center">
+                              <div class="form-indicator form-indicator-1  active">
+                                  <p class="text-n text-capitalize">personal details</p>
+                              </div>
+                              <div class="completion-line completion-line-1"></div>
+                              <div class="form-indicator form-indicator-2">
+                                  
+                                      <p class="text-n text-capitalize">store details</p>
+                                  
+                              </div>
+                              <div class="completion-line completion-line-2"></div>
+                              <div class="form-indicator form-indicator-3">
+                                
+                                          <p class="text-n text-capitalize">account details</p>
+                                    
+                              </div>
+                  </div>
+              </div>
 
-                                </div>
-                                <div class="form_group">
-                                    <label for="confirm_password">Confirm Password</label>
-                                    <div class="password-wrapper">
-                                        <input type="password" id="confirm_password" name="confirm_password"
-                                            class="form-control" placeholder="Confirm your password" required>
-                                        <span class='eye-icon--box'>
-                                            <i class="eye-icon fa-regular fa-eye-slash "></i>
-                                            <i class="eye-icon fa-regular fa-eye hidden"></i>
-                                        </span>
-                                    </div>
-                                    <p class='error error_password'></p>
-                                    <p class='success success_password'></p>
-                                </div>
-
-                                <button class="btn btn-primary">Sign up</button>
-                            </div>
+              <div class="form-container">
+                <form  id="seller_form" onSubmit="submitForm(e)" enctype="multipart/form-data"> 
+                  
+                    <div class="form-step form1">
+                      <div class="row gap-xl-5">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">First Name <span class="text-danger">*</span></label>
+                          <input name="first_name" type="text" class="input" placeholder="First name"required="" >
                         </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Last Name </label>
+                          <input name="last_name" type="text" class="input" placeholder="Last Name" >
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                         <input name="phone" type="text" id="phone" onkeyup="validatePhone()" class="input" placeholder="Enter Phone Number"  maxlength="10" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;" required="">
+                          <span id="phone_error" class="text-danger"></span>
+                          <!-- <a>verify</a> -->
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Email ID <span class="text-danger">*</span></label>
+                          <input name="email" type="email" onkeyup="validateEmail()" id="email" class="input" placeholder="Enter Email ID" required="">
+                          <span id="email_error" class="text-danger"></span>
+                          <!-- <a>verify</a> -->
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Address
+                            
+                          </label>
+                          <input name="address1" type="text" class="input" placeholder="Street 1" >
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">&nbsp;</label>
+                          <input name="address2"  type="text" class="input" placeholder="Street 2">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">District
+                            
+                          </label>
+                          <input name="district" type="text" class="input" placeholder="Enter District" >
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">City/Village/Town
+                            
+                          </label>
+                          <input name="city" type="text" class="input" placeholder="Enter City/Village/Town" > 
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">State
+                            
+                          </label>
+                          <input name="state" type="text" class="input" placeholder="Enter State" >
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">PIN Code
+                            
+                          </label>
+                          <input name="pin" type="text" class="input" placeholder="Enter PIN Code"  maxlength="6" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
+                        </div>
+                      
+                      </div>
+                        
+                        <div class="text-center mt-3">
+                          <button type="button" class="btn btn-next-1 ">Next</button>
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="form-step form2">
+                        <div>
+                          <div class="photo-upload d-flex gap-4 justify-content-between align-items-center mb-3">
+                            <input type="file" class="hidden" name="store_logo"  id="photoInput" accept="image/*">
+                            <div class="preview-container ">
+                              <svg class="profile-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+                              </svg>
+                              <img id="photoPreview" src="" class="shop-logo hidden" style="margin-top: 1rem;">
+                            </div>
+                          <label for="photoInput">Shop Logo</label>
+                          </div>
+                        </div>
+                        
+                      <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Shop Name </label>
+                          <input name="shop_name" type="text" class="input" placeholder="Shop Name" >
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Social Media Handle </label>
+                          <input name="social" type="text" class="input" placeholder="Enter Social Media" >
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Shop Phone Number </label>
+                          <input name="shop_phone" type="text" class="input" placeholder="Enter shop  Phone Number"  maxlength="10" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Pickup Address Lane 1</label>
+                          <input name="pickup_address1"  type="text" class="input" placeholder="Address Lane 1" >
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label" >Pickup Address Lane 2</label>
+                          <input name="pickup_address2" type="text" class="input" placeholder="Address Lane 2">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">City</label>
+                          <input  name="pickup_district" type="text" class="input" placeholder="Enter City">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label name="pickup_city" class="form-label">District</label>
+                          <input type="text" class="input" placeholder="Enter District">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">State</label>
+                          <input name="pickup_state" type="text" class="input" placeholder="Enter State">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">PIN Code</label>
+                          <input name="pickup_pin" type="text" class="input" placeholder="Enter PIN Code" maxlength="6" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
+                        </div>
+                      </div>
+                      
+                      <div class=" mt-3 w-100 d-flex justify-content-between align-items-center">
+                        <button type="button" class="btn btn-back-1 ">Back</button>
+                        <button type="button" class="btn btn-next-2 ">Next</button>
+                      </div>
 
                     </div>
+
+                    <div class="form-step form3">
+
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Entity Type </label>
+                          <select name="entity_type" class="input" id="entity_type">
+                            <option name="individual">Individual</option>
+                            <option name="sole_proprietorship">Sole proprietorship</option>
+                            <option name="partenership_firm">Partenership Firm</option>
+                            <option name="individual">Pvt Ltd.</option>
+                          </select>
+                          
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">PAN Number</label>
+                          <input name="pan" type="text" class="input" placeholder="Enter PAN Number" >
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">GST Number </label>
+                          <input name="gst" type="text" class="input" placeholder="22ABCDE0000A1Z5" >
+                        </div>
+                      </div>
+
+                      <h3>Declaration</h3>
+                      <div class="d-flex flex-column justify-content-between align-items-start">
+                          <div id="entity_check_div">
+                              <input type="checkbox" id="entity_check" class="check-input">
+                              <label for="entity_check">We are not a registered Entity.</label>
+                          </div>
+                          <div>
+                              <input type="checkbox" id="gst_check" class="check-input">
+                              <label for="gst_check">We are not GST registered.</label>
+                          </div>
+                      </div>
+                      
+                      <h3>Account Details</h3>
+                      <div class="row">
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Account Number</label>
+                          <input name="account_number" type="text" class="input" placeholder="Enter your Account Number"  onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Confirm Account Number</label>
+                          <input name="confirm_account_number" type="text" class="input" placeholder="Confirm your Account Number"  onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Account Holder name</label>
+                          <input name="account_holder_name" type="text" class="input" placeholder="Enter  the Account Holder’s name" >
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">IFSC Code</label>
+                          <input name="ifsc" type="text" class="input" placeholder="Enter IFSC Code"  >
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Branch Name</label>
+                          <input name="branch" type="text" class="input" placeholder="Enter  Branch" >
+                        </div>
+                        <div class="col-md-6 mb-3">
+                          <label class="form-label">Bank Name</label>
+                          <input name="bank_name" type="text" class="input" placeholder="Enter Bank Name" >
+                        </div>
+
+                      </div>
+                      <div class=" mt-3 w-100 d-flex justify-content-between align-items-center">
+                        <button type="button" class="btn btn-back-2 ">Back</button>
+                        <button type="submit" class="btn submit_btn">Submit</button>
+                      </div>
+
+                      <div id="response">
+
+                      </div>
+
+                    </div>
+                  
                 </form>
-            </div>
+              </div>
+              
+          </div>
         </div>
-    </div>
+      </div>
+      
+  </section>
+<!--  <script>-->
+<!--const submitBtn = document.querySelector('.submit_btn');-->
+
+<!--function clearErrors(form) {-->
+<!--  form.querySelectorAll('.error-msg').forEach(e => e.remove());-->
+<!--  form.querySelectorAll('.is-invalid').forEach(i => i.classList.remove('is-invalid'));-->
+<!--}-->
+
+<!--function showError(input, message) {-->
+<!--  input.classList.add('is-invalid');-->
+
+<!--  const error = document.createElement('small');-->
+<!--  error.className = 'error-msg';-->
+<!--  error.style.color = 'red';-->
+<!--  error.innerText = message;-->
+
+<!--  input.parentElement.appendChild(error);-->
+<!--}-->
+
+<!--function validateForm3() {-->
+<!--  const form3 = document.querySelector('.form3');-->
+<!--  clearErrors(form3);-->
+
+<!--  let valid = true;-->
+<!--  const inputs = form3.querySelectorAll('input[], select[]');-->
+
+<!--  inputs.forEach(input => {-->
+<!--    if (!input.value.trim()) {-->
+<!--      showError(input, 'This field is ');-->
+<!--      valid = false;-->
+<!--      return;-->
+<!--    }-->
+
+<!--    if (input.name === 'ifsc' &&-->
+<!--        !/^[A-Z]{4}0[A-Z0-9]{6}$/.test(input.value)) {-->
+<!--      showError(input, 'Invalid IFSC Code');-->
+<!--      valid = false;-->
+<!--    }-->
+<!--  });-->
+
+  <!--// Account number match check-->
+<!--  const acc = form3.querySelector('[name="account_number"]');-->
+<!--  const conf = form3.querySelector('[name="confirm_account_number"]');-->
+<!--  if (acc && conf && acc.value !== conf.value) {-->
+<!--    showError(conf, 'Account numbers do not match');-->
+<!--    valid = false;-->
+<!--  }-->
+
+<!--  return valid;-->
+<!--}-->
+
+<!--function submitForm(e) {-->
+<!--  e.preventDefault();-->
+
+  <!--// ✅ ONLY validate third form-->
+<!--  if (!validateForm3()) return;-->
+
+<!--  const form = document.getElementById('seller_form');-->
+<!--  const formData = new FormData(form);-->
+
+<!--  submitBtn.disabled = true;-->
+<!--  submitBtn.innerText = 'Submitting...';-->
+
+<!--  fetch("<?php echo base_url('seller/auth/create_seller') ?>", {-->
+<!--    method: 'POST',-->
+<!--    body: formData-->
+<!--  })-->
+<!--  .then(res => res.json())-->
+<!--  .then(data => {-->
+<!--    submitBtn.disabled = false;-->
+<!--    submitBtn.innerText = 'Submit';-->
+    
+<!--    if(data.error == false){-->
+<!--       window.location.href = base_url + 'seller/home';-->
+<!--    }-->
+
+<!--    document.getElementById('response').innerHTML =-->
+<!--      data.error-->
+<!--        ? `<div style="color:red;">${data.message}</div>`-->
+<!--        : `<div style="color:green;">${data.message}</div>`;-->
+<!--  })-->
+<!--  .catch(() => {-->
+<!--    submitBtn.disabled = false;-->
+<!--    submitBtn.innerText = 'Submit';-->
+<!--  });-->
+<!--}-->
+
+<!--submitBtn.addEventListener('click', submitForm);-->
+<!--</script>-->
+
+<!--  <script src="<?= base_url('assets/seller/js/cretzo/form.js') ?>"></script>-->
 
 
-    <script>
-    $(document).ready(function() {
 
-        // Toggle password visibility
-        $('.eye-icon--box').click(function() {
-            let input = $(this).siblings('input');
-            let eyeSlashIcon = $(this).find('.fa-eye-slash');
-            let eyeIcon = $(this).find('.fa-eye');
+  <script>
+const submitBtn = document.querySelector('.submit_btn');
 
-            if (input.attr('type') === 'password') {
-                input.attr('type', 'text');
-                eyeSlashIcon.addClass('hidden');
-                eyeIcon.removeClass('hidden');
-            } else {
-                input.attr('type', 'password');
-                eyeSlashIcon.removeClass('hidden');
-                eyeIcon.addClass('hidden');
-            }
-        });
-        // Send OTP button click
-        $("#send_otp").click(function() {
-            let mobile = $("#mobile").val();
+function clearErrors(form) {
+  form.querySelectorAll('.error-msg').forEach(e => e.remove());
+  form.querySelectorAll('.is-invalid').forEach(i => i.classList.remove('is-invalid'));
+}
 
-            if (mobile === "" || mobile.length !== 10) {
-                alert("Enter a valid 10-digit mobile number");
-                return;
-            }
-            const base_url = "<?= base_url('') ?>"
+function showError(input, message) {
+  input.classList.add('is-invalid');
 
-            $.ajax({
-                url: base_url + "seller/auth/send_otp",
-                type: "POST",
-                data: {
-                    mobile: mobile
-                },
-                dataType: "json",
-                success: function(res) {
-                    $('.success_mobile').text('OTP sent successfully');
-                    $("#send_otp").text('Resend OTP');
-                },
-                error: function(err) {
-                    console.log(err);
-                    $('.error_mobile').text('Failed to send OTP. Try again.');
-                }
-            });
-        });
+  const error = document.createElement('small');
+  error.className = 'error-msg';
+  error.style.color = 'red';
+  error.innerText = message;
 
-        // Verify OTP button click
-        $('#verify_otp').click(function() {
+  input.parentElement.appendChild(error);
+}
 
-            const base_url = "<?= base_url('') ?>"
-            let mobile = $("#mobile").val();
-            let otp = $("#otp").val();
+// function validateForm3() {
+//   const form3 = document.querySelector('.form3');
+//   clearErrors(form3);
 
-            if (mobile === "" || mobile.length !== 10) {
-                $('.error_mobile').text("Enter a valid 10-digit mobile number");
-                return;
-            }
-            if (otp === "" || otp.length !== 6) {
-                $('.error_otp').text("Enter a valid OTP");
-                return;
-            }
+//   let valid = true;
+//   const inputs = form3.querySelectorAll('input[], select[]');
 
-            $.ajax({
-                url: base_url + "seller/auth/verify_otp",
-                type: "POST",
-                data: {
-                    mobile: mobile,
-                    otp: otp
-                },
-                dataType: "json",
-                success: function(res) {
+//   inputs.forEach(input => {
+//     if (!input.value.trim()) {
+//       showError(input, 'This field is ');
+//       valid = false;
+//       return;
+//     }
 
-                    if (res.status !== 'success') {
-                        $('.error_otp').text(res.message);
-                        return;
-                    }
-                    $('.success_otp').text('OTP verified successfully');
-                    $("#send_otp").text('Resend OTP');
-                    $('.step-1').css('transform', 'translateX(-100%)');
-                    $('.step-2').css('transform', 'translateX(0%)');
+//     if (input.name === 'ifsc' &&
+//         !/^[A-Z]{4}0[A-Z0-9]{6}$/.test(input.value)) {
+//       showError(input, 'Invalid IFSC Code');
+//       valid = false;
+//     }
+//   });
 
-                },
-                error: function(err) {
-                    console.log(err);
-                    $('.error_otp').text('Invalid OTP. Try again.');
-                }
-            });
-        })
+//   // Account number match check
+//   const acc = form3.querySelector('[name="account_number"]');
+//   const conf = form3.querySelector('[name="confirm_account_number"]');
+//   if (acc && conf && acc.value !== conf.value) {
+//     showError(conf, 'Account numbers do not match');
+//     valid = false;
+//   }
 
-        // Signup form submit via AJAX
-        $(".form").submit(function(e) {
-            e.preventDefault();
-            const base_url = "<?= base_url('') ?>"
-            // console.log($(this).serialize());
-            $.ajax({
-                url: base_url + "seller/auth/ajax_signup",
-                type: "POST",
-                data: $(this).serialize(),
-                dataType: "json",
-                success: function(res) {
-                    console.log(res.status, 'in success ajax.');
-                    if (res.status === 'success') {
-                        console.log(res);
-                        $(".form")[0].reset();
-                        window.location.href = base_url + 'seller/home';
-                    } else {
-                        console.log(res);
-                        alert(res.message);
-                    }
-                },
-                error: function(err) {
-                    console.error(err, 'in error ajax.');
-                    $('.error_password').text(
-                        'Password and Confirm Password do not match.');
-                }
-            });
-        });
+//   return valid;
+// }
 
+function submitForm(e) {
+  e.preventDefault();
+
+  // ✅ ONLY validate third form
+//   if (!validateForm3()) return;
+
+  const form = document.getElementById('seller_form');
+  const formData = new FormData(form);
+
+  submitBtn.disabled = true;
+  submitBtn.innerText = 'Submitting...';
+
+  fetch("<?php echo base_url('seller/auth/create_seller') ?>", {
+    method: 'POST',
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    submitBtn.disabled = false;
+    submitBtn.innerText = 'Submit';
+    
+    if(data.error == false){
+       window.location.href = base_url + 'seller/home';
+    }
+
+    document.getElementById('response').innerHTML =
+      data.error
+        ? `<div style="color:red;">${data.message}</div>`
+        : `<div style="color:green;">${data.message}</div>`;
+  })
+  .catch(() => {
+    submitBtn.disabled = false;
+    submitBtn.innerText = 'Submit';
+  });
+}
+
+submitBtn.addEventListener('click', submitForm);
+</script>
+
+  <script src="<?= base_url('assets/seller/js/cretzo/form.js') ?>"></script>
+  
+  
+<!--  <script>-->
+<!--function validateEmail() {-->
+<!--    const email = document.getElementById('email').value;-->
+
+<!--    return fetch("<?php echo base_url('seller/auth/check_email'); ?>", {-->
+<!--        method: "POST",-->
+<!--        headers: {-->
+<!--            "Content-Type": "application/json"-->
+<!--        },-->
+<!--        body: JSON.stringify({ email: email })-->
+<!--    })-->
+<!--    .then(res => res.json())-->
+<!--    .then(data => {-->
+<!--        if (data.error) {-->
+<!--            throw new Error(data.message);-->
+<!--        }-->
+<!--        return true;-->
+<!--    });-->
+<!--}-->
+
+<!--function validatePhone() {-->
+<!--    const phone = document.getElementById('phone').value;-->
+
+<!--    return fetch("<?php echo base_url('seller/auth/check_phone'); ?>", {-->
+<!--        method: "POST",-->
+<!--        headers: {-->
+<!--            "Content-Type": "application/json"-->
+<!--        },-->
+<!--        body: JSON.stringify({ phone: phone })-->
+<!--    })-->
+<!--    .then(res => res.json())-->
+<!--    .then(data => {-->
+<!--        if (data.error) {-->
+<!--            throw new Error(data.message);-->
+<!--        }-->
+<!--        return true;-->
+<!--    });-->
+<!--}-->
+<!--</script>-->
+
+
+<script>
+function validateEmail() {
+      $('#email_error').html(' ');
+    const email = document.getElementById('email').value;
+
+    const formData = new FormData();
+    formData.append('email', email);
+
+    return fetch("<?php echo base_url('seller/auth/check_email'); ?>", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            
+            $('#email_error').html(data.message);
+        }
+        return true;
     });
-    </script>
-</body>
+}
 
+function validatePhone() {
+    $('#phone_error').html(' ');
+    const phone = document.getElementById('phone').value;
+
+    const formData = new FormData();
+    formData.append('phone', phone);
+
+    return fetch("<?php echo base_url('seller/auth/check_phone'); ?>", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+           $('#phone_error').html(data.message);
+        }
+        return true;
+    });
+}
+</script>
+
+
+</body>
 </html>
+
