@@ -69,7 +69,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Email ID <span class="text-danger">*</span></label>
-                          <input name="email" type="email" id="email" class="input" placeholder="Enter Email ID" value="<?=$fetched_data[0]['email']?>" required>
+                          <input name="email" type="email" id="email" class="input" placeholder="Enter Email ID" max_length = "254" value="<?=$fetched_data[0]['email']?>" required>
                           <span id="email_error" class="text-danger"></span>
                           <!-- <a>verify</a> -->
                         </div>
@@ -194,11 +194,11 @@
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">PAN Number<span class="text-danger">*</span></label>
-                          <input name="pan" type="text" class="input" placeholder="Enter PAN Number" value="<?=$fetched_data[0]['pan']?>" required>
+                          <input name="pan" type="text" maxlength = "10" class="input" placeholder="Enter PAN Number" value="<?=$fetched_data[0]['pan']?>" required>
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">GST Number <span class="text-danger">*</span></label>
-                          <input name="gst" type="text" class="input" placeholder="22ABCDE0000A1Z5" value="<?=$fetched_data[0]['gst']?>" required>
+                          <input name="gst" type="text" maxlength = "15"class="input" placeholder="22ABCDE0000A1Z5" value="<?=$fetched_data[0]['gst']?>" required>
                         </div>
                       </div>
 
@@ -218,11 +218,11 @@
                       <div class="row">
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Account Number<span class="text-danger">*</span></label>
-                          <input name="account_number" type="text" class="input" placeholder="Enter your Account Number" value="<?=$fetched_data[0]['account_number']?>" required onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
+                          <input name="account_number" type="text" class="input" maxlength = "18" placeholder="Enter your Account Number"  value="<?=$fetched_data[0]['account_number']?>" required onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Confirm Account Number<span class="text-danger">*</span></label>
-                          <input name="confirm_account_number" type="text" class="input" placeholder="Confirm your Account Number" value="<?=$fetched_data[0]['account_number']?>" required onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
+                          <input name="confirm_account_number" type="text" class="input"  maxlength = "18" placeholder="Confirm your Account Number" value="<?=$fetched_data[0]['account_number']?>" required onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Account Holder name<span class="text-danger">*</span></label>
@@ -230,7 +230,7 @@
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">IFSC Code<span class="text-danger">*</span></label>
-                          <input name="ifsc" type="text" class="input" placeholder="Enter IFSC Code" value="<?=$fetched_data[0]['ifsc']?>" required >
+                          <input name="ifsc" type="text" class="input" placeholder="Enter IFSC Code"  maxlength = "11" value="<?=$fetched_data[0]['ifsc']?>" required >
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Branch Name<span class="text-danger">*</span></label>
