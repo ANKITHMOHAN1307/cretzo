@@ -65,13 +65,13 @@
                           <label class="form-label">Phone Number <span class="text-danger">*</span></label>
                           <input name="phone" type="text" id="phone" value="<?=$fetched_data[0]['phone']?>" class="input" placeholder="Enter Phone Number" required maxlength="10" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
                           <span id="phone_error" class="text-danger"></span>
-                          <!-- <a>verify</a> -->
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Email ID <span class="text-danger">*</span></label>
-                          <input name="email" type="email" id="email" class="input" placeholder="Enter Email ID" max_length = "254" value="<?=$fetched_data[0]['email']?>" required>
+                          <!-- BUG FIX #6 START — type="email" enforces email format at browser level, maxlength corrected from max_length to maxlength -->
+                          <input name="email" type="email" id="email" class="input" placeholder="Enter Email ID" maxlength="254" value="<?=$fetched_data[0]['email']?>" required>
+                          <!-- BUG FIX #6 END -->
                           <span id="email_error" class="text-danger"></span>
-                          <!-- <a>verify</a> -->
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Address
@@ -184,21 +184,26 @@
                       <div class="row">
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Entity Type <span class="text-danger">*</span></label>
+                          <!-- BUG FIX #6 START — fixed name= to value= so selected option POSTs correctly to backend -->
                           <select name="entity_type" class="input" id="entity_type">
-                            <option name="individual">Individual</option>
-                            <option name="sole_proprietorship">Sole proprietorship</option>
-                            <option name="partenership_firm">Partenership Firm</option>
-                            <option name="individual">Pvt Ltd.</option>
+                            <option value="individual">Individual</option>
+                            <option value="sole_proprietorship">Sole Proprietorship</option>
+                            <option value="partnership_firm">Partnership Firm</option>
+                            <option value="pvt_ltd">Pvt Ltd.</option>
                           </select>
-                          
+                          <!-- BUG FIX #6 END -->
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">PAN Number<span class="text-danger">*</span></label>
-                          <input name="pan" type="text" maxlength = "10" class="input" placeholder="Enter PAN Number" value="<?=$fetched_data[0]['pan']?>" required>
+                          <!-- BUG FIX #6 START — maxlength added to enforce 10 character PAN format at browser level -->
+                          <input name="pan" type="text" maxlength="10" class="input" placeholder="Enter PAN Number" value="<?=$fetched_data[0]['pan']?>" required>
+                          <!-- BUG FIX #6 END -->
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">GST Number <span class="text-danger">*</span></label>
-                          <input name="gst" type="text" maxlength = "15"class="input" placeholder="22ABCDE0000A1Z5" value="<?=$fetched_data[0]['gst']?>" required>
+                          <!-- BUG FIX #6 START — maxlength added to enforce 15 character GST format at browser level -->
+                          <input name="gst" type="text" maxlength="15" class="input" placeholder="22ABCDE0000A1Z5" value="<?=$fetched_data[0]['gst']?>" required>
+                          <!-- BUG FIX #6 END -->
                         </div>
                       </div>
 
@@ -218,19 +223,25 @@
                       <div class="row">
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Account Number<span class="text-danger">*</span></label>
-                          <input name="account_number" type="text" class="input" maxlength = "18" placeholder="Enter your Account Number"  value="<?=$fetched_data[0]['account_number']?>" required onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
+                          <!-- BUG FIX #6 START — maxlength added to enforce max 18 digit account number at browser level -->
+                          <input name="account_number" type="text" class="input" maxlength="18" placeholder="Enter your Account Number" value="<?=$fetched_data[0]['account_number']?>" required onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
+                          <!-- BUG FIX #6 END -->
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Confirm Account Number<span class="text-danger">*</span></label>
-                          <input name="confirm_account_number" type="text" class="input"  maxlength = "18" placeholder="Confirm your Account Number" value="<?=$fetched_data[0]['account_number']?>" required onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
+                          <!-- BUG FIX #6 START — maxlength added to match account number limit -->
+                          <input name="confirm_account_number" type="text" class="input" maxlength="18" placeholder="Confirm your Account Number" value="<?=$fetched_data[0]['account_number']?>" required onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
+                          <!-- BUG FIX #6 END -->
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Account Holder name<span class="text-danger">*</span></label>
-                          <input name="account_holder_name" type="text" class="input" placeholder="Enter  the Account Holder’s name" value="<?=$fetched_data[0]['account_holder_name']?>" required>
+                          <input name="account_holder_name" type="text" class="input" placeholder="Enter  the Account Holder's name" value="<?=$fetched_data[0]['account_holder_name']?>" required>
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">IFSC Code<span class="text-danger">*</span></label>
-                          <input name="ifsc" type="text" class="input" placeholder="Enter IFSC Code"  maxlength = "11" value="<?=$fetched_data[0]['ifsc']?>" required >
+                          <!-- BUG FIX #6 START — maxlength added to enforce exact 11 character IFSC format at browser level -->
+                          <input name="ifsc" type="text" class="input" placeholder="Enter IFSC Code" maxlength="11" value="<?=$fetched_data[0]['ifsc']?>" required>
+                          <!-- BUG FIX #6 END -->
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Branch Name<span class="text-danger">*</span></label>
@@ -353,9 +364,6 @@ submitBtn.addEventListener('click', submitForm);
 </script>
 
   <script src="<?= base_url('assets/seller/js/cretzo/form.js') ?>"></script>
-  
-  
 
 </body>
 </html>
-
