@@ -74,9 +74,9 @@ class Login extends CI_Controller
             $identity = $this->session->userdata('identity');
             $user = $this->ion_auth->user()->row();
 
-            // ----------------------------------------------------------------
+        
             // BUG FIX #6 — Server-Side Validation (was mostly commented out)
-            // ----------------------------------------------------------------
+           
 
             // Personal Details
             $this->form_validation->set_rules('first_name', 'First Name', 'trim|required|xss_clean|alpha');
@@ -121,9 +121,9 @@ class Login extends CI_Controller
                 $this->form_validation->set_rules('address_proof',         'Address Proof',         'trim|xss_clean');
             }
 
-            // ----------------------------------------------------------------
+       
             // END OF BUG FIX #6 VALIDATION RULES
-            // ----------------------------------------------------------------
+    
 
             if (!$this->form_validation->run()) {
 
@@ -450,10 +450,10 @@ class Login extends CI_Controller
 
                 if ($user_id) {
 
-                    // ----------------------------------------------------------------
+                   
                     // BUG FIX #6 — Duplicate keys removed (account_number & bank_name
                     // were defined twice; kept the XSS-cleaned version with true flag)
-                    // ----------------------------------------------------------------
+            
                     $seller_data = array(
                         'user_id'                  => $user_id,
                         'edit_seller_data_id'      => $user_id,
