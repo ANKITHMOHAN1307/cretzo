@@ -383,6 +383,60 @@ class My_account extends CI_Controller
         echo json_encode($response);
     }
 
+    public function get_states()
+    {
+        $states = $this->db->select('id,name')->order_by('name', 'ASC')->get('states')->result_array();
+
+        $this->response['error'] = false;
+        $this->response['data'] = $states;
+        print_r(json_encode($this->response));
+    }
+
+    public function get_districts()
+    {
+        $this->form_validation->set_rules('state_id', 'State Id', 'trim|required|numeric|xss_clean');
+        if (!$this->form_validation->run()) {
+            $this->response['error'] = true;
+            $this->response['data'] = array();
+            $this->response['message'] = validation_errors();
+            print_r(json_encode($this->response));
+            return false;
+        }
+
+        $state_id = $this->input->post('state_id', true);
+        $districts = $this->db->select('id,name,state_id')->where('state_id', $state_id)->order_by('name', 'ASC')->get('districts')->result_array();
+
+        $this->response['error'] = false;
+        $this->response['data'] = $districts;
+        print_r(json_encode($this->response));
+    }
+
+    public function get_cities_by_district()
+    {
+        $this->form_validation->set_rules('district_id', 'District Id', 'trim|required|numeric|xss_clean');
+        if (!$this->form_validation->run()) {
+            $this->response['error'] = true;
+            $this->response['data'] = array();
+            $this->response['message'] = validation_errors();
+            print_r(json_encode($this->response));
+            return false;
+        }
+
+        $district_id = $this->input->post('district_id', true);
+        $search = $this->input->post('search', true);
+
+        $query = $this->db->select('id,name,state_id,district_id')->where('district_id', $district_id);
+        if (!empty($search)) {
+            $query->like('name', $search);
+        }
+
+        $cities = $query->order_by('name', 'ASC')->get('cities')->result_array();
+
+        $this->response['error'] = false;
+        $this->response['data'] = $cities;
+        print_r(json_encode($this->response));
+    }
+
     public function wallet()
     {
         $web_doctor_brown = get_settings('web_doctor_brown', true);

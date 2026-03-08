@@ -95,29 +95,37 @@ function updateEditAddressForm(row){
     // $("#edit_area").empty();
     $("#edit_mobile").val(row.mobile);
     $("#edit_address").val(row.address);
-    $("#edit_state").val(row.state);
+    $("#edit_state").val(row.state).trigger('change.select2');
     $("#edit_country").val(row.country);
     $("#edit_pincode").val(row.pincode);
     
+    if (window.addressCascade && row.state) {
+        window.addressCascade.loadStates('edit', row.state);
+    }
+
     if (row.city_id == 0 || row.city_id == "") {
         $('.edit_area').addClass('d-none');
-        // $('.edit_city').addClass('d-none');
         $('.edit_pincode').addClass('d-none');
-        // $('.other_areas').removeClass('d-none');
         $("#other_areas_value").val(row.area);
-        // $('.other_city').removeClass('d-none');
         $("#other_city_value").val(row.area);
         $('.other_pincode').removeClass('d-none');
         $("#other_pincode_value").val(row.pincode);
-        $("#edit_city").val(row.city_id);
+        $('#edit_district').val('').trigger('change.select2');
+        $("#edit_city").html('<option value="">--Select City--</option>').val('').trigger('change.select2');
     } else if (row.system_pincode == 0) {
-        $("#edit_city").val(row.city_id).trigger('change', [row.pincode]);
-        // $('.edit_pincode').addClass('d-none');
-        
+        $('.edit_area').removeClass('d-none');
+        $('.edit_pincode').removeClass('d-none');
+
+        $('#edit_city').html('<option value="' + row.city_id + '">' + (row.city ? row.city : 'Selected City') + '</option>').val(row.city_id).trigger('change.select2');
+        $("#edit_city").trigger('change', [row.pincode]);
         $('.other_pincode').removeClass('d-none');
         $("#other_pincode_value").val(row.pincode);
     } else {
-        $("#edit_city").val(row.city_id).trigger('change', [row.pincode]);
+        $('.edit_area').removeClass('d-none');
+        $('.edit_pincode').removeClass('d-none');
+
+        $('#edit_city').html('<option value="' + row.city_id + '">' + (row.city ? row.city : 'Selected City') + '</option>').val(row.city_id).trigger('change.select2');
+        $("#edit_city").trigger('change', [row.pincode]);
 
         $("#edit_pincode").val(0).trigger('change');
         $('.other_pincode').addClass('d-none');
