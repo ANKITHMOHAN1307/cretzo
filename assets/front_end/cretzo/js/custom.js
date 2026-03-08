@@ -1214,7 +1214,7 @@ search_products.on("select2:select", function (e) {
         t < a ? ($(this).val(a), Toast.fire({
             icon: "error",
             title: "Minimum allowed quantity is " + a
-        })) : t > r && ($(this).val(r), Toast.fire({
+        }(); : t > r && ($(this).val(r), Toast.fire({
             icon: "error",
             title: "Maximum allowed quantity is " + r
         }))
@@ -2348,429 +2348,197 @@ function customer_wallet_query_paramss(e) {
                 csrfName = e.csrfName, csrfHash = e.csrfHash, 0 == e.error ? ($("#save-address-result").html("<div class='alert alert-success'>" + e.message + "</div>").delay(1500).fadeOut(), $("#add-address-form")[0].reset(), $("#address_list_table").bootstrapTable("refresh")) : $("#save-address-result").html("<div class='alert alert-danger'>" + e.message + "</div>").delay(1500).fadeOut(), $("#save-address-submit-btn").val("Save").attr("disabled", !1)
             }
         })
-    }),
-    $('#pincode').on('change', function (e) {
+    }), function () {
+    $('#pincode, #edit_pincode').on('change', function (e) {
         e.preventDefault();
-        var value = $(this).val()
+        var value = $(this).val();
+        var isEdit = $(this).attr('id') === 'edit_pincode';
         if (value == 0 || value == -1) {
-            $('.pincode_name').removeClass('d-none')
+            if (isEdit) {
+                $('.other_pincode').removeClass('d-none');
+            } else {
+                $('.pincode_name').removeClass('d-none');
+            }
         } else {
-            $('.pincode_name').addClass('d-none')
+            if (isEdit) {
+                $('.other_pincode').addClass('d-none');
+            } else {
+                $('.pincode_name').addClass('d-none');
+            }
             $('input[name="pincode_name"]').val("");
         }
-    }),
-    $('#edit_pincode').on('change', function (e) {
-        e.preventDefault();
-        var value = $(this).val()
-        console.log('value' + value);
-        if (value == 0 || value == -1) {
-            $('.other_pincode').removeClass('d-none')
-        } else {
-            $('.other_pincode').addClass('d-none')
-            $('input[name="pincode_name"]').val("");
-            // $('#other_pincode_value').val();
-        }
-    }),
-    $("#city").select2({
-        ajax: {
-            url: base_url + 'my-account/get_cities',
-            type: "GET",
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-                return {
-                    search: params.term, // search term
-                };
-            },
-            processResults: function (response) {
-                return {
-                    results: response
-                };
-            },
-            cache: true
-        },
+    });
 
-        minimumInputLength: 1,
-        theme: 'bootstrap4',
-        placeholder: 'Search for cities',
-        dropdownParent: $("#add-address-form"), // added for cretzo
-        // Set the predefined options as selected
+    function resetSelect($el, placeholder) {
+        $el.html('<option value="">' + placeholder + '</option>').val('').trigger('change.select2');
+    }
 
-    }),
-    $('#city').on('change', function (e) {
-        e.preventDefault();
-        var value = $(this).val()
-        if (value == 0 || value == -1) {
-            $('.city_name').removeClass('d-none')
-            $('.area_name').removeClass('d-none')
-            $('.pincode_name').removeClass('d-none')
-            $('.area').addClass('d-none')
-            $('.pincode').addClass('d-none')
-        } else {
-            $('#edit_pincode').empty()
-            $('.city').trigger('change')
-            $('.city').removeClass('d-none')
-            $('.area').removeClass('d-none')
-            $('.pincode').removeClass('d-none')
-            $('.city_name').addClass('d-none')
-            $('.area_name').addClass('d-none')
-            $('.pincode_name').addClass('d-none')
-            $.ajax({
-                type: 'POST',
-                data: {
-                    'city_id': $(this).val(),
-                    [csrfName]: csrfHash,
-                },
-                url: base_url + 'my-account/get-zipcode',
-                dataType: 'json',
-                success: function (result) {
-                    console.log(result);
-                    csrfName = result.csrfName;
-                    csrfHash = result.csrfHash;
-                    if (result.error == false) {
-                        var html = '';
-                        html += '<option value="">--Select Zipcode--</option>';
-                        html += '<option value="0">Other</option>';
-                        $.each(result.data, function (i, e) {
-                            html += '<option value=' + e.zipcode + '>' + e.zipcode + '</option>';
-                        });
-
-                        $('#pincode').html(html);
-
-                    } else {
-                        var html = '';
-                        html += '<option value="">--Select Zipcode--</option>';
-                        html += '<option value="0">Other</option>';
-
-                        $('#pincode').html(html);
-                    }
-
-                }
-
-            })
-        }
-
-    }), $("#edit-address-form").on("submit", function (e) {
-        return; // overridden in cretzo's address.js file
-        e.preventDefault();
-        var t = new FormData(this);
-        t.append(csrfName, csrfHash), $.ajax({
-            type: "POST",
-            data: t,
-            url: $(this).attr("action"),
-            dataType: "json",
-            cache: !1,
-            contentType: !1,
-            processData: !1,
-            beforeSend: function () {
-                $("#edit-address-submit-btn").val("Please Wait...").attr("disabled", !0)
-            },
-            success: function (e) {
-                csrfName = e.csrfName, csrfHash = e.csrfHash, 0 == e.error ? ($("#edit-address-result").html("<div class='alert alert-success'>" + e.message + "</div>").delay(1500).fadeOut(), $("#edit-address-form")[0].reset(), $("#address_list_table").bootstrapTable("refresh"), setTimeout(function () {
-                    $("#address-modal").modal("hide");
-
-                    // since the above line for hiding modal isn't working, we are adding this for now (cretzo):
-                    $("#address-modal button.close").click();
-
-                }, 2e3)) : $("#edit-address-result").html("<div class='alert alert-danger'>" + e.message + "</div>").delay(1500).fadeOut(), $("#edit-address-submit-btn").val("Save").attr("disabled", !1)
-            }
-        })
-    }), $(document).on("click", ".delete-address", function (e) {
-        e.preventDefault(), confirm("Are you sure ? You want to delete this address?") && $.ajax({
-            type: "POST",
-            data: {
-                id: $(this).data("id"),
-                [csrfName]: csrfHash
-            },
-            url: base_url + "my-account/delete-address",
-            dataType: "json",
-            success: function (e) {
-                csrfName = e.csrfName, csrfHash = e.csrfHash, 0 == e.error ? $("#address_list_table").bootstrapTable("refresh") : Toast.fire({
-                    icon: "error",
-                    title: e.message
-                })
-            }
-        })
-    }), $(document).on("click", ".default-address", function (e) {
-        e.preventDefault(), confirm("Are you sure ? You want to set this address as default?") && $.ajax({
-            type: "POST",
-            data: {
-                id: $(this).data("id"),
-                [csrfName]: csrfHash
-            },
-            url: base_url + "my-account/set-default-address",
-            dataType: "json",
-            success: function (e) {
-                csrfName = e.csrfName, csrfHash = e.csrfHash, 0 == e.error ? ($("#address_list_table").bootstrapTable("refresh"), Toast.fire({
-                    icon: "success",
-                    title: e.message
-                })) : Toast.fire({
-                    icon: "error",
-                    title: e.message
-                })
-            }
-        })
-    }),
-    $(document).on("click", "#forgot_password_link", function (e) {
-        e.preventDefault(), $(".auth-modal").find("header a").removeClass("active"), $("#forgot_password_div").removeClass("d-none").siblings("section").addClass("d-none"), $("#recaptcha-container-2").html(""), window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("recaptcha-container-2"), window.recaptchaVerifier.render().then(function (e) {
-            grecaptcha.reset(e)
-        }),
-            $("#forgot_password_number").intlTelInput({
-                allowExtensions: !0,
-                formatOnDisplay: !0,
-                autoFormat: !0,
-                autoHideDialCode: !0,
-                autoPlaceholder: !0,
-                defaultCountry: "in",
-                ipinfoToken: "yolo",
-                nationalMode: !1,
-                numberType: "MOBILE",
-                preferredCountries: ["in", "ae", "qa", "om", "bh", "kw", "ma"],
-                preventInvalidNumbers: !0,
-                separateDialCode: !0,
-                initialCountry: "auto",
-                geoIpLookup: function (e) {
-                    $.get("https://ipinfo.io", function () { }, "jsonp").always(function (t) {
-                        var a = t && t.country ? t.country : "";
-                        e(a)
-                    })
-                },
-                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.0.9/js/utils.js"
-            })
-    }), $(document).on("submit", "#send_forgot_password_otp_form", function (e) {
-        e.preventDefault();
-        var t = $("#forgot_password_send_otp_btn").html();
-        $("#forgot_password_send_otp_btn").html("Please Wait...").attr("disabled", !0);
-        var a = $(".selected-dial-code").html() + $("#forgot_password_number").val(),
-            r = is_user_exist($("#forgot_password_number").val());
-        if (0 == r.error) $("#forgot_pass_error_box").html("You have not registered using this number."), $("#forgot_password_send_otp_btn").html(t).attr("disabled", !1);
-        else {
-            var s = window.recaptchaVerifier;
-            firebase.auth().signInWithPhoneNumber(a, s).then(function (e) {
-                resetRecaptcha(), $("#verify_forgot_password_otp_form").removeClass("d-none"), $("#send_forgot_password_otp_form").hide(), $("#forgot_pass_error_box").html(r.message), $("#forgot_password_send_otp_btn").html(t).attr("disabled", !1), $(document).on("submit", "#verify_forgot_password_otp_form", function (t) {
-                    t.preventDefault();
-                    var a = $("#reset_password_submit_btn").html(),
-                        r = $("#forgot_password_otp").val(),
-                        s = new FormData(this),
-                        i = base_url + "home/reset-password";
-                    $("#reset_password_submit_btn").html("Please Wait...").attr("disabled", !0), e.confirm(r).then(function (e) {
-                        s.append(csrfName, csrfHash), s.append("mobile", $("#forgot_password_number").val()), $.ajax({
-                            type: "POST",
-                            url: i,
-                            data: s,
-                            processData: !1,
-                            contentType: !1,
-                            cache: !1,
-                            dataType: "json",
-                            beforeSend: function () {
-                                $("#reset_password_submit_btn").html("Please Wait...").attr("disabled", !0)
-                            },
-                            success: function (e) {
-                                csrfName = e.csrfName, csrfHash = e.csrfHash, $("#reset_password_submit_btn").html(a).attr("disabled", !1), $("#set_password_error_box").html(e.message).show(), 0 == e.error && setTimeout(function () {
-                                    window.location.reload()
-                                }, 2e3)
-                            }
-                        })
-                    }).catch(function (e) {
-                        $("#reset_password_submit_btn").html(a).attr("disabled", !1), $("#set_password_error_box").html("Invalid OTP. Please Enter Valid OTP").show()
-                    })
-                })
-            }).catch(function (e) {
-                $("#forgot_pass_error_box").html(e.message).show(), $("#forgot_password_send_otp_btn").html(t).attr("disabled", !1), resetRecaptcha()
-            })
-        }
-    }), $("#contact-us-form").on("submit", function (e) {
-        e.preventDefault();
-        var t = $("#contact-us-submit-btn").html(),
-            a = new FormData(this);
-        a.append(csrfName, csrfHash), $.ajax({
-            type: "POST",
-            data: a,
-            url: $(this).attr("action"),
-            dataType: "json",
-            cache: !1,
-            contentType: !1,
-            processData: !1,
-            beforeSend: function () {
-                $("#contact-us-submit-btn").html("Please Wait...").attr("disabled", !0)
-            },
-            success: function (e) {
-                csrfName = e.csrfName, csrfHash = e.csrfHash, 0 == e.error ? (Toast.fire({
-                    icon: "success",
-                    title: e.message
-                }), $("#contact-us-form")[0].reset()) : Toast.fire({
-                    icon: "error",
-                    title: e.message
-                }), $("#contact-us-submit-btn").html(t).attr("disabled", !1)
-            }
-        })
-    }), $("#product-rating-form").on("submit", function (e) {
-        e.preventDefault();
-        var t = $("#rating-submit-btn").html(),
-            a = new FormData(this);
-        a.append(csrfName, csrfHash), $.ajax({
-            type: "POST",
-            data: a,
-            url: $(this).attr("action"),
-            dataType: "json",
-            cache: !1,
-            contentType: !1,
-            processData: !1,
-            beforeSend: function () {
-                $("#rating-submit-btn").html("Please Wait...").attr("disabled", !0)
-            },
-            success: function (e) {
-                csrfName = e.csrfName, csrfHash = e.csrfHash, 0 == e.error ? (Toast.fire({
-                    icon: "success",
-                    title: e.message
-                }), $("#product-rating-form")[0].reset(), window.location.reload()) : Toast.fire({
-                    icon: "error",
-                    title: e.message
-                }), $("#rating-submit-btn").html(t).attr("disabled", !1)
-            }
-        })
-    }), $("#delete_rating").on("click", function (e) {
-        if (e.preventDefault(), confirm("Are you sure want to Delete Rating ?")) {
-            var t = $(this).data("rating-id");
-            $.ajax({
-                type: "POST",
-                data: {
-                    [csrfName]: csrfHash,
-                    rating_id: t
-                },
-                url: $(this).attr("href"),
-                dataType: "json",
-                success: function (e) {
-                    csrfName = e.csrfName, csrfHash = e.csrfHash, 0 == e.error ? (Toast.fire({
-                        icon: "success",
-                        title: e.message
-                    }), $("#delete_rating").parent().parent().parent().remove(), $("#no_ratings").text(e.data.rating[0].no_of_rating)) : Toast.fire({
-                        icon: "error",
-                        title: e.message
-                    })
-                }
-            })
-        }
-    }), $("#edit_link").on("click", function (e) {
-        e.preventDefault(), $("#rating-box").removeClass("d-none")
-    }), $("#load-user-ratings").on("click", function (e) {
-        e.preventDefault();
-        var t = $(this).attr("data-limit"),
-            a = $(this).attr("data-offset"),
-            r = $(this).attr("data-product"),
-            s = $(this).html(),
-            i = $(this),
-            o = "";
+    function loadStates(type, selectedStateName) {
+        var $state = type === 'edit' ? $('#edit_state') : $('#state');
         $.ajax({
-            type: "GET",
-            data: {
-                limit: t,
-                offset: a,
-                product_id: r
-            },
-            url: base_url + "products/get-rating",
-            dataType: "json",
-            beforeSend: function () {
-                $(this).html("Please wait..").attr("disabled", !0)
-            },
-            success: function (e) {
-                $(this).html(s).attr("disabled", !1), 0 == e.error ? ($.each(e.data.product_rating, function (e, t) {
-                    o += '<li class="review-container"><div class="review-image"><img src="' + base_url + 'assets/front_end/modern/images/user.png" alt="" width="65" height="65"></div><div class="review-comment"><div class="rating-list"><div class="product-rating"><input type="text" class="kv-fa" value="' + t.rating + '" data-size="xs" title="" readonly></div></div><div class="review-info"><h4 class="reviewer-name">' + t.user_name + '</h4> <span class="review-date text-muted">' + t.data_added + '</span></div><div class="review-text"><p class="text-muted">' + t.comment + '</p></div><div class="row reviews">', $.each(t.images, function (e, t) {
-                        o += '<div class="col-md-2"><div class="review-box"><a href="' + t + '" data-lightbox="review-images"><img src="' + t + '" alt="' + t + '"></a></div></div>'
-                    }), o += "</div></div></li>"
-                }), a += t, $("#review-list").append(o), $(".kv-fa").rating("create", {
-                    filledStar: '<i class="fas fa-star"></i>',
-                    emptyStar: '<i class="far fa-star"></i>',
-                    size: "xs",
-                    showCaption: !1
-                }), i.attr("data-offset", a)) : Toast.fire({
-                    icon: "error",
-                    title: e.message
-                })
-            }
-        })
-    }),
-    $("#edit_city").select2({
-        ajax: {
-            url: base_url + 'my-account/get_cities',
-            type: "GET",
+            type: 'GET',
+            url: base_url + 'my-account/get_states',
             dataType: 'json',
-            delay: 250,
-            data: function (params) {
-                return {
-                    search: params.term, // search term
-                };
-            },
-            processResults: function (response) {
-                return {
-                    results: response
-                };
-            },
-            cache: true
-        },
-
-        minimumInputLength: 1,
-        theme: 'bootstrap4',
-        dropdownParent: $("#edit-address-form"),
-        placeholder: 'Search for cities',
-    }),
-    $('#edit_city').on('change', function (e, pincode) {
-
-        e.preventDefault();
-
-        var city_id = $(this).val();
-        var value = $(this).val()
-        if (value == 0 || value == '') {
-            $('.edit_area').addClass('d-none')
-            $('#edit_area').val('')
-            // $('.edit_city').addClass('d-none')
-            $('.edit_pincode').addClass('d-none')
-            $('.other_city').removeClass('d-none')
-            $('.other_areas').removeClass('d-none')
-            $('.other_pincode').removeClass('d-none')
-        } else {
-            $('.edit_area').removeClass('d-none')
-            $('.edit_pincode').removeClass('d-none')
-            $('.edit_city').removeClass('d-none')
-            $('.other_city').addClass('d-none')
-            $('.other_areas').addClass('d-none')
-            $('.other_pincode').addClass('d-none')
-
-            $.ajax({
-                type: 'POST',
-                data: {
-                    'city_id': $(this).val(),
-                    [csrfName]: csrfHash,
-                },
-                url: base_url + 'my-account/get-zipcode',
-                dataType: 'json',
-                success: function (result) {
-                    console.log(result);
-                    csrfName = result.csrfName;
-                    csrfHash = result.csrfHash;
-                    var html = '';
-                    if (result.error == false) {
-                        console.log(result.data);
-                        html += '<option value="0">Other</option>';
-                        $.each(result.data, function (i, e) {
-                            var is_selected = (e.zipcode == pincode) ? "selected" : "";
-
-                            html += '<option value=' + e.zipcode + ' ' + is_selected + '>' + e.zipcode + '</option>';
-                        });
-                        $('#edit_pincode').html(html);
-
-                    } else {
-                        Toast.fire({
-                            icon: 'error',
-                            title: result.message
-                        });
-                        $('#edit_pincode').html('');
-                    }
+            success: function (result) {
+                csrfName = result.csrfName;
+                csrfHash = result.csrfHash;
+                var html = '<option value="">--Select State--</option>';
+                if (result.error === false) {
+                    $.each(result.data, function (i, row) {
+                        var selected = (selectedStateName && selectedStateName.toLowerCase() === row.name.toLowerCase()) ? 'selected' : '';
+                        html += '<option value="' + row.name + '" data-id="' + row.id + '" ' + selected + '>' + row.name + '</option>';
+                    });
                 }
-            })
-        }
-    }))
+                $state.html(html).trigger('change.select2');
+            }
+        });
+    }
 
+    function loadDistricts(type, stateId, selectedDistrictId) {
+        var $district = type === 'edit' ? $('#edit_district') : $('#district');
+        resetSelect($district, '--Select District--');
+        resetSelect(type === 'edit' ? $('#edit_city') : $('#city'), '--Select City--');
+        resetSelect(type === 'edit' ? $('#edit_pincode') : $('#pincode'), '--Select Zipcode--');
+
+        if (!stateId) {
+            return;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: base_url + 'my-account/get_districts',
+            dataType: 'json',
+            data: {
+                state_id: stateId,
+                [csrfName]: csrfHash,
+            },
+            success: function (result) {
+                csrfName = result.csrfName;
+                csrfHash = result.csrfHash;
+                var html = '<option value="">--Select District--</option>';
+                if (result.error === false) {
+                    $.each(result.data, function (i, row) {
+                        var selected = (selectedDistrictId && parseInt(selectedDistrictId) === parseInt(row.id)) ? 'selected' : '';
+                        html += '<option value="' + row.id + '" ' + selected + '>' + row.name + '</option>';
+                    });
+                }
+                $district.html(html).trigger('change.select2');
+            }
+        });
+    }
+
+    function loadCities(type, districtId, selectedCityId) {
+        var $city = type === 'edit' ? $('#edit_city') : $('#city');
+        resetSelect($city, '--Select City--');
+        resetSelect(type === 'edit' ? $('#edit_pincode') : $('#pincode'), '--Select Zipcode--');
+
+        if (!districtId) {
+            return;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: base_url + 'my-account/get_cities_by_district',
+            dataType: 'json',
+            data: {
+                district_id: districtId,
+                [csrfName]: csrfHash,
+            },
+            success: function (result) {
+                csrfName = result.csrfName;
+                csrfHash = result.csrfHash;
+                var html = '<option value="">--Select City--</option>';
+                if (result.error === false) {
+                    $.each(result.data, function (i, row) {
+                        var selected = (selectedCityId && parseInt(selectedCityId) === parseInt(row.id)) ? 'selected' : '';
+                        html += '<option value="' + row.id + '" data-state-id="' + row.state_id + '" data-district-id="' + row.district_id + '" ' + selected + '>' + row.name + '</option>';
+                    });
+                }
+                $city.html(html).trigger('change.select2');
+            }
+        });
+    }
+
+    function loadPincodes(cityId, selector, selectedPincode) {
+        resetSelect($(selector), '--Select Zipcode--');
+        if (!cityId) {
+            return;
+        }
+
+        $.ajax({
+            type: 'POST',
+            data: {
+                city_id: cityId,
+                [csrfName]: csrfHash,
+            },
+            url: base_url + 'my-account/get-zipcode',
+            dataType: 'json',
+            success: function (result) {
+                csrfName = result.csrfName;
+                csrfHash = result.csrfHash;
+                var html = '<option value="">--Select Zipcode--</option><option value="0">Other</option>';
+                if (result.error === false) {
+                    $.each(result.data, function (i, row) {
+                        var isSelected = (selectedPincode && selectedPincode == row.zipcode) ? 'selected' : '';
+                        html += '<option value="' + row.zipcode + '" ' + isSelected + '>' + row.zipcode + '</option>';
+                    });
+                }
+                $(selector).html(html).trigger('change.select2');
+            }
+        });
+    }
+
+    $('#state, #district, #city, #pincode').select2({
+        theme: 'bootstrap4',
+        width: '100%',
+        minimumResultsForSearch: 0,
+        dropdownParent: $('#add-address-modal .modal-content')
+    });
+
+    $('#edit_state, #edit_district, #edit_city, #edit_pincode').select2({
+        theme: 'bootstrap4',
+        width: '100%',
+        minimumResultsForSearch: 0,
+        dropdownParent: $('#edit-address-modal .modal-content')
+    });
+
+    loadStates('add');
+    loadStates('edit');
+
+    $('#state').on('change', function () {
+        var stateId = $(this).find(':selected').data('id') || '';
+        loadDistricts('add', stateId);
+    });
+
+    $('#district').on('change', function () {
+        loadCities('add', $(this).val());
+    });
+
+    $('#city').on('change', function () {
+        loadPincodes($(this).val(), '#pincode');
+    });
+
+    $('#edit_state').on('change', function () {
+        var stateId = $(this).find(':selected').data('id') || '';
+        loadDistricts('edit', stateId);
+    });
+
+    $('#edit_district').on('change', function () {
+        loadCities('edit', $(this).val());
+    });
+
+    $('#edit_city').on('change', function (e, pincode) {
+        loadPincodes($(this).val(), '#edit_pincode', pincode);
+    });
+
+    window.addressCascade = {
+        loadStates: loadStates,
+        loadDistricts: loadDistricts,
+        loadCities: loadCities,
+        loadPincodes: loadPincodes
+    };
+
+    }())
 // $("#edit_area").on("change", function (e, t) {
 //     e.preventDefault();
 //     var a = "" == t || "undefined" == t ? $(this).val() : t;
