@@ -227,7 +227,22 @@
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Bank Name <span class="text-danger">*</span></label>
-                          <input name="bank_name" type="text" class="input" placeholder="Enter Bank Name" value="<?=$fetched_data[0]['bank_name']?>" required>
+                          <input
+                            name="bank_name"
+                            type="text"
+                            class="input"
+                            list="indian_bank_list"
+                            placeholder="Select Bank Name"
+                            value="<?=$fetched_data[0]['bank_name']?>"
+                            required>
+                          <datalist id="indian_bank_list">
+                            <?php if (!empty($indian_banks)) {
+                                foreach ($indian_banks as $bank) {
+                            ?>
+                                    <option value="<?= $bank['bank_name'] ?>"></option>
+                            <?php }
+                            } ?>
+                          </datalist>
                         </div>
                       </div>
 
