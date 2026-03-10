@@ -249,7 +249,14 @@
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Bank Name<span class="text-danger">*</span></label>
-                          <input name="bank_name" type="text" class="input" placeholder="Enter Bank Name" value="<?=$fetched_data[0]['bank_name']?>" required>
+                          <select name="bank_name" class="input" required>
+                            <option value="">Select Bank</option>
+                            <?php foreach (($banks ?? []) as $bank) {
+                              $bank_name = $bank['name'];
+                            ?>
+                              <option value="<?= $bank_name ?>" <?= (!empty($fetched_data[0]['bank_name']) && $fetched_data[0]['bank_name'] == $bank_name) ? 'selected' : '' ?>><?= $bank_name ?></option>
+                            <?php } ?>
+                          </select>
                         </div>
 
                       </div>

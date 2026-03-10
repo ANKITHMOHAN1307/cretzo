@@ -50,6 +50,10 @@ class Auth extends CI_Controller
         $this->data['title'] = 'Sign Up Seller | ' . $settings['app_name'];
         $this->data['meta_description'] = 'Sign Up Seller | ' . $settings['app_name'];
         $this->data['logo'] = get_settings('logo');
+        $this->data['banks'] = [];
+        if ($this->db->table_exists('banks')) {
+            $this->data['banks'] = $this->db->select('name')->order_by('name', 'ASC')->get('banks')->result_array();
+        }
 
         if (isset($_SESSION['to_be_seller_name']) && !empty($_SESSION['to_be_seller_name']) && isset($_SESSION['to_be_seller_mobile']) && !empty($_SESSION['to_be_seller_mobile']) && isset($_SESSION['to_be_seller_id']) && !empty($_SESSION['to_be_seller_id'])) {
             $this->data['title'] = 'Update Seller | ' . $settings['app_name'];
