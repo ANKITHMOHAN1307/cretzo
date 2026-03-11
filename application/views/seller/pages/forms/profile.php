@@ -80,21 +80,28 @@
                           <input name="address2" type="text" class="input" placeholder="Street 2" value="<?=$fetched_data[0]['address2']?>">
                         </div>
                         <div class="col-md-6 mb-3">
+                          <label class="form-label">State <span class="text-danger">*</span></label>
+                          <input name="state" id="state_input" type="text" class="input" list="state_list" placeholder="Select State" value="<?=$fetched_data[0]['state']?>" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
                           <label class="form-label">District <span class="text-danger">*</span></label>
-                          <input name="district" type="text" class="input" placeholder="Enter District" value="<?=$fetched_data[0]['district']?>" required>
+                          <input name="district" id="district_input" type="text" class="input" list="district_list" placeholder="Select District" value="<?=$fetched_data[0]['district']?>" required>
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">City/Village/Town <span class="text-danger">*</span></label>
-                          <input name="city" type="text" class="input" placeholder="Enter City/Village/Town" value="<?=$fetched_data[0]['city']?>" required> 
-                        </div>
-                        <div class="col-md-6 mb-3">
-                          <label class="form-label">State <span class="text-danger">*</span></label>
-                          <input name="state" type="text" class="input" placeholder="Enter State" value="<?=$fetched_data[0]['state']?>" required>
+                          <input name="city" id="city_input" type="text" class="input" list="city_list" placeholder="Select City/Village/Town" value="<?=$fetched_data[0]['city']?>" required>
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">PIN Code <span class="text-danger">*</span></label>
                           <input name="pin" type="text" class="input" placeholder="Enter PIN Code" value="<?=$fetched_data[0]['pin']?>" required maxlength="6" onkeypress="if ( isNaN(this.value + String.fromCharCode(event.keyCode) )) return false;">
                         </div>
+                          <datalist id="state_list"></datalist>
+                          <datalist id="district_list"></datalist>
+                          <datalist id="city_list"></datalist>
+                          <datalist id="pickup_state_list"></datalist>
+                          <datalist id="pickup_district_list"></datalist>
+                          <datalist id="pickup_city_list"></datalist>
+
                       </div>
                         
                         <div class="text-center mt-3">
@@ -138,17 +145,16 @@
                           <input name="pickup_address2" type="text" class="input" placeholder="Address Lane 2" value="<?=$fetched_data[0]['pickup_address2']?>">
                         </div>
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">City</label>
-                          <input name="pickup_district" type="text" class="input" placeholder="Enter City" value="<?=$fetched_data[0]['pickup_city']?>">
+                          <label class="form-label">State</label>
+                          <input name="pickup_state" id="pickup_state_input" type="text" class="input" list="pickup_state_list" placeholder="Select State" value="<?=$fetched_data[0]['pickup_state']?>">
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">District</label>
-                          <!-- FIX — Added missing name attribute, was not POSTing -->
-                          <input name="pickup_city" type="text" class="input" placeholder="Enter District" value="<?=$fetched_data[0]['pickup_district']?>">
+                          <input name="pickup_city" id="pickup_district_input" type="text" class="input" list="pickup_district_list" placeholder="Select District" value="<?=$fetched_data[0]['pickup_district']?>">
                         </div>
                         <div class="col-md-6 mb-3">
-                          <label class="form-label">State</label>
-                          <input name="pickup_state" type="text" class="input" placeholder="Enter State" value="<?=$fetched_data[0]['pickup_state']?>">
+                          <label class="form-label">City</label>
+                          <input name="pickup_district" id="pickup_city_input" type="text" class="input" list="pickup_city_list" placeholder="Select City" value="<?=$fetched_data[0]['pickup_city']?>">
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">PIN Code</label>
@@ -227,7 +233,22 @@
                         </div>
                         <div class="col-md-6 mb-3">
                           <label class="form-label">Bank Name <span class="text-danger">*</span></label>
-                          <input name="bank_name" type="text" class="input" placeholder="Enter Bank Name" value="<?=$fetched_data[0]['bank_name']?>" required>
+                          <input
+                            name="bank_name"
+                            type="text"
+                            class="input"
+                            list="indian_bank_list"
+                            placeholder="Select Bank Name"
+                            value="<?=$fetched_data[0]['bank_name']?>"
+                            required>
+                          <datalist id="indian_bank_list">
+                            <?php if (!empty($indian_banks)) {
+                                foreach ($indian_banks as $bank) {
+                            ?>
+                                    <option value="<?= $bank['bank_name'] ?>"></option>
+                            <?php }
+                            } ?>
+                          </datalist>
                         </div>
                       </div>
 
@@ -259,6 +280,84 @@
 const base_url = "<?php echo base_url(); ?>";
 
 const submitBtn = document.querySelector('.submit_btn');
+
+
+const indianLocations = <?php echo json_encode(isset($indian_locations) ? $indian_locations : array(), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT); ?>;
+
+function uniqueSorted(values) {
+  return [...new Set(values.filter(Boolean))].sort((a, b) => a.localeCompare(b));
+}
+
+function fillDatalist(datalistId, values) {
+  const list = document.getElementById(datalistId);
+  if (!list) return;
+  list.innerHTML = values.map(value => `<option value="${value}"></option>`).join('');
+}
+
+function getDistrictsByState(state) {
+  return uniqueSorted(indianLocations
+    .filter(row => row.state_name === state)
+    .map(row => row.district_name));
+}
+
+function getCitiesByStateDistrict(state, district) {
+  return uniqueSorted(indianLocations
+    .filter(row => row.state_name === state && row.district_name === district)
+    .map(row => row.city_name));
+}
+
+function setupLocationCascading(config) {
+  const stateInput = document.getElementById(config.stateInputId);
+  const districtInput = document.getElementById(config.districtInputId);
+  const cityInput = document.getElementById(config.cityInputId);
+
+  if (!stateInput || !districtInput || !cityInput) return;
+
+  const allStates = uniqueSorted(indianLocations.map(row => row.state_name));
+  fillDatalist(config.stateListId, allStates);
+
+  function refreshDistricts(resetValue = false) {
+    const districts = getDistrictsByState(stateInput.value.trim());
+    fillDatalist(config.districtListId, districts);
+
+    if (resetValue || !districts.includes(districtInput.value.trim())) {
+      districtInput.value = '';
+    }
+    refreshCities(resetValue);
+  }
+
+  function refreshCities(resetValue = false) {
+    const cities = getCitiesByStateDistrict(stateInput.value.trim(), districtInput.value.trim());
+    fillDatalist(config.cityListId, cities);
+
+    if (resetValue || !cities.includes(cityInput.value.trim())) {
+      cityInput.value = '';
+    }
+  }
+
+  stateInput.addEventListener('input', () => refreshDistricts(true));
+  districtInput.addEventListener('input', () => refreshCities(true));
+
+  refreshDistricts(false);
+}
+
+setupLocationCascading({
+  stateInputId: 'state_input',
+  districtInputId: 'district_input',
+  cityInputId: 'city_input',
+  stateListId: 'state_list',
+  districtListId: 'district_list',
+  cityListId: 'city_list'
+});
+
+setupLocationCascading({
+  stateInputId: 'pickup_state_input',
+  districtInputId: 'pickup_district_input',
+  cityInputId: 'pickup_city_input',
+  stateListId: 'pickup_state_list',
+  districtListId: 'pickup_district_list',
+  cityListId: 'pickup_city_list'
+});
 
 function clearErrors(form) {
   form.querySelectorAll('.error-msg').forEach(e => e.remove());
